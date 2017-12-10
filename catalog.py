@@ -16,15 +16,29 @@ import requests
 CLIENT_ID = json.loads(
 	open('client_secrets.json', 'r').read())['web']['client_id']
 
+engine = create_engine("sqlite:///car_catalog.db")
+Base.metadata.bind = engine
+DBSession = sessionmaker(bind=engine)
+session = DBSession()
+
+from flask import session as login_session
+import random, string
+
+
+
 car_catalog = [{"bodystyle": "SUV", "id": "1"}, {"bodystyle": "Luxury Cars", "id": "2"}, {"bodystyle": "Sedans", "id": "3"}, {"bodystyle": "Hybrids", "id": "4"}, {"bodystyle": "Sports Cars", "id": "5"}, {"bodystyle": "Pick Up Trucks", "id": "6"}]
 individual_car = [{"bodystyle": "Hybrids", "make":"Toyota", "model":"Prius", "color":"blue", "year": "2010", "milage":"100000", "id": "4"}, {"bodystyle": "Hybrids", "make":"Toyota", "model":"Prius", "color":"red", "year": "2011", "milage":"110000", "id": "4"}, {"bodystyle": "SUV", "make":"Jeep", "model":"Compass", "color":"black", "year": "2017", "milage":"2894", "id": "1"}]
 
 
 
 @app.route('/')
-@app.route('/catalog')
-def catalogHome():
-	return render_template("homepage.html", car_catalog=car_catalog)
+@app.route('/cars')
+def cars_bodystyles():
+	bodystyles = session.query(Bodystyle).all()
+
+
+
+	return render_template("homepage.html", bodystyles=bodystyles)
 
 @app.route('/catalog/<int:bodystyle_id>/items')
 def catalogItems(bodystyle_id):
