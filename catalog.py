@@ -5,7 +5,16 @@ from sqlalchemy.orm import sessionmaker
 from database_setup import Bodystyle, Car_Item, User, Base
 from sqlalchemy import create_engine
 
+from oauth2client.client import flow_from_clientsecrets
+from oauth2client.client import FlowExchangeError
+import httplib2
+import json
 
+from flask import make_response
+import requests
+
+CLIENT_ID = json.loads(
+	open('client_secrets.json', 'r').read())['web']['client_id']
 
 car_catalog = [{"bodystyle": "SUV", "id": "1"}, {"bodystyle": "Luxury Cars", "id": "2"}, {"bodystyle": "Sedans", "id": "3"}, {"bodystyle": "Hybrids", "id": "4"}, {"bodystyle": "Sports Cars", "id": "5"}, {"bodystyle": "Pick Up Trucks", "id": "6"}]
 individual_car = [{"bodystyle": "Hybrids", "make":"Toyota", "model":"Prius", "color":"blue", "year": "2010", "milage":"100000", "id": "4"}, {"bodystyle": "Hybrids", "make":"Toyota", "model":"Prius", "color":"red", "year": "2011", "milage":"110000", "id": "4"}, {"bodystyle": "SUV", "make":"Jeep", "model":"Compass", "color":"black", "year": "2017", "milage":"2894", "id": "1"}]
