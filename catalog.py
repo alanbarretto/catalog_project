@@ -49,7 +49,7 @@ def specific_car(bodystyle_id, car_id):
 
 
 @app.route('/catalog/<int:catalog_id>/items/create')
-def createItem(catalog_id):
+def create_car(catalog_id):
 	return "This page is for creating a new item"
 
 @app.route('/catalog/<int:catalog_id>/items/<int:item_id>/edit')
