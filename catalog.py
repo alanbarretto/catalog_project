@@ -53,11 +53,11 @@ def create_car(catalog_id):
 	return "This page is for creating a new item"
 
 @app.route('/catalog/<int:catalog_id>/items/<int:item_id>/edit')
-def editItem(catalog_id, item_id):
+def edit_car(catalog_id, item_id):
 	return "This is where you can edit an item"
 
 @app.route('/catalog/<int:catalog_id>/items/<int:item_id>/delete')
-def deleteItem(catalog_id, item_id):
+def delete_car(catalog_id, item_id):
 	return "You can delete an item here"
 
 
