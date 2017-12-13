@@ -26,38 +26,52 @@ import random, string
 
 
 @app.route('/')
-@app.route('/cars')
-def cars_bodystyles():
-	bodystyles = session.query(Bodystyle).all()
+@app.route('/category')
+def category():
+	category = session.query(Category).all()
 
 
-	return render_template("homepage.html", bodystyles=bodystyles)
+	return render_template("homepage.html", category=category)
 
-@app.route('/catalog/<int:bodystyle_id>/items')
-def cars_by_make_model(bodystyle_id):
-	bodystyle = session.query(Bodystyle).filter_by(id=bodystyle_id).one()
-	carItem = session.query(Car_Item).filter_by(bodystyle_id = bodystyle.id).all()
+@app.route('/category/<int:category_id>/cars')
+def cars_by_make_model(category_id):
+	category = session.query(Category).filter_by(id=category_id).one()
+	carItem = session.query(Car_Item).filter_by(category_id = category.id).all()
 	#creator = getUserInfo(bodystyle.user_id)
 
 	
-	return render_template("catalog_items.html", bodystyle=bodystyle, carItem=carItem)
+	return render_template("catalog_items.html", category=category, carItem=carItem)
 
-@app.route('/catalog/<int:bodystyle_id>/items/<int:car_id>')
-def specific_car(bodystyle_id, car_id):
+@app.route('/category/<int:category_id>/cars/<int:car_id>')
+def specific_car(category_id, car_id):
 	return render_template("specific_car.html")
 
+@app.route('/category/create')
+def create_category():
+	return "Create category here"
+
+@app.route('/category/<int:category_id>/edit', methods="post", "get")
+def edit_category(category)
+	return "Edit category here"
+
+@app.route('/category/<int:category_id>/delete', methods="post", "get")
+def delete_category(category_id):
+	return "Delete category here"
 
 
-@app.route('/catalog/<int:catalog_id>/items/create')
-def create_car(catalog_id):
+
+
+
+@app.route('/category/<intcategory_id>/cars/create')
+def create_carcategory_id):
 	return "This page is for creating a new item"
 
-@app.route('/catalog/<int:catalog_id>/items/<int:item_id>/edit')
-def edit_car(catalog_id, item_id):
+@app.route('/category/<intcategory_id>/cars/<int:car_id>/edit')
+def edit_car(category_id,car_id):
 	return "This is where you can edit an item"
 
-@app.route('/catalog/<int:catalog_id>/items/<int:item_id>/delete')
-def delete_car(catalog_id, item_id):
+@app.route('/category/<intcategory_id>/cars/<int:car_id>/delete')
+def delete_carcategory_id, car_id):
 	return "You can delete an item here"
 
 
