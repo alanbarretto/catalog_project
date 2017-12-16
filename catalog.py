@@ -2,7 +2,7 @@ from flask import Flask, render_template, request, redirect, url_for, flash, jso
 app = Flask(__name__)
 
 from sqlalchemy.orm import sessionmaker
-from database_setup import Bodystyle, Car_Item, User, Base
+from database_setup import Category, Car_Item, User, Base
 from sqlalchemy import create_engine
 
 from oauth2client.client import flow_from_clientsecrets
@@ -25,54 +25,155 @@ from flask import session as login_session
 import random, string
 
 
+
+
+
 @app.route('/')
 @app.route('/category')
 def category():
 	category = session.query(Category).all()
+	garages = session.query(Garage).all()
 
 
-	return render_template("homepage.html", category=category)
+	return render_template("homepage.html", category=category, garages=garages)
 
-@app.route('/category/<int:category_id>/cars')
-def cars_by_make_model(category_id):
+
+
+
+
+
+@app.route('/category/<int:category_id>')
+def category_items(category_id):
 	category = session.query(Category).filter_by(id=category_id).one()
 	carItem = session.query(Car_Item).filter_by(category_id = category.id).all()
-	#creator = getUserInfo(bodystyle.user_id)
+	#creator = getUserInfo(category.user_id)
 
 	
 	return render_template("catalog_items.html", category=category, carItem=carItem)
 
+
+
+
+
+
+
+
 @app.route('/category/<int:category_id>/cars/<int:car_id>')
 def specific_car(category_id, car_id):
-	return render_template("specific_car.html")
+	category = session.query(Category).filter_by(id=category_id).one()
+	car = session.query(Car_Item).filter_by(id = car_id).one()
 
-@app.route('/category/create')
-def create_category():
+
+
+	return render_template("specific_car.html", category=category, car=car)
+
+
+@app.route('category/<int:category_id>/cars/<int:car_id>/purchase', methods="post", "get")
+def purchase_from_category(category_id, car_id):
+	category = session.query(Category).filter_by(id=category_id).one()
+	car = session.query(Car_Item).filter_by(category_id=category.id, id=car_id).one()
+	user = session.query(User).filter_by(id=car.user_id).one()
+
+	return render_template('purchase.html')
+
+@app.route('garage/<int:garage_id>/cars/<int:car_id>/purchase', methods="post", "get")
+def purchase_from_garage(garage_id, car_id):
+	category = session.query(Garage).filter_by(id=garage_id).one()
+	car = session.query(Car_Item).filter_by(garage_id=garage.id, id=car_id).one()
+	user = session.query(User).filter_by(id=car.user_id).one()
+
+	return render_template('purchase.html', category=category, car=car, user=user)
+
+
+
+@app.route('/garage/<int:garage_id')
+def garage_items(garage_id):
+	garage = session.query(Garage).filter_by(id=garage_id).one()
+	items = session.query(Car_Item).filter_by(garage_id=garage.id).all()
+
+
+	return render_template("garage.html", garage=garage, items=items)
+
+
+@app.route('/garage/create')
+def create_garage():
 	return "Create category here"
 
+
+
+
+
+
+
 @app.route('/category/<int:category_id>/edit', methods="post", "get")
-def edit_category(category)
-	return "Edit category here"
+def edit_category(category_id):
+
+	category = session.query(Category).filter_by(category_id=category_id).one()
+
+
+	return render_template('editCategory.html', category=category)
+
+
+
+
+
+
 
 @app.route('/category/<int:category_id>/delete', methods="post", "get")
 def delete_category(category_id):
+	category = session.query(Category).filter_by()
+
+
+
+
 	return "Delete category here"
 
 
 
 
 
-@app.route('/category/<intcategory_id>/cars/create')
-def create_carcategory_id):
-	return "This page is for creating a new item"
 
-@app.route('/category/<intcategory_id>/cars/<int:car_id>/edit')
+
+
+@app.route('/category/<intcategory_id>/create')
+def create_car(category_id):
+
+	category = session.query(Category).filter_by(category_id=category_id).one()
+
+
+	return render_template('createCategory.html', category=category)
+
+
+
+
+
+
+
+
+@app.route('/category/<int:category_id>/cars/<int:car_id>/edit')
 def edit_car(category_id,car_id):
-	return "This is where you can edit an item"
+
+	category = session.query(Category).filter_by(category_id=category_id).one()
+	car = session.query(Car_Item).filter_by(id=car_id).one()
+
+
+
+	return render_template('editCar.html', category=category, car=car)
+
+
+
+
 
 @app.route('/category/<intcategory_id>/cars/<int:car_id>/delete')
-def delete_carcategory_id, car_id):
-	return "You can delete an item here"
+def delete_car(category_id, car_id):
+
+	category = session.query(Category).filter_by(category_id=category_id).one()
+	car = session.query(Car_Item).filter_by(id=car_id).one()
+
+
+	return render_template('deleteCar.html', category=category, car=car)
+
+
 
 
 if __name__ == '__main__':
