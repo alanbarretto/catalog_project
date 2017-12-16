@@ -1,0 +1,57 @@
+{%extends "main.html"%}
+{%block content%}
+    
+
+        <!-- Page Content -->
+    <div class="container">
+
+      <!-- Page Heading -->
+      <h1 class="my-4">Joe's Car Lot
+    
+
+      <div class="row">
+        <div class="col-md-7">
+          <a href="#">
+            <img class="#" src="http://placehold.it/600x300" alt="">
+          </a>
+        </div>
+        <div class="col-md-5">
+          <h3>Thank you for your interest in purchasing:  <span> {{car.year}} </span><span> {{car.make}} </span><span> {{car.model}} </span></h3>
+          <br>
+          <h3>Color: {{car.color}}</h3>
+          <br>
+          <h3>Price:  {{car.price}}</h3>
+          <br>
+          <h3>From Seller: {{user.name}}</h3>
+          <form action="{{url_for('purchase_confirm')}}" method = "post">
+            <div class="form-group">
+            <label for="name">Your Name:</label>
+            <input type ="text" maxlength="150" name="name" placeholder="Name">
+            <br>
+            <label for="email">Your Email:</label>
+            <input type ="text" maxlength="150" name="name" placeholder="Name">
+            <br>
+            <label for="message">Message to Seller:</label>
+            <textarea maxlength="250" rows="3" name="description" placeholder="type message here"></textarea>
+            <br>
+            <button type="submit" class="btn btn-default" id="submit" type="submit">
+            <span class="glyphicon glyphicon-glass" aria-hidden="true"></span>Submit</button>
+
+          
+          
+          
+
+          
+          <a class="btn btn-primary" href="url_for('purchase_from_garage', garage_id=garage.id, car_id=car.id ">Contact Seller</a>
+        </div>
+      </div>
+      <!-- /.row -->
+
+      <hr>
+      {%endfor%}
+      
+
+    </div>
+    <!-- /.container -->
+
+{%endblock%}
