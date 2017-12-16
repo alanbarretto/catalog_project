@@ -7,20 +7,20 @@
 
       <!-- Page Heading -->
       <h1 class="my-4">Joe's Car Lot
-        <small>{{category.category}}</small>
+        <small>WELCOME TO: {{garage.name}}</small>
       </h1>
       <br>
-      <a class="btn btn-primary" href="">Add Your Car</a>
+      <h3>Garage Owner:  {{user.name}}</h3>
 
-      {%for car in carItem%}
+      {%for car in items%}
 
       <div class="row">
-        <div class="col-md-7" id="b_pic">
+        <div class="col-md-7">
           <a href="#">
             <img class="#" src="http://placehold.it/600x300" alt="">
           </a>
         </div>
-        <div class="col-md-5" id="b_txt">
+        <div class="col-md-5">
           <h3><span> {{car.year}} </span><span> {{car.make}} </span><span> {{car.model}} </span></h3>
           <br>
           <h3>{{car.price}}</h3>
@@ -28,7 +28,7 @@
           <p>{{car.description}}</p>
 
           
-          <a class="btn btn-primary" href="#">Details</a>
+          <a class="btn btn-primary" href="url_for('purchase_from_garage', garage_id=garage.id, car_id=car.id ">Contact Seller</a>
         </div>
       </div>
       <!-- /.row -->
