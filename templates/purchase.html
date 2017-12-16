@@ -23,13 +23,14 @@
           <h3>Price:  {{car.price}}</h3>
           <br>
           <h3>From Seller: {{user.name}}</h3>
-          <form action="{{url_for('purchase_confirm')}}" method = "post">
+          <br>
+          <form action="{{url_for('purchase_confirm', garage_id=category.id)}}" method = "post">
             <div class="form-group">
             <label for="name">Your Name:</label>
             <input type ="text" maxlength="150" name="name" placeholder="Name">
             <br>
             <label for="email">Your Email:</label>
-            <input type ="text" maxlength="150" name="name" placeholder="Name">
+            <input type ="text" maxlength="150" name="name" placeholder="sample@email.com">
             <br>
             <label for="message">Message to Seller:</label>
             <textarea maxlength="250" rows="3" name="description" placeholder="type message here"></textarea>
@@ -42,7 +43,7 @@
           
 
           
-          <a class="btn btn-primary" href="url_for('purchase_from_garage', garage_id=garage.id, car_id=car.id ">Contact Seller</a>
+
         </div>
       </div>
       <!-- /.row -->
