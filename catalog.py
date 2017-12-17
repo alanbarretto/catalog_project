@@ -59,7 +59,7 @@ def category_items(category_id):
 
 
 @app.route('/category/<int:category_id>/cars/<int:car_id>')
-def specific_car(category_id, car_id):
+def specific_car_category(category_id, car_id):
 	category = session.query(Category).filter_by(id=category_id).one()
 	car = session.query(Car_Item).filter_by(id = car_id).one()
 
