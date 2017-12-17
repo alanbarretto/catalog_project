@@ -45,11 +45,11 @@ def category():
 @app.route('/category/<int:category_id>')
 def category_items(category_id):
 	category = session.query(Category).filter_by(id=category_id).one()
-	carItem = session.query(Car_Item).filter_by(category_id = category.id).all()
+	cars = session.query(Car_Item).filter_by(category_id = category.id).all()
 	#creator = getUserInfo(category.user_id)
 
 	
-	return render_template("catalog_items.html", category=category, carItem=carItem)
+	return render_template("category_items.html", category=category, cars=cars)
 
 
 
@@ -74,25 +74,52 @@ def purchase_from_category(category_id, car_id):
 	car = session.query(Car_Item).filter_by(category_id=category.id, id=car_id).one()
 	user = session.query(User).filter_by(id=car.user_id).one()
 
-	return render_template('purchase.html')
+	return render_template('purchase.html', category=category, car=car, user=user)
+
+
+
 
 @app.route('garage/<int:garage_id>/cars/<int:car_id>/purchase', methods="post", "get")
 def purchase_from_garage(garage_id, car_id):
 	category = session.query(Garage).filter_by(id=garage_id).one()
-	car = session.query(Car_Item).filter_by(garage_id=garage.id, id=car_id).one()
+	car = session.query(Car_Item).filter_by(garage_id=garage_id, id=car_id).one()
 	user = session.query(User).filter_by(id=car.user_id).one()
 
 	return render_template('purchase.html', category=category, car=car, user=user)
 
 
 
-@app.route('/garage/<int:garage_id')
+
+
+@app.route('/confirm/<int:category_id>')
+def category_purchase_confirm(category_id):
+	category = session.query(Category).filter_by(id=category_id).one()
+
+	return render_template('category_purchase_confirm.html', category=category)
+
+
+
+
+@app.route('/confirm/<int:garage_id>')
+def garage_purchase_confirm(garage_id):
+	garage = session.query(Garage).filter_by(id=garage_id).one()
+
+	return render_template('garage_purchase_confirm.html', garage=garage)
+
+
+
+@app.route('/garage/<int:garage_id>')
 def garage_items(garage_id):
 	garage = session.query(Garage).filter_by(id=garage_id).one()
-	items = session.query(Car_Item).filter_by(garage_id=garage.id).all()
+	cars = session.query(Car_Item).filter_by(garage_id=garage.id).all()
+	user = session.query(User).filter_by(id=garage.user_id).one()
 
 
-	return render_template("garage.html", garage=garage, items=items)
+	return render_template("garage.html", garage=garage, cars=cars, user=user)
+
+
+
+
 
 
 @app.route('/garage/create')
@@ -151,7 +178,7 @@ def create_car(category_id):
 
 
 @app.route('/category/<int:category_id>/cars/<int:car_id>/edit')
-def edit_car(category_id,car_id):
+def edit_car_category(category_id,car_id):
 
 	category = session.query(Category).filter_by(category_id=category_id).one()
 	car = session.query(Car_Item).filter_by(id=car_id).one()
@@ -165,7 +192,7 @@ def edit_car(category_id,car_id):
 
 
 @app.route('/category/<intcategory_id>/cars/<int:car_id>/delete')
-def delete_car(category_id, car_id):
+def delete_car_category(category_id, car_id):
 
 	category = session.query(Category).filter_by(category_id=category_id).one()
 	car = session.query(Car_Item).filter_by(id=car_id).one()
