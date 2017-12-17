@@ -67,6 +67,14 @@ def specific_car_category(category_id, car_id):
 
 	return render_template("specific_car.html", category=category, car=car)
 
+@app.route('/category/<int:garage_id>/cars/<int:car_id>')
+def specific_car_garage(garage_id, car_id):
+	garage = session.query(Garage).filter_by(id=garage_id).one()
+	car = session.query(Car_Item).filter_by(garage_id=garage.id, id = car_id).one()
+
+
+	return render_template("specific_car_garage.html", garage=garage, car=car)
+
 
 @app.route('category/<int:category_id>/cars/<int:car_id>/purchase', methods="post", "get")
 def purchase_from_category(category_id, car_id):
