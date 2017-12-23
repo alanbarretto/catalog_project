@@ -70,7 +70,7 @@ def specific_car_category(category_id, car_id):
 	return render_template("specific_car_category.html", category=category, car=car)
 
 
-@app.route('category/<int:category_id>/cars/<int:car_id>/purchase', methods="post", "get")
+@app.route('/category/<int:category_id>/cars/<int:car_id>/purchase', methods=["post", "get"])
 def purchase_from_category(category_id, car_id):
 	category = session.query(Category).filter_by(id=category_id).one()
 	car = session.query(Car_Item).filter_by(category_id=category.id, id=car_id).one()
@@ -93,7 +93,7 @@ def category_purchase_confirm(category_id, car_id):
 @app.route('/category/<int:category_id>/create')
 def create_car_category(category_id):
 
-	category = session.query(Category).filter_by(category_id=category_id).one()
+	category = session.query(Category).filter_by(id=category_id).one()
 
 
 	return render_template('newCarCategory.html', category=category)
@@ -148,7 +148,7 @@ def specific_car_garage(garage_id, car_id):
 
 
 
-@app.route('garage/<int:garage_id>/cars/<int:car_id>/purchase', methods="post", "get")
+@app.route('/garage/<int:garage_id>/cars/<int:car_id>/purchase', methods=["post", "get"])
 def purchase_from_garage(garage_id, car_id):
 	garage = session.query(Garage).filter_by(id=garage_id).one()
 	car = session.query(Car_Item).filter_by(garage_id=garage_id, id=car_id).one()
@@ -204,7 +204,7 @@ def delete_car_garage(garage_id, car_id):
 	return render_template('deleteCarGarage.html', garage=garage, car=car, user=user)
 
 # Create a Garage
-@app.route('garage/new', methods="Post", "Get")
+@app.route('/garage/new', methods=["Post", "Get"])
 def create_garage():
 
 	if request.method== "Post":
