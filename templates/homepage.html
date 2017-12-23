@@ -36,12 +36,12 @@
 
 
         
-        {%for item in category%}
+        {%for category in categories%}
         
           <div>
-            <a href="url_for('cars_by_make_model', category_id=item.id)}}">{{item.category_pic}}</a>
+            <a href="url_for('category_items', category_id=item.id)}}">{{category.category_pic}}</a>
             <br>
-            <a class="btn btn-primary" href="url_for('cars_by_make_model', category_id=item.id)}}">{{item.category}}</a>
+            <a class="btn btn-primary" href="url_for('category_items', category_id=item.id)}}">{{category.category}}</a>
           </div>
           
           
@@ -54,6 +54,18 @@
       </div>
       
      
+
+      {%if not garages%}
+
+        <h3>There are no Garages Created Yet</h3>
+        <br>
+        <br>
+        <a href="{{url_for('create_garage')}}">Click Here to Create Your Garage</a>
+
+
+
+
+      {%else%}
 
 
 
@@ -76,14 +88,14 @@
           <p>{{garage.description}}</p>
           <br>
           
-          <a class="btn btn-primary" href="{{url_for('cars_by_make_model', category_id=item.id) }}">Search!</a>
+          <a class="btn btn-primary" href="{{url_for('garage_items', garage_id=garage.id) }}">Enter Garage!</a>
         </div>
       </div>
       <!-- /.row -->
 
-      <hr>
-      {%endfor%}
       
+      {%endfor%}
+      {%endif%}
 
     </div>
     <!-- /.container -->
