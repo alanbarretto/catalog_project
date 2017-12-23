@@ -6,9 +6,16 @@
     <div class="container">
 
       <!-- Page Heading -->
-      <h1 class="my-4">Joe's Car Lot
-        <small>Search By Bodystyle</small>
-      </h1> 
+      <h1 class="my-4">Joe's Car Lot></h1>
+      <br>
+      <br>
+      <a href="{{url_for('create_garage')}}">Click Here to Create Your Garage</a>
+      <br>
+      <br>
+      <h3>Search By Bodystyle</h3>
+      <br>
+      <br>
+         
 
       <div class="flash">
 
@@ -38,11 +45,21 @@
         
         {%for category in categories%}
         
-          <div>
-            <a href="url_for('category_items', category_id=item.id)}}">{{category.category_pic}}</a>
-            <br>
-            <a class="btn btn-primary" href="url_for('category_items', category_id=item.id)}}">{{category.category}}</a>
-          </div>
+          <div class="row">
+        <div class="col-md-7">
+          <a href="#">
+            <img class="#" src="http://placehold.it/600x300" alt="">
+          </a>
+        </div>
+        <div class="col-md-5">
+          <h3>{{category.category}}</h3>
+          
+          
+          <a class="btn btn-primary" href="{{url_for('category_items', category_id=category.id) }}">Search This BodyStyle!</a>
+        </div>
+      </div>
+      <br>
+      <br>
           
           
         {%endfor%}
@@ -91,6 +108,8 @@
           <a class="btn btn-primary" href="{{url_for('garage_items', garage_id=garage.id) }}">Enter Garage!</a>
         </div>
       </div>
+      <br>
+      <br>
       <!-- /.row -->
 
       
