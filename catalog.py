@@ -70,8 +70,11 @@ def category():
 	categories = session.query(Category).all()
 	garages = session.query(Garage).all()
 
+	if 'username' not in login_session:
+		return render_template('publichomepage.html', categories=categories, garages=garages)
+	else:
 
-	return render_template("homepage.html", categories=categories, garages=garages)
+		return render_template("homepage.html", categories=categories, garages=garages)
 
 
 
@@ -86,8 +89,11 @@ def category_items(category_id):
 
 	#creator = getUserInfo(category.user_id)
 
+	if 'username' not in login_session:
+		return render_template('public_category_items.html', categories=categories, cars=cars)
+	else:
 	
-	return render_template("category_items.html", category=category, cars=cars)
+		return render_template("category_items.html", category=category, cars=cars)
 
 
 
@@ -100,9 +106,12 @@ def category_items(category_id):
 def specific_car_category(category_id, car_id):
 	category = session.query(Category).filter_by(id=category_id).one()
 	car = session.query(Car_Item).filter_by(id= car_id).one()
+	creator = getUserInfo(car.user_id)
 
-
-	return render_template("specific_car_category.html", category=category, car=car)
+	if "username" not in login_session or creator.id != login_session["user_id"]:
+    	return render_template("public_specific_car_category.html", category=category, car=car)
+    else:
+		return render_template("specific_car_category.html", category=category, car=car)
 
 
 @app.route('/category/<int:category_id>/cars/<int:car_id>/purchase', methods=["post", "get"])
@@ -111,7 +120,10 @@ def purchase_from_category(category_id, car_id):
 	car = session.query(Car_Item).filter_by(id=car_id).one()
 	user = session.query(User).filter_by(id=car.user_id).one()
 
-	return render_template('category_purchase.html', category=category, car=car, user=user)
+	if 'username' not in login_session:
+		return render_template('public_category_purchase.html', categories=categories, car=car, user=user)
+	else:
+		return render_template('category_purchase.html', category=category, car=car, user=user)
 
 @app.route('/confirm/<int:category_id>')
 def category_purchase_confirm(category_id, car_id):
@@ -168,8 +180,10 @@ def garage_items(garage_id):
 	cars = session.query(Car_Item).filter_by(garage_id=garage.id).all()
 	user = session.query(User).filter_by(id=garage.user_id).one()
 
-
-	return render_template("garage_items.html", garage=garage, cars=cars, user=user)
+	if 'username' not in login_session:
+		return render_template('public_category_items.html', categories=categories, cars=cars)
+	else:
+		return render_template("garage_items.html", garage=garage, cars=cars, user=user)
 
 
 
