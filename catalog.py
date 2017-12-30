@@ -61,6 +61,13 @@ def carFromGarage(garage_id, car_id):
 
 
 
+@app.route("/login")
+def showLogin():
+	state = "".join(random.choice(string.ascii_uppercase + string.digits) for x in xrange(32))
+	login_session["state"] = state
+
+	return render_template("login.html", STATE=state)
+
 
 
 
@@ -141,7 +148,20 @@ def category_purchase_confirm(category_id, car_id):
 def create_car_category(category_id):
 
 	category = session.query(Category).filter_by(id=category_id).one()
+	cars = session.query(Car_Item).filter_by(category_id=category.id).all()
 
+	if 'username' not in login_session:
+		return redirect('/login')
+
+	if request.method == "post":
+
+		newCar = Car_Item(make= request.form["make"], model=request.form["model"], year=request.form["year"], \
+					color=request.form["color"], price=request.form["price"], description=request.form["description"], \
+					milage=request.form["milage"], car_item_pic=request.form["car_pic"], user_id=login_session["user_id"])
+		session.add(newCar)
+		session.commit()
+		flash("Congratulations, you have successfully entered a new vehicle to sell!")
+		return redirect(url_for("category_items.html", category=category, cars=cars))
 
 	return render_template('newCarCategory.html', category=category)
 
@@ -181,7 +201,7 @@ def garage_items(garage_id):
 	user = session.query(User).filter_by(id=garage.user_id).one()
 
 	if 'username' not in login_session:
-		return render_template('public_category_items.html', categories=categories, cars=cars)
+		return render_template('public_garage_items.html', garage=garage, cars=cars, user=user)
 	else:
 		return render_template("garage_items.html", garage=garage, cars=cars, user=user)
 
@@ -191,9 +211,12 @@ def garage_items(garage_id):
 def specific_car_garage(garage_id, car_id):
 	garage = session.query(Garage).filter_by(id=garage_id).one()
 	car = session.query(Car_Item).filter_by(id = car_id).one()
+	creator = getUserInfo(car.user_id)
 
-
-	return render_template("specific_car_garage.html", garage=garage, car=car)
+	if "username" not in login_session or creator.id != login_session["user_id"]:
+    	return render_template("public_specific_car_garage.html", garage=garage, car=car)
+    else:
+		return render_template("specific_car_garage.html", garage=garage, car=car)
 
 
 
