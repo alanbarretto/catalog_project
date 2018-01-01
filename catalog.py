@@ -199,8 +199,9 @@ def garage_items(garage_id):
 	garage = session.query(Garage).filter_by(id=garage_id).one()
 	cars = session.query(Car_Item).filter_by(garage_id=garage.id).all()
 	user = session.query(User).filter_by(id=garage.user_id).one()
+	creator = getUserInfo(car.user_id)
 
-	if 'username' not in login_session:
+	if 'username' not in login_session or creator.id != login_session["user_id"]:
 		return render_template('public_garage_items.html', garage=garage, cars=cars, user=user)
 	else:
 		return render_template("garage_items.html", garage=garage, cars=cars, user=user)
@@ -226,7 +227,10 @@ def purchase_from_garage(garage_id, car_id):
 	car = session.query(Car_Item).filter_by(id=car_id).one()
 	user = session.query(User).filter_by(id=car.user_id).one()
 
-	return render_template('garage_purchase.html', garage=garage, car=car, user=user)
+	if "username" not in login_session:
+		return render_template("public_garage_purchase.html", garage=garage, car=car, user=user)
+	else:	
+		return render_template('garage_purchase.html', garage=garage, car=car, user=user)
 
 
 @app.route('/confirm/<int:garage_id>')
