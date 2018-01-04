@@ -35,7 +35,7 @@ def createUser(login_session):
 
 def getUserInfo(user_id):
 	user= session.query(User).filter_by(id=user_id).one()
-	return userinfo_url
+	return user
 
 def getUserID(email):
 	try:
@@ -102,10 +102,6 @@ def gconnect():
 	 	response.headers['Content-Type'] = 'application/json'
 	 	return response
 
-	user_id = getUserID(login_session['email'])
-	if not user_id:
-	 	user_id = createUser(login_session)
-	login_session['user_id'] = user_id
 
 	#Store the access token in the session for later use
 	login_session['access_token'] = credentials.access_token
@@ -122,6 +118,11 @@ def gconnect():
 	login_session['picture'] = data['picture']
 	login_session['email'] = data['email']
 
+	user_id = getUserID(login_session['email'])
+	if not user_id:
+		user_id = createUser(login_session)
+	login_session['user_id'] = user_id
+
 	output = ''
 	output += '<h1>Welcome, '
 	output += login_session['username']
@@ -137,31 +138,31 @@ def gconnect():
 @app.route('/gdisconnect')
 def gdisconnect():
     access_token = login_session.get('access_token')
-	if access_token is None:
+    if access_token is None:
 	    print 'Access Token is None'
-		response = make_response(json.dumps('Current user not connected.'), 401)
-		response.headers['Content-Type'] = 'application/json'
-		return response
-	print 'In gdisconnect access token is %s', access_token
-	print 'User name is: '
-	print login_session['username']
-	url = 'https://accounts.google.com/o/oauth2/revoke?token=%s' % login_session['access_token']
-	h = httplib2.Http()
-	result = h.request(url, "GET")[0]
-	print 'result is '
-	if result['status'] == '200':
-		del login_session['access_token']
-		del login_session['gplus_id']
-		del login_session['username']
-		del login_session['email']
-		del login_session['picture']
-		response = make_response(json.dumps("Successfully disconnected."), 200)
-		response.headers['Content-Type'] = 'application/json'
-		return response
-	else:
-		response = make_response(json.dumps('Failed to revoke token for given user.'), 400)
-		response.headers['Content-Type'] = 'application/json'
-		return response
+	    response = make_response(json.dumps('Current user not connected.'), 401)
+	    response.headers['Content-Type'] = 'application/json'
+	    return response
+    print 'In gdisconnect access token is %s', access_token
+    print 'User name is: '
+    print login_session['username']
+    url = 'https://accounts.google.com/o/oauth2/revoke?token=%s' % login_session['access_token']
+    h = httplib2.Http()
+    result = h.request(url, "GET")[0]
+    print 'result is '
+    if result['status'] == '200':
+    	del login_session['access_token']
+    	del login_session['gplus_id']
+    	del login_session['username']
+    	del login_session['email']
+    	del login_session['picture']
+    	response = make_response(json.dumps("Successfully disconnected."), 200)
+    	response.headers['Content-Type'] = 'application/json'
+    	return response
+    else:
+    	response = make_response(json.dumps('Failed to revoke token for given user.'), 400)
+    	response.headers['Content-Type'] = 'application/json'
+    	return response
 
 
 
@@ -268,18 +269,21 @@ def specific_car_category(category_id, car_id):
 		return render_template("specific_car_category.html", category=category, car=car)
 
 
-@app.route('/category/<int:category_id>/cars/<int:car_id>/purchase', methods=["post", "get"])
+@app.route('/category/<int:category_id>/cars/<int:car_id>/purchase', methods=["POST", "GET"])
 def purchase_from_category(category_id, car_id):
 	category = session.query(Category).filter_by(id=category_id).one()
 	car = session.query(Car_Item).filter_by(id=car_id).one()
 	user = session.query(User).filter_by(id=car.user_id).one()
 
+	if request.method == "POST":
+		return render_template('category_purchase_confirm.html', category=category, car=car)
+
 	if 'username' not in login_session:
-		return render_template('public_category_purchase.html', categories=categories, car=car, user=user)
+		return render_template('public_category_purchase.html', category=category, car=car, user=user)
 	else:
 		return render_template('category_purchase.html', category=category, car=car, user=user)
 
-@app.route('/confirm/<int:category_id>')
+@app.route('/category/<int:category_id>/cars/<int:car_id>/confirm')
 def category_purchase_confirm(category_id, car_id):
 	category = session.query(Category).filter_by(id=category_id).one()
 	car = session.query(Car_Item).filter_by(id=car_id).one()
@@ -291,7 +295,7 @@ def category_purchase_confirm(category_id, car_id):
 # Create a Car within a Category
 
 
-@app.route('/category/<int:category_id>/create', methods=["post", "get"])
+@app.route('/category/<int:category_id>/create', methods=["POST", "GET"])
 def create_car_category(category_id):
 
 	category = session.query(Category).filter_by(id=category_id).one()
@@ -300,7 +304,7 @@ def create_car_category(category_id):
 	if 'username' not in login_session:
 		return redirect('/login')
 
-	if request.method == "post":
+	if request.method == "POST":
 
 		newCar = Car_Item(make= request.form["make"], model=request.form["model"], year=request.form["year"], \
 					color=request.form["color"], price=request.form["price"], description=request.form["description"], \
@@ -314,7 +318,7 @@ def create_car_category(category_id):
 
 # Edit a Car within a Category
 
-@app.route('/category/<int:category_id>/cars/<int:car_id>/edit')
+@app.route('/category/<int:category_id>/cars/<int:car_id>/edit', methods=["POST", "GET"])
 def edit_car_category(category_id, car_id):
 
 	category = session.query(Category).filter_by(category_id=category_id).one()
@@ -328,7 +332,7 @@ def edit_car_category(category_id, car_id):
 		return "<script>function myFunction(){alert('You are not allowed to edit this vehicle. \
 			Please enter your own vehicle to sell first!')}</script>body onload='myFunction()'>"
 
-	if request.method == "post":
+	if request.method == "POST":
 
 		if request.form['year']:
 			car.year = request.form['year']
@@ -355,7 +359,7 @@ def edit_car_category(category_id, car_id):
 
 # Delete a Car within a Category
 
-@app.route('/category/<int:category_id>/cars/<int:car_id>/delete')
+@app.route('/category/<int:category_id>/cars/<int:car_id>/delete', methods=["POST", "GET"])
 def delete_car_category(category_id, car_id):
 
 	category = session.query(Category).filter_by(category_id=category_id).one()
@@ -369,7 +373,7 @@ def delete_car_category(category_id, car_id):
 		return "<script>function myFunction(){alert('You are not allowed to delete this vehicle. \
 			You can only delete vehicles you have entered yourself!')}</script>body onload='myFunction()'>"
 
-	if request.method == "post":
+	if request.method == "POST":
 		session.delete(car)
 		session.commit()
 		flash('Vehicle successfully Deleted!')
@@ -385,7 +389,7 @@ def garage_items(garage_id):
 	garage = session.query(Garage).filter_by(id=garage_id).one()
 	cars = session.query(Car_Item).filter_by(garage_id=garage.id).all()
 	user = session.query(User).filter_by(id=garage.user_id).one()
-	creator = getUserInfo(car.user_id)
+	creator = getUserInfo(garage.user_id)
 
 	if 'username' not in login_session or creator.id != login_session["user_id"]:
 		return render_template('public_garage_items.html', garage=garage, cars=cars, user=user)
@@ -406,11 +410,14 @@ def specific_car_garage(garage_id, car_id):
 		return render_template("specific_car_garage.html", garage=garage, car=car)
 
 
-@app.route('/garage/<int:garage_id>/cars/<int:car_id>/purchase', methods=["post", "get"])
+@app.route('/garage/<int:garage_id>/cars/<int:car_id>/purchase', methods=["POST", "GET"])
 def purchase_from_garage(garage_id, car_id):
 	garage = session.query(Garage).filter_by(id=garage_id).one()
 	car = session.query(Car_Item).filter_by(id=car_id).one()
 	user = session.query(User).filter_by(id=car.user_id).one()
+
+	if request.method == "POST":
+		return render_template("garage_purchase_confirm.html", garage=garage)
 
 	if "username" not in login_session:
 		return render_template("public_garage_purchase.html", garage=garage, car=car, user=user)
