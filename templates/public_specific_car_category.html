@@ -1,0 +1,50 @@
+{%extends "main.html"%}
+{%block content%}
+    
+
+        <!-- Page Content -->
+    <div class="container">
+
+      <!-- Page Heading -->
+      <h1 class="my-4">Joe's Car Lot</h1>
+      <br>
+        <h3><small>category.category</small>
+      </h3>
+
+      
+      
+
+      <div class="row">
+        <div class="col-md-7">
+          <a href="#">
+            <img class="#" src="http://placehold.it/600x300" alt="">
+          </a>
+        </div>
+        <div class="col-md-5">
+          <h3><span>{{car.year}}</span><span>{{car.make}}</span><span>{{car.model}}</span></h3>
+          <br>
+          <h3>{{car.price}}</h3>
+          <br>
+          <h3>{{car.color}}</h3>
+          <br>
+          <p>{{car.description}}</p>
+          
+          <a class="btn btn-primary" href="{{url_for('purchase_from_category', category_id=category.id, car_id=car.id)}}">Contact Seller</a>
+          <br>
+          
+          <a href="{{url_for('category_items', category_id=category.id)}}">
+              <button class="btn btn-default delete">
+              <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>Return</button>
+              </a>
+        </div>
+      </div>
+      <!-- /.row -->
+
+      <hr>
+      
+      
+
+    </div>
+    <!-- /.container -->
+
+{%endblock%}

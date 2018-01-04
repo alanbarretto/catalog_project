@@ -1,0 +1,120 @@
+{%extends "main.html"%}
+{%block content%}
+    
+
+        <!-- Page Content -->
+    <div class="container">
+
+      <!-- Page Heading -->
+      <h1 class="my-4">Joe's Car Lot</h1>
+      <br>
+      <br>
+      <h3>Search By Bodystyle</h3>
+      <br>
+      <br>
+         
+
+      <div class="flash">
+
+          {% with messages = get_flashed_messages() %}
+
+          {% if messages %}
+
+          <ul> 
+            {% for messages in messages %}
+
+            <li><strong>{{messages}} </strong></li>
+
+            {% endfor %}
+
+          </ul>
+
+          {% endif %}
+          {% endwith %}
+        
+
+      </div>
+
+      
+      <div class = row>
+
+
+        
+        {%for category in categories%}
+        
+          <div class="row">
+        <div class="col-md-7">
+          <a href="#">
+            <img class="#" src="http://placehold.it/600x300" alt="">
+          </a>
+        </div>
+        <div class="col-md-5">
+          <h3>{{category.category}}</h3>
+          
+          
+          <a class="btn btn-primary" href="{{url_for('category_items', category_id=category.id) }}">Search This BodyStyle!</a>
+        </div>
+      </div>
+      <br>
+      <br>
+          
+          
+        {%endfor%}
+        
+          
+
+
+
+      </div>
+      <div>
+        <br>
+        <h2>Garages: </h2>
+        <br>
+        <br>
+        
+
+        {%if not garages%}
+
+        <h3>There are no Garages Created Yet</h3>
+        <br>
+        <br>
+      </div>
+      
+
+
+
+      {%else%}
+
+      </div>
+          
+      {%for garage in garages%}
+
+      <div class="row">
+        <div class="col-md-7">
+          <a href="#">
+            <img class="#" src="http://placehold.it/600x300" alt="">
+          </a>
+        </div>
+        <div class="col-md-5">
+          <h3>{{garage.name}}</h3>
+          <br>
+          <p>{{garage.description}}</p>
+          <br>
+          
+          <a class="btn btn-primary" href="{{url_for('garage_items', garage_id=garage.id) }}">Enter Garage!</a>
+        </div>
+      </div>
+      <br>
+      <br>
+      <!-- /.row -->
+
+      
+      {%endfor%}
+      {%endif%}
+
+    </div>
+    <!-- /.container -->
+
+{%endblock%}
+
+

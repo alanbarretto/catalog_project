@@ -25,7 +25,10 @@
           
 
           
-          <a class="btn btn-primary" href="url_for('purchase_from_garage', garage_id=garage.id, car_id=car.id ">Contact Seller</a>
+          <a class="btn btn-primary" href="{{url_for('category')}}">Return to Home Page</a>
+          <br>
+          <a class="btn btn-primary" href="{{url_for('garage_items', garage_id=garage.id)}}">Return to {{garage.name}}</a>
+
         </div>
       </div>
       <!-- /.row -->
