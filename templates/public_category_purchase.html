@@ -9,7 +9,7 @@
       <h1 class="my-4">Joe's Car Lot</h1>
         <br>
         <br>
-        <a href="{{url_for('public_specific_car_category', category_id=category.id, car_id=car.id)}}">
+        <a href="{{url_for('specific_car_category', category_id=category.id, car_id=car.id)}}">
               <button class="btn btn-default delete">
               <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>Return</button>
               </a>
@@ -37,7 +37,7 @@
           <p>To purchase from this seller, fill out the form below.  Once you click "Submit" you will be contacted soon. In order to have bidding privileges, you will need to log in. </p>
           
 
-          <form action="{{url_for('purchase_from_category', category_id=category.id, car_id=car.id)}}" method = "post">
+          <form action="{{url_for('purchase_from_category', category_id=category.id, car_id=car.id)}}" method = "POST">
             <div class="form-group">
             <label for="name">Your Name:</label>
             <input type ="text" maxlength="150" name="name" placeholder="Name">
