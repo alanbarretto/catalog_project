@@ -12,9 +12,9 @@ import json
 
 from flask import make_response
 import requests
+import os
 
-CLIENT_ID = json.loads(
-	open('client_secrets.json', 'r').read())['web']['client_id']
+CLIENT_ID = json.loads(open('client_secrets.json','r').read())['web']['client_id']
 
 engine = create_engine("sqlite:///car_catalog3.db")
 Base.metadata.bind = engine
@@ -24,125 +24,128 @@ session = DBSession()
 from flask import session as login_session
 import random, string
 
+#UPLOAD_FOLDER = os.path.basename('uploads')
+#app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+
 #User Helper Functions
 
 def createUser(login_session):
-	newUser = User(name=login_session['username'], email=login_session['email'], picture=login_session['picture'])
-	session.add(newUser)
-	session.commit()
-	user = session.query(User).filter_by(email=login_session['email']).one()
-	return user.id
+    newUser = User(name=login_session['username'], email=login_session['email'], picture=login_session['picture'])
+    session.add(newUser)
+    session.commit()
+    user = session.query(User).filter_by(email=login_session['email']).one()
+    return user.id
 
 def getUserInfo(user_id):
-	user= session.query(User).filter_by(id=user_id).one()
-	return user
+    user = session.query(User).filter_by(id=user_id).one()
+    return user
 
 def getUserID(email):
-	try:
-		user = session.query(User).filter_by(email=email).one()
-		return user.id
-	except:
-		return None
+    try:
+        user = session.query(User).filter_by(email=email).one()
+        return user.id
+    except:
+        return None
 
 
 @app.route('/gconnect', methods=['POST'])
 def gconnect():
-	 #Validate state token
+    #Validate state token
 
     if request.args.get('state') != login_session['state']:
-    	response = make_response(json.dumps('Invalid state parameter.'), 401)
-    	response.headers['Content-Type'] = 'application/json'
-    	return response
+        response = make_response(json.dumps('Invalid state parameter.'), 401)
+        response.headers['Content-Type'] = 'application/json'
+        return response
 
-	 #Obtain authorization code
-	code = request.data
+    #Obtain authorization code
+    code = request.data
 
-	try:
-	 	#Upgrade the authorization code into a credentials object
-	 	oauth_flow = flow_from_clientsecrets('client_secrets.json', scope='')
-	 	oauth_flow.redirect_uri = 'postmessage'
-	 	credentials = oauth_flow.step2_exchange(code)
+    try:
+        #Upgrade the authorization code into a credentials object
+        oauth_flow = flow_from_clientsecrets('client_secrets.json', scope='')
+        oauth_flow.redirect_uri = 'postmessage'
+        credentials = oauth_flow.step2_exchange(code)
 
-	except FlowExchangeError:
-	 	response = make_response(
-	 		json.dumps('Failed to upgrade the authorization code.'), 401)
-	 	response.headers['Content-Type'] = 'application/json'
-	 	return response
+    except FlowExchangeError:
+        response = make_response(
+            json.dumps('Failed to upgrade the authorization code.'), 401)
+        response.headers['Content-Type'] = 'application/json'
+        return response
 
-	access_token = credentials.access_token
-	url = ('https://www.googleapis.com/oauth2/v1/tokeninfo?access_token=%s' % access_token)
-	h = httplib2.Http()
-	result = json.loads(h.request(url, 'GET')[1])
-	# if there was an error in the access token info, abort.
-	if result.get('error') is not None:
-		response = make_response(json.dumps(result.get('error')), 500)
-		response.headers['Content-Type'] = 'application/json'
-		return response
+    access_token = credentials.access_token
+    url = ('https://www.googleapis.com/oauth2/v1/tokeninfo?access_token=%s' % access_token)
+    h = httplib2.Http()
+    result = json.loads(h.request(url, 'GET')[1])
+    # if there was an error in the access token info, abort.
+    if result.get('error') is not None:
+        response = make_response(json.dumps(result.get('error')), 500)
+        response.headers['Content-Type'] = 'application/json'
+        return response
 
-	#Verify that the access token is valid for the intended user
-	gplus_id = credentials.id_token['sub']
-	if result['user_id'] != gplus_id:
-	 	response = make_response(
-	 		json.dumps("Token's user ID doesn't match given user ID."), 401)
-	 	response.headers['Content-Type'] = 'application/json'
-	 	return response
+    #Verify that the access token is valid for the intended user
+    gplus_id = credentials.id_token['sub']
+    if result['user_id'] != gplus_id:
+        response = make_response(
+            json.dumps("Token's user ID doesn't match given user ID."), 401)
+        response.headers['Content-Type'] = 'application/json'
+        return response
 
-	#Verify that the access token is valid for this app
-	if result['issued_to'] != CLIENT_ID:
-	 	response = make_response(
-	 		json.dumps("Token's client ID does not match app's"), 401)
-	 	print "Token's client ID does not match app's"
-	 	response.headers['Content-Type'] = 'application/json'
-	 	return response
+    #Verify that the access token is valid for this app
+    if result['issued_to'] != CLIENT_ID:
+        response = make_response(
+            json.dumps("Token's client ID does not match app's"), 401)
+        print "Token's client ID does not match app's"
+        response.headers['Content-Type'] = 'application/json'
+        return response
 
-	stored_access_token = login_session.get('access_token')
-	stored_gplus_id = login_session.get('gplus_id')
-	if stored_access_token is not None and gplus_id == stored_gplus_id:
-	 	response = make_response(json.dumps('Current user is already connected.'), 200)
-	 	response.headers['Content-Type'] = 'application/json'
-	 	return response
+    stored_access_token = login_session.get('access_token')
+    stored_gplus_id = login_session.get('gplus_id')
+    if stored_access_token is not None and gplus_id == stored_gplus_id:
+        response = make_response(json.dumps('Current user is already connected.'), 200)
+        response.headers['Content-Type'] = 'application/json'
+        return response
 
 
-	#Store the access token in the session for later use
-	login_session['access_token'] = credentials.access_token
-	login_session['gplus_id'] = gplus_id
+    #Store the access token in the session for later use
+    login_session['access_token'] = credentials.access_token
+    login_session['gplus_id'] = gplus_id
 
-	#Get user info
- 	userinfo_url = "https://www.googleapis.com/oauth2/v1/userinfo"
-	params = {'access_token': credentials.access_token, 'alt': 'json'}
-	answer = requests.get(userinfo_url, params=params)
+    #Get user info
+    userinfo_url = "https://www.googleapis.com/oauth2/v1/userinfo"
+    params = {'access_token': credentials.access_token, 'alt': 'json'}
+    answer = requests.get(userinfo_url, params=params)
 
-	data = answer.json()
+    data = answer.json()
 
-	login_session['username'] = data['name']
-	login_session['picture'] = data['picture']
-	login_session['email'] = data['email']
+    login_session['username'] = data['name']
+    login_session['picture'] = data['picture']
+    login_session['email'] = data['email']
 
-	user_id = getUserID(login_session['email'])
-	if not user_id:
-		user_id = createUser(login_session)
-	login_session['user_id'] = user_id
+    user_id = getUserID(login_session['email'])
+    if not user_id:
+        user_id = createUser(login_session)
+    login_session['user_id'] = user_id
 
-	output = ''
-	output += '<h1>Welcome, '
-	output += login_session['username']
-	output += '!</h1>'
-	output += '<img src="'
-	output += login_session['picture']
-	output += ' " style = "width: 300px; height: 300px; \
-	 			border-radius: 150px; -webkit-border-radius: 150px; -mox-border-radius: 150px;">'
-	flash('you are now logged in as %s' % login_session['username'])
-	print "done!"
-	return output
+    output = ''
+    output += '<h1>Welcome, '
+    output += login_session['username']
+    output += '!</h1>'
+    output += '<img src="'
+    output += login_session['picture']
+    output += ' " style = "width: 300px; height: 300px; \
+            border-radius: 150px; -webkit-border-radius: 150px; -mox-border-radius: 150px;">'
+    flash('you are now logged in as %s' % login_session['username'])
+    print "done!"
+    return output
 
 @app.route('/gdisconnect')
 def gdisconnect():
     access_token = login_session.get('access_token')
     if access_token is None:
-	    print 'Access Token is None'
-	    response = make_response(json.dumps('Current user not connected.'), 401)
-	    response.headers['Content-Type'] = 'application/json'
-	    return response
+        print 'Access Token is None'
+        response = make_response(json.dumps('Current user not connected.'), 401)
+        response.headers['Content-Type'] = 'application/json'
+        return response
     print 'In gdisconnect access token is %s', access_token
     print 'User name is: '
     print login_session['username']
@@ -151,70 +154,62 @@ def gdisconnect():
     result = h.request(url, "GET")[0]
     print 'result is '
     if result['status'] == '200':
-    	del login_session['access_token']
-    	del login_session['gplus_id']
-    	del login_session['username']
-    	del login_session['email']
-    	del login_session['picture']
-    	response = make_response(json.dumps("Successfully disconnected."), 200)
-    	response.headers['Content-Type'] = 'application/json'
-    	return response
+        del login_session['access_token']
+        del login_session['gplus_id']
+        del login_session['username']
+        del login_session['email']
+        del login_session['picture']
+        response = make_response(json.dumps("Successfully disconnected."), 200)
+        response.headers['Content-Type'] = 'application/json'
+        return response
     else:
-    	response = make_response(json.dumps('Failed to revoke token for given user.'), 400)
-    	response.headers['Content-Type'] = 'application/json'
-    	return response
-
-
-
-
-
-
-
-
+        response = make_response(json.dumps('Failed to revoke \ token for given user.'), 400)
+        response.headers['Content-Type'] = 'application/json'
+        return response
 
 #Jasonify functions
 
 @app.route("/category/JSON")
 def categoryJSON():
-	allCategories = session.query(Category).all()
+    allCategories = session.query(Category).all()
 
-	return jsonify(Category = [category.serialize for category in allCategories])
+    return jsonify(Category = [category.serialize for category in allCategories])
 
 @app.route("/garage/JSON")
 def garageJSON():
-	allGarages = session.query(Garage).all()
+    allGarages = session.query(Garage).all()
 
-	return jsonify(Garage = [garage.serialize for garage in allGarages])
+    return jsonify(Garage = [garage.serialize for garage in allGarages])
 
 @app.route("/cars/JSON")
 def carsJSON():
-	allCars = session.query(Car_Item).all()
+    allCars = session.query(Car_Item).all()
 
-	return jsonify(Car_Item = [car.serialize for car in allCars])
+    return jsonify(Car_Item = [car.serialize for car in allCars])
 
 @app.route("/category/<int:category_id>/car/<int:car_id>/JSON")
 def carFromCategory(category_id, car_id):
-	category = session.query(Category).filter_by(id=category_id).one()
-	car = session.query(Car_Item).filter_by(id=car_id).one()
+    category = session.query(Category).filter_by(id=category_id).one()
+    car = session.query(Car_Item).filter_by(id=car_id).one()
 
-	return jsonify(Car_Item = car.serialize)
+    return jsonify(Car_Item = car.serialize)
 
 
 @app.route("/garage/<int:garage_id>/car/<int:car_id>/JSON")
 def carFromGarage(garage_id, car_id):
-	garage = session.query(Garage).filter_by(id=garage_id).one()
-	car = session.query(Car_Item).filter_by(id=car_id).one()
+    garage = session.query(Garage).filter_by(id=garage_id).one()
+    car = session.query(Car_Item).filter_by(id=car_id).one()
 
-	return jsonify(Car_Item=car.serialize)
+    return jsonify(Car_Item=car.serialize)
 
 
 
 @app.route("/login")
 def showLogin():
-	state = "".join(random.choice(string.ascii_uppercase + string.digits) for x in xrange(32))
-	login_session["state"] = state
+    state = "".join(random.choice(string.ascii_uppercase + string.digits) for x in xrange(32))
+    login_session["state"] = state
 
-	return render_template("login.html", STATE=state)
+    return render_template("login.html", STATE=state)
 
 
 
@@ -222,35 +217,37 @@ def showLogin():
 @app.route('/')
 @app.route('/category')
 def category():
-	categories = session.query(Category).all()
-	garages = session.query(Garage).all()
+    categories = session.query(Category).all()
+    garages = session.query(Garage).all()
 
-	if 'username' not in login_session:
-		return render_template('publichomepage.html', categories=categories, garages=garages)
-	else:
+    if 'username' not in login_session:
+        return render_template('publichomepage.html', categories=categories, garages=garages)
+    else:
 
-		return render_template("homepage.html", categories=categories, garages=garages)
-
-
-
+        return render_template("index.html", categories=categories, garages=garages)
 
 # Category related Functions
-
 @app.route('/category/<int:category_id>')
 def category_items(category_id):
-	category = session.query(Category).filter_by(id=category_id).one()
+    category = session.query(Category).filter_by(id=category_id).one()
 	
-	cars = session.query(Car_Item).filter_by(category_id = category.id).all()
+    cars = session.query(Car_Item).filter_by(category_id=category.id).all()
 
-	#creator = getUserInfo(category.user_id)
+    #creator = getUserInfo(category.user_id)
 
-	if 'username' not in login_session:
-		return render_template('public_category_items.html', category=category, cars=cars)
-	else:
-	
-		return render_template("category_items.html", category=category, cars=cars)
+    if 'username' not in login_session:
+        return render_template('public_category_items.html', category=category, cars=cars)
+    else:
 
+        return render_template("category_items.html", category=category, cars=cars)
 
+#@app.route('/category/<int:category_id>/upload', methods=["POST"])
+#def upload(category_id):
+#    file = request.files['image']
+#    f = os.path.join(app.config['UPLOAD_FOLDER'], file.filename)
+#    file.save(f)
+
+#    return render_template('')
 
 
 
@@ -259,38 +256,36 @@ def category_items(category_id):
 
 @app.route('/category/<int:category_id>/cars/<int:car_id>')
 def specific_car_category(category_id, car_id):
-	category = session.query(Category).filter_by(id=category_id).one()
-	car = session.query(Car_Item).filter_by(id= car_id).one()
-	creator = getUserInfo(car.user_id)
+    category = session.query(Category).filter_by(id=category_id).one()
+    car = session.query(Car_Item).filter_by(id=car_id).one()
+    creator = getUserInfo(car.user_id)
 
-	if "username" not in login_session or creator.id != login_session["user_id"]:
-		return render_template("public_specific_car_category.html", category=category, car=car)
-	else:
-		return render_template("specific_car_category.html", category=category, car=car)
+    if "username" not in login_session or creator.id != login_session["user_id"]:
+        return render_template("public_specific_car_category.html", category=category, car=car)
+    else:
+        return render_template("specific_car_category.html", category=category, car=car)
 
 
 @app.route('/category/<int:category_id>/cars/<int:car_id>/purchase', methods=["POST", "GET"])
 def purchase_from_category(category_id, car_id):
-	category = session.query(Category).filter_by(id=category_id).one()
-	car = session.query(Car_Item).filter_by(id=car_id).one()
-	user = session.query(User).filter_by(id=car.user_id).one()
+    category = session.query(Category).filter_by(id=category_id).one()
+    car = session.query(Car_Item).filter_by(id=car_id).one()
+    user = session.query(User).filter_by(id=car.user_id).one()
 
-	if request.method == "POST":
-		return render_template('category_purchase_confirm.html', category=category, car=car)
+    if request.method == "POST":
+        return render_template('category_purchase_confirm.html', category=category, car=car)
 
-	if 'username' not in login_session:
-		return render_template('public_category_purchase.html', category=category, car=car, user=user)
-	else:
-		return render_template('category_purchase.html', category=category, car=car, user=user)
+    if 'username' not in login_session:
+        return render_template('public_category_purchase.html', category=category, car=car, user=user)
+    else:
+        return render_template('category_purchase.html', category=category, car=car, user=user)
 
 @app.route('/category/<int:category_id>/cars/<int:car_id>/confirm')
 def category_purchase_confirm(category_id, car_id):
-	category = session.query(Category).filter_by(id=category_id).one()
-	car = session.query(Car_Item).filter_by(id=car_id).one()
+    category = session.query(Category).filter_by(id=category_id).one()
+    car = session.query(Car_Item).filter_by(id=car_id).one()
 
-	
-
-	return render_template('category_purchase_confirm.html', category=category)
+    return render_template('category_purchase_confirm.html', category=category)
 
 # Create a Car within a Category
 
@@ -298,138 +293,134 @@ def category_purchase_confirm(category_id, car_id):
 @app.route('/category/<int:category_id>/create', methods=["POST", "GET"])
 def create_car_category(category_id):
 
-	category = session.query(Category).filter_by(id=category_id).one()
+    category = session.query(Category).filter_by(id=category_id).one()
 
+    if 'username' not in login_session:
+        return redirect('/login')
 
-	if 'username' not in login_session:
-		return redirect('/login')
+    if request.method == "POST":
 
-	if request.method == "POST":
-
-		newCar = Car_Item(make= request.form["make"], model=request.form["model"], year=request.form["year"], \
-					color=request.form["color"], price=request.form["price"], description=request.form["description"], \
-					milage=request.form["milage"], car_item_pic=request.form["car_pic"], user_id=login_session["user_id"])
-		session.add(newCar)
-		session.commit()
-		flash("Congratulations, you have successfully entered a new vehicle to sell!")
-		return redirect(url_for("category_items.html", category=category, cars=cars))
-	else:
-		return render_template('newCarCategory.html', category=category)
+        newCar = Car_Item(make=request.form["make"],model=request.form["model"], year=request.form["year"], color=request.form["color"], price=request.form["price"], description=request.form["description"], milage=request.form["milage"], car_item_pic=request.form["car_pic"], user_id=login_session["user_id"])
+        session.add(newCar)
+        session.commit()
+        flash("Congratulations, you have successfully entered a new vehicle to sell!")
+        return redirect(url_for("category_items.html", category=category, cars=cars))
+    else:
+        return render_template('newCarCategory.html', category=category)
 
 # Edit a Car within a Category
+
 
 @app.route('/category/<int:category_id>/cars/<int:car_id>/edit', methods=["POST", "GET"])
 def edit_car_category(category_id, car_id):
 
-	category = session.query(Category).filter_by(category_id=category_id).one()
-	car = session.query(Car_Item).filter_by(id=car_id).one()
-	user = session.query(User).filter_by(id=car.user_id).one()
+    category = session.query(Category).filter_by(category_id=category_id).one()
+    car = session.query(Car_Item).filter_by(id=car_id).one()
+    user = session.query(User).filter_by(id=car.user_id).one()
 
-	if 'username' not in login_session:
-		return redirect('/login')
+    if 'username' not in login_session:
+        return redirect('/login')
 
-	if user.id != login_session['user_id']:
-		return "<script>function myFunction(){alert('You are not allowed to edit this vehicle. \
-			Please enter your own vehicle to sell first!')}</script>body onload='myFunction()'>"
+    if user.id != login_session['user_id']:
+        return "<script>function myFunction(){alert('You are not allowed to edit this vehicle. Please enter your own vehicle to sell first!')}</script>body onload='myFunction()'>"
 
-	if request.method == "POST":
+    if request.method == "POST":
 
-		if request.form['year']:
-			car.year = request.form['year']
-		if request.form['make']:
-			car.year = request.form['make']
-		if request.form['model']:
-			car.year = request.form['model']
-		if request.form['milage']:
-			car.year = request.form['milage']
-		if request.form['color']:
-			car.year = request.form['color']
-		if request.form['price']:
-			car.year = request.form['price']
-		if request.form['description']:
-			car.year = request.form['description']
-		if request.form['category']:
-			car.year = request.form['category']
-		session.add(car)
-		session.commit()
-		return redirect(url_for('specific_car_category', category_id=category.id, car_id=car.id))
-	else:
+        if request.form['year']:
+            car.year = request.form['year']
+        if request.form['make']:
+            car.year = request.form['make']
+        if request.form['model']:
+            car.year = request.form['model']
+        if request.form['milage']:
+            car.year = request.form['milage']
+        if request.form['color']:
+            car.year = request.form['color']
+        if request.form['price']:
+            car.year = request.form['price']
+        if request.form['description']:
+            car.year = request.form['description']
+        if request.form['category']:
+            car.year = request.form['category']
+        session.add(car)
+        session.commit()
+        return redirect(url_for('specific_car_category', category_id=category.id, car_id=car.id))
+    else:
 
-		return render_template('editCarCategory.html', category=category, car=car, user=user)
+        return render_template('editCarCategory.html', category=category, car=car, user=user)
 
 # Delete a Car within a Category
+
 
 @app.route('/category/<int:category_id>/cars/<int:car_id>/delete', methods=["POST", "GET"])
 def delete_car_category(category_id, car_id):
 
-	category = session.query(Category).filter_by(category_id=category_id).one()
-	car = session.query(Car_Item).filter_by(id=car_id).one()
-	user = session.query(User).filter_by(id=car.user_id).one()
+    category = session.query(Category).filter_by(category_id=category_id).one()
+    car = session.query(Car_Item).filter_by(id=car_id).one()
+    user = session.query(User).filter_by(id=car.user_id).one()
 
-	if 'username' not in login_session:
-		return redirect('/login')
+    if 'username' not in login_session:
+        return redirect('/login')
 
-	if user.id != login_session['user_id']:
-		return "<script>function myFunction(){alert('You are not allowed to delete this vehicle. \
-			You can only delete vehicles you have entered yourself!')}</script>body onload='myFunction()'>"
+    if user.id != login_session['user_id']:
+        return "<script>function myFunction(){alert('You are not allowed to delete this vehicle. You can only delete vehicles you have entered yourself!')}</script>body onload='myFunction()'>"
 
-	if request.method == "POST":
-		session.delete(car)
-		session.commit()
-		flash('Vehicle successfully Deleted!')
-		return redirect(url_for('category_items', category_id=category.id))
-	else:
-		return render_template('deleteCarCategory.html', category=category, car=car, user=user)
+    if request.method == "POST":
+        session.delete(car)
+        session.commit()
+        flash('Vehicle successfully Deleted!')
+        return redirect(url_for('category_items', category_id=category.id))
+    else:
+        return render_template('deleteCarCategory.html', category=category, car=car, user=user)
 
 
 # Garage related Functions
 
 @app.route('/garage/<int:garage_id>')
 def garage_items(garage_id):
-	garage = session.query(Garage).filter_by(id=garage_id).one()
-	cars = session.query(Car_Item).filter_by(garage_id=garage.id).all()
-	user = session.query(User).filter_by(id=garage.user_id).one()
-	creator = getUserInfo(garage.user_id)
+    garage = session.query(Garage).filter_by(id=garage_id).one()
+    cars = session.query(Car_Item).filter_by(garage_id=garage.id).all()
+    user = session.query(User).filter_by(id=garage.user_id).one()
+    creator = getUserInfo(garage.user_id)
 
-	if 'username' not in login_session or creator.id != login_session["user_id"]:
-		return render_template('public_garage_items.html', garage=garage, cars=cars, user=user)
-	else:
-		return render_template("garage_items.html", garage=garage, cars=cars, user=user)
-
+    if 'username' not in login_session or creator.id != login_session["user_id"]:
+        return render_template('public_garage_items.html', garage=garage, cars=cars, user=user)
+    else:
+        return render_template("garage_items.html", garage=garage, cars=cars, user=user)
 
 
 @app.route('/garage/<int:garage_id>/cars/<int:car_id>')
 def specific_car_garage(garage_id, car_id):
-	garage = session.query(Garage).filter_by(id=garage_id).one()
-	car = session.query(Car_Item).filter_by(id = car_id).one()
-	creator = getUserInfo(car.user_id)
+    garage = session.query(Garage).filter_by(id=garage_id).one()
+    car = session.query(Car_Item).filter_by(id=car_id).one()
+    creator = getUserInfo(car.user_id)
 
-	if "username" not in login_session or creator_id != login_session["user_id"]:
-		return render_template("public_specific_car_garage.html", garage=garage, car=car)
-	else:
-		return render_template("specific_car_garage.html", garage=garage, car=car)
+    if "username" not in login_session or creator.id != login_session["user_id"]:
+        return render_template("public_specific_car_garage.html", garage=garage, car=car)
+    else:
+        return render_template("specific_car_garage.html", garage=garage, car=car)
 
 
 @app.route('/garage/<int:garage_id>/cars/<int:car_id>/purchase', methods=["POST", "GET"])
 def purchase_from_garage(garage_id, car_id):
-	garage = session.query(Garage).filter_by(id=garage_id).one()
-	car = session.query(Car_Item).filter_by(id=car_id).one()
-	user = session.query(User).filter_by(id=car.user_id).one()
+    garage = session.query(Garage).filter_by(id=garage_id).one()
+    car = session.query(Car_Item).filter_by(id=car_id).one()
+    user = session.query(User).filter_by(id=car.user_id).one()
 
-	if request.method == "POST":
-		return render_template("garage_purchase_confirm.html", garage=garage)
+    if request.method == "POST":
+        return render_template("garage_purchase_confirm.html", garage=garage)
 
-	if "username" not in login_session:
-		return render_template("public_garage_purchase.html", garage=garage, car=car, user=user)
-	else:	
-		return render_template('garage_purchase.html', garage=garage, car=car, user=user)
+    if "username" not in login_session:
+        return render_template("public_garage_purchase.html", garage=garage, car=car, user=user)
+    else:	
+        return render_template('garage_purchase.html', garage=garage, car=car, user=user)
 
 
 @app.route('/confirm/<int:garage_id>')
 def garage_purchase_confirm(garage_id):
-	garage = session.query(Garage).filter_by(id=garage_id).one()
+    garage = session.query(Garage).filter_by(id=garage_id).one()
 
-	return render_template('garage_purchase_confirm.html', garage=garage)
+    return render_template('garage_purchase_confirm.html', garage=garage)
 
 
 # Create a Car within a Garage
@@ -438,29 +429,25 @@ def garage_purchase_confirm(garage_id):
 @app.route('/category/<int:garage_id>/create', methods=["post", "get"])
 def create_car_garage(garage_id):
 
-	garage = session.query(Garage).filter_by(id=garage_id).one()
+    garage = session.query(Garage).filter_by(id=garage_id).one()
 
 
-	if 'username' not in login_session:
-		return redirect('/login')
+    if 'username' not in login_session:
+        return redirect('/login')
 
-	if garage.user_id != login_session['user_id']:
-		return "<script>function myFunction(){alert('You must be the creator of this garage  \
-			to enter a vehicle to sell here!')}</script>body onload='myFunction()'>"
+    if garage.user_id != login_session['user_id']:
+        return "<script>function myFunction(){alert('You must be the creator of this garage  to enter a vehicle to sell here!')}</script>body onload='myFunction()'>"
 
-	if request.method == "post":
+    if request.method == "post":
 
-		newCar = Car_Item(make= request.form["make"], model=request.form["model"], year=request.form["year"], \
-					color=request.form["color"], price=request.form["price"], description=request.form["description"], \
-					milage=request.form["milage"], car_item_pic=request.form["car_pic"], user_id=login_session["user_id"], \
-					garage_id=garage.id)
-		session.add(newCar)
-		session.commit()
-		flash("Congratulations, you have successfully entered a new vehicle to sell!")
-		return redirect(url_for("garage_items.html", garage_id=garage.id))
-	else:
+        newCar = Car_Item(make= request.form["make"], model=request.form["model"], year=request.form["year"], color=request.form["color"], price=request.form["price"], description=request.form["description"], milage=request.form["milage"], car_item_pic=request.form["car_pic"], user_id=login_session["user_id"], garage_id=garage.id)
+        session.add(newCar)
+        session.commit()
+        flash("Congratulations, you have successfully entered a new vehicle to sell!")
+        return redirect(url_for("garage_items.html", garage_id=garage.id))
+    else:
 
-		return render_template('newCarGarage.html', garage=garage)
+        return render_template('newCarGarage.html', garage=garage)
 
 
 # Edit Car within a Garage
@@ -468,41 +455,40 @@ def create_car_garage(garage_id):
 @app.route('/garage/<int:garage_id>/cars/<int:car_id>/edit', methods=["post", "get"])
 def edit_car_garage(garage_id, car_id):
 
-	garage = session.query(Garage).filter_by(id=garage_id).one()
-	car = session.query(Car_Item).filter_by(id=car_id).one()
-	user = session.query(User).filter_by(id=car.user_id).one()
+    garage = session.query(Garage).filter_by(id=garage_id).one()
+    car = session.query(Car_Item).filter_by(id=car_id).one()
+    user = session.query(User).filter_by(id=car.user_id).one()
 
-	if 'username' not in login_session:
-		return redirect('/login')
+    if 'username' not in login_session:
+        return redirect('/login')
 
-	if user.id != login_session['user_id']:
-		return "<script>function myFunction(){alert('You are not allowed to edit this vehicle. \
-			Please enter your own vehicle to sell first!')}</script>body onload='myFunction()'>"
+    if user.id != login_session['user_id']:
+        return "<script>function myFunction(){alert('You are not allowed to edit this vehicle. Please enter your own vehicle to sell first!')}</script>body onload='myFunction()'>"
 
-	if request.method == "post":
+    if request.method == "post":
 
-		if request.form['year']:
-			car.year = request.form['year']
-		if request.form['make']:
-			car.year = request.form['make']
-		if request.form['model']:
-			car.year = request.form['model']
-		if request.form['milage']:
-			car.year = request.form['milage']
-		if request.form['color']:
-			car.year = request.form['color']
-		if request.form['price']:
-			car.year = request.form['price']
-		if request.form['description']:
-			car.year = request.form['description']
-		if request.form['category']:
-			car.year = request.form['category']
-		session.add(car)
-		session.commit()
-		return redirect(url_for('specific_car_garage', garage_id=garage.id, car_id=car.id))
-	else:
+        if request.form['year']:
+            car.year = request.form['year']
+        if request.form['make']:
+            car.year = request.form['make']
+        if request.form['model']:
+            car.year = request.form['model']
+        if request.form['milage']:
+            car.year = request.form['milage']
+        if request.form['color']:
+            car.year = request.form['color']
+        if request.form['price']:
+            car.year = request.form['price']
+        if request.form['description']:
+            car.year = request.form['description']
+        if request.form['category']:
+            car.year = request.form['category']
+        session.add(car)
+        session.commit()
+        return redirect(url_for('specific_car_garage', garage_id=garage.id, car_id=car.id))
+    else:
 
-		return render_template('editCarGarage.html', garage=garage, car=car, user=user)
+        return render_template('editCarGarage.html', garage=garage, car=car, user=user)
 
 
 # Delete a Car within a Garage
@@ -511,74 +497,73 @@ def edit_car_garage(garage_id, car_id):
 @app.route('/garage/<int:garage_id>/cars/<int:car_id>/delete', methods=["post", "get"])
 def delete_car_garage(garage_id, car_id):
 
-	garage = session.query(Garage).filter_by(id=garage_id).one()
-	car = session.query(Car_Item).filter_by(id=car_id).one()
-	user = session.query(User).filter_by(id=car.user_id).one()
+    garage = session.query(Garage).filter_by(id=garage_id).one()
+    car = session.query(Car_Item).filter_by(id=car_id).one()
+    user = session.query(User).filter_by(id=car.user_id).one()
 
-	if 'username' not in login_session:
-		return redirect('/login')
+    if 'username' not in login_session:
+        return redirect('/login')
 
-	if user.id != login_session['user_id']:
-		return "<script>function myFunction(){alert('If you are not the owner of this vehicle, \
+    if user.id != login_session['user_id']:
+        return "<script>function myFunction(){alert('If you are not the owner of this vehicle, \
 		you are not allowed to delete it!')}</script>body onload='myFunction()'>"
 
-	if request.method == "post":
-		session.delete(car)
-		session.commit()
-		flash('Vehicle successfully Deleted!')
-		return redirect(url_for('category_items', category_id=category.id))
-	else:
+    if request.method == "post":
+        session.delete(car)
+        session.commit()
+        flash('Vehicle successfully Deleted!')
+        return redirect(url_for('category_items', category_id=category.id))
+    else:
 
-		return render_template('deleteCarGarage.html', garage=garage, car=car, user=user)
+        return render_template('deleteCarGarage.html', garage=garage, car=car, user=user)
 
 # Create a Garage
 @app.route('/garage/new', methods=["Post", "Get"])
 def create_garage():
 
-	if 'username' not in login_session:
-		return redirect('/login')
+    if 'username' not in login_session:
+        return redirect('/login')
 
-	if request.method == "Post":
+    if request.method == "Post":
 
-		newGarage = Garage(name = request.form["name"], garage_description= request.form["description"], \
-			user_id = login_session['user_id'], garage_pic=request.form['garage_pic'])
-		session.add(newGarage)
-		session.commit()
-		return redirect(url_for("category"))
-	else:
-		return render_template("create_garage.html")
+        newGarage = Garage(name = request.form["name"], garage_description= request.form["description"], user_id = login_session['user_id'], garage_pic=request.form['garage_pic'])
+        session.add(newGarage)
+        session.commit()
+        return redirect(url_for("category"))
+    else:
+        return render_template("create_garage.html")
 
 @app.route('/garage/<int:garage_id>/delete', methods=["post", "get"])
 def delete_garage(garage_id):
 
-	garage = session.query(Garage).filter_by(id=garage_id).one()
-	cars = session.query(Car_Item).filter_by(garage_id=garage.id).all()
-	user = session.query(User).filter_by(id=garage.user_id).one()
+    garage = session.query(Garage).filter_by(id=garage_id).one()
+    cars = session.query(Car_Item).filter_by(garage_id=garage.id).all()
+    user = session.query(User).filter_by(id=garage.user_id).one()
 
-	if 'username' not in login_session:
-		return redirect('/login')
+    if 'username' not in login_session:
+        return redirect('/login')
 
-	if user.id != login_session['user_id']:
-		return "<script>function myFunction(){alert('If you are not the owner of this garage, \
-		you are not allowed to delete it!')}</script>body onload='myFunction()'>"
+    if user.id != login_session['user_id']:
+        return "<script>function myFunction(){alert('If you are not the owner of this garage, you are not allowed to delete it!')}</script>body onload='myFunction()'>"
 
-	if request.method == "post":
+    if request.method == "post":
 
-		for car in cars:
-			session.delete(car)
-			session.commit()
+        for car in cars:
+            session.delete(car)
+            session.commit()
 
-		session.delete(garage)
-		session.commit()
-		flash('Garage successfully Deleted!')
-		return redirect(url_for('category'))
+        session.delete(garage)
+        session.commit()
+        flash('Garage successfully Deleted!')
+        return redirect(url_for('category'))
 
-	else:
+    else:
 
-		return render_template('deleteGarage.html', garage=garage, car=car, user=user)
+        return render_template('deleteGarage.html', garage=garage, car=car, user=user)
+
 
 
 if __name__ == '__main__':
-	app.secret_key = "super_secret_key"
-	app.debug = True
-	app.run(host = '0.0.0.0', port = 5000)
+    app.secret_key = "super_secret_key"
+    app.debug = True
+    app.run(host = '0.0.0.0', port = 5000)
