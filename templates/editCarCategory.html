@@ -1,0 +1,130 @@
+{% extends "main.html" %}
+{% block content %}
+
+
+  <div class="container">
+
+  <div class="row">
+    <div class="col-md-6 col-md-offset-1 padding-top">
+      <form action="{{url_for('edit_car_category', category_id=category.id, car_id=car.id)}}" method = "post">
+        <div class="form-group">
+          <label for="name">Name:</label>
+          <input type ="text" maxlength="100" class="form-control" name="name" value="{{car.make}}">
+
+          
+
+          <label for="price">Price:</label>
+          <div class="input-group">
+            <div class="input-group-addon">$</div>
+            <input type ="text" maxlength="10" class="form-control" name="price" value="{{car.price}}">
+          </div>
+          <div class="input-group">
+
+            <p>Year: <input type ="text" maxlength="100" class="form-control" name="year" value="{{car.year}}"></p>
+            <br>
+            <p>Make: <input type ="text" maxlength="100" class="form-control" name="make" value="{{car.make}}"></p>
+            <br>
+            <p>Model: <input type ="text" maxlength="100" class="form-control" name="model" value="{{car.model}}"></p>
+            <br>
+            <p>Milage: <input type ="text" maxlength="100" class="form-control" name="milage" value="{{car.milage}}"></p>
+            <br>
+            <p>Color: <input type ="text" maxlength="100" class="form-control" name="color" value="{{car.color}}"></p>
+            <br>
+            <p>Price: <input type ="text" maxlength="100" class="form-control" name="price" value="{{car.price}}"></p>
+            <br>
+
+            <label for="description">Description:</label>
+          <textarea class="form-control" maxlength="250" rows="3" name="description">{{car.description}}</textarea>
+
+          </div>
+
+          
+
+
+
+
+
+
+
+          <label for="bodystyle">Bodystyle:</label>
+          <div class="radio">
+            <label>
+              <input type="radio" name="category" id="style1" value="Sedans" {%if category.category == 'Sedans'%}checked{%endif%}>Sedans
+            </label>
+          </div>
+          <div class="radio">
+            <label>
+              <input type="radio" name="category" id="style2" value="Coupes" {%if category.category == 'Coupes' %}checked{%endif%}>Coupes
+            </label>
+          </div>
+          <div class="radio">
+            <label>
+              <input type="radio" name="category" id="style3" value="SUVs" {%if category.category == 'SUVs'%}checked{%endif%}>SUVs
+            </label>
+          </div>
+          <div class="radio">
+            <label>
+              <input type="radio" name="category" id="style4" value="Wagons/Hatchbacks" {%if category.category =='Wagons/Hatchbacks'%}checked{%endif%}>Wagons/Hatchbacks
+            </label>
+          </div>
+          <div class="radio">
+            <label>
+              <input type="radio" name="category" id="style5" value="Crossovers" {%if category.category =='Crossovers'%}checked{%endif%}>Crossovers
+            </label>
+          </div>
+          <div class="radio">
+            <label>
+              <input type="radio" name="category" id="style6" value="GreenCars/Hybrids" {%if category.category =='GreenCars/Hybrids'%}checked{%endif%}>Green Cars/Hybrids
+            </label>
+          </div>
+          <div class="radio">
+            <label>
+              <input type="radio" name="category" id="style7" value="Convertibles" {%if category.category =='Convertibles'%}checked{%endif%}>Convertibles
+            </label>
+          </div>
+          <div class="radio">
+            <label>
+              <input type="radio" name="category" id="style8" value="LuxuryCars" {%if category.category =='Luxury Cars'%}checked{%endif%}>Luxury Cars
+            </label>
+          </div>
+          <div class="radio">
+            <label>
+              <input type="radio" name="category" id="style9" value="SportsCars" {%if category.category =='Sports Cars'%}checked{%endif%}>Sports Cars
+            </label>
+          </div>
+          <div class="radio">
+            <label>
+              <input type="radio" name="category" id="style10" value="PickupTrucks" {%if category.category =='Pickup Trucks'%}checked{%endif%}>Pickup Trucks
+            </label>
+          </div>
+          <div class="radio">
+            <label>
+              <input type="radio" name="category" id="style11" value="Vans/Minivans" {%if category.category =='Vans/Minivans'%}checked{%endif%}>Vans/Minivans
+            </label>
+          </div>
+          
+          <button type="submit" class="btn btn-default" id="submit" type="submit">
+          <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>Save</button>
+          <br>
+          <br>
+
+          <a href = "{{url_for('specific_car_category', category_id=category.id, car_id=car.id)}}">
+            <button class="btn btn-default delete">
+            <span class="glyphicon glyphicon-remove" aria-hidden="true"></span> Cancel</button>
+          </a>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+
+
+
+
+
+
+
+
+

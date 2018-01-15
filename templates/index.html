@@ -6,13 +6,6 @@
     <div class="container">
 
       <!-- Page Heading -->
-      <h1 class="my-4">Joe's Car Lot</h1>
-      <br>
-      <br>
-      <h3>Search By Bodystyle</h3>
-      <br>
-      <br>
-         
 
       <div class="flash">
 
@@ -34,44 +27,38 @@
         
 
       </div>
-
-      
-      <div class = row>
-
-
         
         {%for category in categories%}
         
-          <div class="row">
-        <div class="col-md-7">
-          <a href="#">
-            <img class="#" src="{{category.category_pic}}" alt="">
-          </a>
-        </div>
-        <div class="col-md-5">
-          <h3>{{category.category}}</h3>
-          
-          
-          <a class="btn btn-primary" href="{{url_for('category_items', category_id=category.id) }}">Search This BodyStyle!</a>
-        </div>
+      <div class="row">
+          <div class="col-md-7">
+            <a href="#">
+              <img class="#" src="{{category.category_pic}}" alt="">
+            </a>
+          </div>
+          <div class="col-md-5">
+            <h3>{{category.category}}</h3>
+            
+            
+            <a class="btn btn-primary" href="{{url_for('category_items', category_id=category.id) }}">Search This BodyStyle!</a>
+          </div>
       </div>
       <br>
       <br>
+    
+    <hr>
           
           
         {%endfor%}
-        
-          
 
-
-
-      </div>
       <div>
         <br>
         <h2>Garages: </h2>
         <br>
         <br>
-        
+        <a href="{{url_for('create_garage')}}">Click Here to Create Your Garage</a>
+        <br>
+        <br>
 
         {%if not garages%}
 
