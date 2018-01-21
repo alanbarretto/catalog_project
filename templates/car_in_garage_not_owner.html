@@ -7,19 +7,8 @@
 
       <!-- Page Heading -->
       <h1 class="my-4">Joe's Car Lot
-        <small>WELCOME TO: {{garage.name}}</small>
+        <small>{{garage.name}}</small>
       </h1>
-      <br>
-      <h3>Garage Owner:  {{user.name}}</h3>
-      <br>
-      <br>
-      <a href="{{url_for('category')}}">
-              <button class="btn btn-default delete">
-              <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>Return</button>
-              </a>
-
-      {%for car in cars%}
-
       <div class="row">
         <div class="col-md-7">
           <a href="#">
@@ -27,20 +16,26 @@
           </a>
         </div>
         <div class="col-md-5">
-
           <h3><span> {{car.year}} </span><span> {{car.make}} </span><span> {{car.model}} </span></h3>
           <br>
-          <h3>{{car.price}}</h3>
+          <h3>Price: {{car.price}}</h3>
           <br>
-          <p>{{car.description}}</p>
+          <h3>Color: {{car.color}}</h3>
           <br>
-          <a class="btn btn-primary" href="{{url_for('car_from_garage', garage_id=garage.id, car_id=car.id)}}">Details</a>
+          <p>Description: {{car.description}}</p>
+          <br>
+          <a class="btn btn-primary" href="{{url_for('purchase_from_garage', garage_id=garage.id, car_id=car.id)}}">Contact Seller</a>
+          <br>
+          <a href="{{url_for('garage_items', garage_id=garage.id)}}">
+              <button class="btn btn-default delete">
+              <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>Return</button>
+              </a>
         </div>
       </div>
       <!-- /.row -->
 
       <hr>
-      {%endfor%}
+     
       
 
     </div>

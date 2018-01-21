@@ -7,16 +7,13 @@
 
       <!-- Page Heading -->
       <h1 class="my-4">Joe's Car Lot</h1>
-        <br>
-        <h3></h3><small>Category:  {{category.category}}</small>
+      <br>
+        <h3><small>{{garage.name}}</small>
       </h3>
-      <br>
-      <a href="{{url_for('create_car_for_category', category_id=category.id)}}">Click Here to Enter and Sell Your Vehicle</a>
-      <br>
-      <br>
-      <a href="{{url_for('category')}}">Return</a>
+
+
       
-      {%for car in cars%}
+      
 
       <div class="row">
         <div class="col-md-7">
@@ -27,18 +24,27 @@
         <div class="col-md-5">
           <h3><span> {{car.year}} </span><span> {{car.make}} </span><span> {{car.model}} </span></h3>
           <br>
-          <h3>{{car.price}}</h3>
+          <h3>Price: {{car.price}}</h3>
           <br>
-          <p>{{car.description}}</p>
+          <h3>Color: {{car.color}}</h3>
           <br>
-          <a {% if car.garage_id %} href="{{url_for('car_from_garage', garage_id=car.garage_id, car_id=car.id)}}" {%else%} href="{{url_for('car_from_category', category_id=category.id, car_id=car.id)}}" {%endif%}>Get Details</a>
-          
+          <p>Description: {{car.description}}</p>
+          <br>
+          <br>
+          <h3>You have to Log In to contact the Seller</h3>
+          <br>
+          <a href="{{url_for('showLogin')}}">Log In</a>
+          <br>
+          <a href="{{url_for('garage_items', garage_id=garage.id)}}">
+              <button class="btn btn-default delete">
+              <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>Return</button>
+              </a>
         </div>
       </div>
       <!-- /.row -->
 
       <hr>
-      {%endfor%}
+     
       
 
     </div>

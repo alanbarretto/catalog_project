@@ -9,7 +9,7 @@
       <h1 class="my-4">Joe's Car Lot</h1>
         <br>
         <br>
-        <a href="{{url_for('specific_car_category', category_id=category.id, car_id=car.id)}}">
+        <a href="{{url_for('car_from_category', category_id=category.id, car_id=car.id)}}">
               <button class="btn btn-default delete">
               <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>Return</button>
               </a>
@@ -30,13 +30,12 @@
           <br>
           <h3>From Seller: {{user.name}}</h3>
           <br>
-          <p>{{car.car_item_pic}}</p>
           </div>
       </div>
       <div class="row">
         <div class="col-md-12">
           <p>To purchase from this seller, fill out the form below.  Place your bid and leave a short message for the Seller.  Once you click "Submit" you will be contacted soon.  </p>
-          <form action="{{url_for('purchase_from_category', category_id=category.id, car_id=car.id)}}" method = "post">
+          <form action="{{url_for('purchase_from_category', category_id=category.id, car_id=car.id)}}" method = "POST">
             <div class="form-group">
             <label for="name">Your Name:</label>
             <input type ="text" maxlength="150" name="name" placeholder="Name">
@@ -53,27 +52,13 @@
             <button type="submit" class="btn btn-default" id="submit" type="submit">
             <span class="glyphicon glyphicon-glass" aria-hidden="true"></span>Submit</button>
 
-          
-          
-          
-
-          
-
         </div>
-          
-          
-          
-
-          
-
         
       </div>
       <!-- /.row -->
 
       <hr>
-      
-      
-
+ 
     </div>
     <!-- /.container -->
 

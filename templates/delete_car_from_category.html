@@ -1,0 +1,45 @@
+{% extends "main.html" %}
+{% block content %}
+
+
+
+<div class="row">
+        <div class="col-md-7">
+          <a href="#">
+            <img class="#" src="{{car.car_item_pic}}" alt="">
+          </a>
+        </div>
+
+        <div class="col-md-5">
+
+        	<h2>Are you sure you want to delete <span>{{car.year}}</span><span>{{car.make}}</span><span>{{car.model}}??</span></h2>
+
+          	<form action="{{url_for('delete_car_from_category', category_id=category.id, car_id=car.id)}}" method = "post">
+
+        			<button type="submit" class="btn btn-default delete" id="submit">
+        			<span class="glyphicon glyphicon trash" aria-hidden="true"></span>Delete</button>
+        	 
+        	 		<a href="{{url_for('car_in_category', category_id=category.id, car_id=car.id)}}">
+        	 		<button class="btn btn-default delete">
+        	 		<span class="glyphicon glyphicon-remove" aria-hidden="true"></span>Cancel</button>
+        	 		</a>
+	
+
+		        </form>
+
+
+
+        </div>
+      </div>
+
+
+
+
+
+
+
+
+
+
+
+{% endblock %}

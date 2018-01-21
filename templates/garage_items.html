@@ -6,13 +6,17 @@
     <div class="container">
 
       <!-- Page Heading -->
-      <h1 class="my-4">Joe's Car Lot
-        <small>WELCOME TO: {{garage.name}}</small>
+      <h1 class="my-4">Joe's Car Lot</h1>
+      <br>
+      <h1>WELCOME TO: {{garage.name}}
       </h1>
       <br>
       <h3>Garage Owner:  {{user.name}}</h3>
       <br>
-      <a href="{{url_for('create_car_garage', garage_id=garage.id)}}">Enter and Sell a Vehicle</a>
+      {%if 'username' in session%}
+       <a href="{{url_for('create_car_in_garage', garage_id=garage.id)}}">Enter and Sell a Vehicle</a>
+      {%endif%}
+      
       <br>
       <br>
       <a href="{{url_for('category')}}">
@@ -36,11 +40,7 @@
           <br>
           <p>{{car.description}}</p>
           <br>
-          <p>{{car.car_item_pic}}</p>
-          
-
-          
-          <a class="btn btn-primary" href="{{url_for('specific_car_garage', garage_id=garage.id, car_id=car.id)}}">Details</a>
+          <a class="btn btn-primary" href="{{url_for('car_from_garage', garage_id=garage.id, car_id=car.id)}}">Details</a>
         </div>
       </div>
       <!-- /.row -->

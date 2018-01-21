@@ -24,13 +24,12 @@
           <br>
           <h3>From Seller: {{user.name}}</h3>
           <br>
-          <p>{{car.car_item_pic}}</p>
         </div>
       </div>
       <div class="row">
         <div class="col-md-12">
           <p>To purchase from this seller, fill out the form below.  Place your bid and leave a short message for the Seller.  Once you click "Submit" you will be contacted soon.  </p>
-          <form action="{{url_for('purchase_from_garage', garage_id=garage.id, car_id=car.id)}}" method = "post">
+          <form action="{{url_for('purchase_from_garage', garage_id=garage.id, car_id=car.id)}}" method = "POST">
             <div class="form-group">
             <label for="name">Your Name:</label>
             <input type ="text" maxlength="150" name="name" placeholder="Name">
@@ -46,21 +45,11 @@
             <br>
             <button type="submit" class="btn btn-default" id="submit" type="submit">
             <span class="glyphicon glyphicon-glass" aria-hidden="true"></span>Submit</button>
-
-          
-          
-          
-
-          
-
         </div>
       </div>
       <!-- /.row -->
 
       <hr>
-      
-      
-
     </div>
     <!-- /.container -->
 

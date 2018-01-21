@@ -1,10 +1,8 @@
-<div class="row top-menu">
-	<div class="col-md=6">
-		<a href="#"><span>Show All Cars</span></a>
 
-	</div>
-	<div class = "col-md-6 text-right">
-		{%if 'username' not in session%}
+
+<div class="row top-menu">
+	<div class = "col-md-12 text-right">
+		{%if not session.logged_in%}
 		<a href="{{url_for('showLogin')}}">Click Here to Log in</a>
 		{%else%}
 		<a href="{{url_for('disconnect')}}">Logout</a>
@@ -15,3 +13,4 @@
 		
 	
 </div>
+

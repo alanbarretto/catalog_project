@@ -1,0 +1,31 @@
+{% extends "main.html" %}
+{% block content %}
+
+{%for message in messages%}
+
+<div>
+  <p>Messages for car id: {{message.car_id}}</p>
+  <br>
+  <p>Buyer's Name: {{message.buyer_name}}</p>
+  <br>
+  <p>Buyer's Email: {{message.buyer_email}}</p>
+  <br>
+  <p>Buyer's Phone number: {{message.buyer_phone}}</p>
+  <br>
+  <p>Buyer's Message:  {{message.buyer_message}}</p>
+
+</div>
+
+
+
+      <a href = "{{url_for('category')}}">
+            <button class="btn btn-default delete">
+            <span class="glyphicon glyphicon-remove" aria-hidden="true"></span> Return</button>
+          </a>
+    </div>
+  </div>
+{% endblock %}
+
+
+
+

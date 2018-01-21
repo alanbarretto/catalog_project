@@ -1,0 +1,1432 @@
+{
+	"auto_complete":
+	{
+		"selected_items":
+		[
+			[
+				"garage_purch",
+				"garage_purchase_confirm"
+			],
+			[
+				"category_pu",
+				"category_purchase_confirm"
+			],
+			[
+				"category",
+				"category_pic"
+			],
+			[
+				"cat",
+				"category_pic"
+			],
+			[
+				"garage",
+				"garage_description"
+			],
+			[
+				"cate",
+				"category_items"
+			],
+			[
+				"__",
+				"__tablename__"
+			],
+			[
+				"car",
+				"car_id"
+			],
+			[
+				"bod",
+				"bodystyle"
+			],
+			[
+				"body",
+				"bodystyle_id"
+			],
+			[
+				"bo",
+				"bodystyle_id"
+			],
+			[
+				"Menu",
+				"MenuItem"
+			],
+			[
+				"rest",
+				"restaurant_id"
+			],
+			[
+				"men",
+				"menu_id"
+			],
+			[
+				"url",
+				"url_for"
+			],
+			[
+				"facebook",
+				"facebook_id"
+			],
+			[
+				"client",
+				"client_id"
+			],
+			[
+				"app",
+				"app_secret"
+			],
+			[
+				"res",
+				"restaurantInQuestion"
+			],
+			[
+				"re",
+				"restaurantInQuestion"
+			],
+			[
+				"restauran",
+				"restaurantInQuestion"
+			],
+			[
+				"this",
+				"thisRestaurant"
+			],
+			[
+				"get",
+				"getUserInfo"
+			],
+			[
+				"user",
+				"user_id"
+			],
+			[
+				"restau",
+				"restaurant_id"
+			],
+			[
+				"gree",
+				"green-box"
+			],
+			[
+				"userinfo",
+				"userinfo_url"
+			],
+			[
+				"login",
+				"login_session"
+			],
+			[
+				"stored_",
+				"stored_gplus_id"
+			],
+			[
+				"make",
+				"make_response"
+			],
+			[
+				"access",
+				"access_token"
+			],
+			[
+				"Con",
+				"Content-Type"
+			],
+			[
+				"restaur",
+				"restaurant"
+			],
+			[
+				"ed",
+				"editRestaurantName"
+			],
+			[
+				"restaurant",
+				"restaurant_id"
+			]
+		]
+	},
+	"buffers":
+	[
+		{
+			"file": "category_items.html",
+			"settings":
+			{
+				"buffer_size": 1304,
+				"encoding": "UTF-8",
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "category_purchase_confirm.html",
+			"settings":
+			{
+				"buffer_size": 910,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "category_purchase.html",
+			"settings":
+			{
+				"buffer_size": 2368,
+				"encoding": "UTF-8",
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "car_in_category_not_owner.html",
+			"settings":
+			{
+				"buffer_size": 1220,
+				"encoding": "UTF-8",
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "car_in_category_owner.html",
+			"settings":
+			{
+				"buffer_size": 1413,
+				"encoding": "UTF-8",
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "create_garage.html",
+			"settings":
+			{
+				"buffer_size": 1285,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "delete_car_from_category.html",
+			"settings":
+			{
+				"buffer_size": 1016,
+				"encoding": "UTF-8",
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "delete_car_from_garage.html",
+			"settings":
+			{
+				"buffer_size": 931,
+				"encoding": "UTF-8",
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"contents": "{%extends \"main.html\"%}\n{%block content%}\n\n\n\n<div class=\"row\">\n        <div class=\"col-md-7\">\n          <a href=\"#\">\n            <img class=\"#\" src=\"{{garage.garage_pic}}\" alt=\"\">\n          </a>\n        </div>\n\n        <div class=\"col-md-5\">\n\n        \t<h2>Deleteing this Garage will also delete all vehicles associated with it.  Are you sure you want to delete <span>{{garage.name}} </h2>\n\n          \t<form action=\"{{url_for('delete_garage', garage_id=garage.id)}}\" method = \"POST\">\n\n        \t\t\t<button type=\"submit\" class=\"btn btn-default delete\" id=\"submit\">\n        \t\t\t<span class=\"glyphicon glyphicon trash\" aria-hidden=\"true\"></span>Delete</button>\t\n\n\t\t        </form>\n            <a href=\"{{url_for('garage_items', garage_id=garage.id)}}\">\n              <button class=\"btn btn-default delete\">\n              <span class=\"glyphicon glyphicon-remove\" aria-hidden=\"true\"></span>Cancel</button>\n              </a>\n\n\n        </div>\n</div>\n\n\n\n\n\n\n\n\n\n\n\n{%endblock%}",
+			"file": "delete_garage.html",
+			"file_size": 969,
+			"file_write_time": 131609041860000000,
+			"settings":
+			{
+				"buffer_size": 963,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "delete_garage_confirm.html",
+			"settings":
+			{
+				"buffer_size": 963,
+				"encoding": "UTF-8",
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "edit_car_from_category.html",
+			"settings":
+			{
+				"buffer_size": 4983,
+				"encoding": "UTF-8",
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "edit_car_from_garage.html",
+			"settings":
+			{
+				"buffer_size": 4844,
+				"encoding": "UTF-8",
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "garage_items.html",
+			"settings":
+			{
+				"buffer_size": 1403,
+				"encoding": "UTF-8",
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "garage_purchase_confirm.html",
+			"settings":
+			{
+				"buffer_size": 856,
+				"encoding": "UTF-8",
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "garage_purchase.html",
+			"settings":
+			{
+				"buffer_size": 2061,
+				"encoding": "UTF-8",
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"contents": "{%extends \"main.html\"%}\n{%block content%}\n\n<div class=\"row top-menu\">\n\t<div class=\"col-md=6\">\n\t\t<a href=\"#\"><span>Show All Cars</span></a>\n\n\t</div>\n\t<div class = \"col-md-6 text-right\">\n\t\t{%if 'username' not in session%}\n\t\t<a href=\"{{url_for('showLogin')}}\">Click Here to Log in</a>\n\t\t{%else%}\n\t\t<a href=\"{{url_for('disconnect')}}\">Logout</a>\n\t\t{%endif%}\n\t\t\n\n\t</div>\n\t\t\n\t\n</div>\n\n{%endblock%}",
+			"file": "header.html",
+			"file_size": 334,
+			"file_write_time": 131572750850000000,
+			"settings":
+			{
+				"buffer_size": 391,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "index.html",
+			"settings":
+			{
+				"buffer_size": 2038,
+				"encoding": "UTF-8",
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "public_garage_items.html",
+			"settings":
+			{
+				"buffer_size": 1228,
+				"encoding": "UTF-8",
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "main.html",
+			"settings":
+			{
+				"buffer_size": 3968,
+				"encoding": "UTF-8",
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "/Users/alanbarretto/Documents/udacity/FSND-Virtual-Machine/vagrant/catalog_project/owner_messages.html",
+			"settings":
+			{
+				"buffer_size": 957,
+				"encoding": "UTF-8",
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"contents": "<!DOCTYPE html>\n<html>\n<head>\n\t<title>Login Page</title>\n\t<script src=\"https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js\"></script>\n\t<script src=\"https://apis.google.com/js/client:platform.js?onload=start\" async defer></script>\n</head>\n<body>\n\t<!-- Google Sign In -->\n\n\t<div id=\"signinButton\">\n\t\t<span class = \"g-signin\"\n\t\t\tdata-scope=\"openid email\"\n\t\t\tdata-clientid=\"217629227542-iq487tmm3m9uhviklt4onepuvejclacq.apps.googleusercontent.com\"\n\t\t\tdata-redirecturi=\"postmessage\"\n\t\t\tdata-accesstype=\"offline\"\n\t\t\tdata-cookiepolicy=\"single_host_origin\"\n\t\t\tdata-callback=\"signInCallback\"\n\t\t\tdata-approvalprompt=\"force\"></span>\n\t</div>\n\t<div id=\"result\"></div>\n\n\t<script>\n\t\tfunction signInCallback(authResult) {\n\t\t\tif (authResult[\"code\"]) {\n\t\t\t\t//Hide the sign-in button now that the user is authorized\n\t\t\t\t$(\"#signinButton\").attr(\"style\", \"display: none\");\n\n\t\t\t\t//Send the one-time-use code to the server, if the server responds, write a 'login successful' message to the web page and then redirect back to the main restaurants page\n\n\t\t\t\t$.ajax({\n\t\t\t\t\ttype: 'POST',\n\t\t\t\t\turl: '/gconnect?state={{STATE}}',\n\t\t\t\t\tprocessData: false,\n\t\t\t\t\tdata: authResult['code'],\n\t\t\t\t\tcontentType: 'application/octet-stream; charset=utf-8',\n\t\t\t\t\tsuccess: function(result) {\n\t\t\t\t\t\t//Handle or verify the server response if necessary\n\t\t\t\t\t\tif (result) {\n\t\t\t\t\t\t\t$('#result').html('Login Successful!</br>' + result + '</br> Redirecting...')\n\t\t\t\t\t\t\tsetTimeout(function(){\n\t\t\t\t\t\t\t\twindow.location.href = \"/category\";\n\t\t\t\t\t\t\t}, 4000);\n\t\t\t\t\t\t} else if (authResult['error']) {\n\t\t\t\t\t\t\tconsole.log('There was an error: ' + authResult['error']);\n\t\t\t\t\t\t} else {\n\t\t\t\t\t\t\t$('#result').html('Failed to make a server-side call.  Check your configuration and console');\n\t\t\t\t\t\t}\n\t\t\t\t\t}\n\n\t\t\t\t});\n\n\n\t\t\t}\n\t\t\n\t\t}\n\t\t\n\t</script>\n\n\t<!--End Google Sign In -->\n<!--FACEBOOK SIGN IN -->\n<script>\n  window.fbAsyncInit = function() {\n  FB.init({\n    appId      : '377253352719374',\n    cookie     : true,  // enable cookies to allow the server to access \n                        // the session\n    xfbml      : true,  // parse social plugins on this page\n    version    : 'v2.2' // use version 2.2\n  });\n  };\n  // Load the SDK asynchronously\n  (function(d, s, id) {\n    var js, fjs = d.getElementsByTagName(s)[0];\n    if (d.getElementById(id)) return;\n    js = d.createElement(s); js.id = id;\n    js.src = \"//connect.facebook.net/en_US/sdk.js\";\n    fjs.parentNode.insertBefore(js, fjs);\n  }(document, 'script', 'facebook-jssdk'));\n  // Here we run a very simple test of the Graph API after login is\n  // successful.  See statusChangeCallback() for when this call is made.\n  function sendTokenToServer() {\n    var access_token = FB.getAuthResponse()['accessToken'];\n    console.log(access_token)\n    console.log('Welcome!  Fetching your information.... ');\n    FB.api('/me', function(response) {\n      console.log('Successful login for: ' + response.name);\n     $.ajax({\n      type: 'POST',\n      url: '/fbconnect?state={{STATE}}',\n      processData: false,\n      data: access_token,\n      contentType: 'application/octet-stream; charset=utf-8',\n      success: function(result) {\n        // Handle or verify the server response if necessary.\n        if (result) {\n          $('#result').html('Login Successful!</br>'+ result + '</br>Redirecting...')\n         setTimeout(function() {\n          window.location.href = \"/restaurant\";\n         }, 4000);\n          \n      } else {\n        $('#result').html('Failed to make a server-side call. Check your configuration and console.');\n         }\n      }\n      \n  });\n    });\n  }\n</script>\n\n\n<button>\n         \n\n          <fb:login-button scope=\"public_profile,email\" onlogin=\"sendTokenToServer();\">\n<a href='javascript:sendTokenToServer()'>Login with Facebook</a>\n\n</fb:login-button>\n\n\n        </button>\n<!--END FACEBOOK SIGN IN -->\n\n\n\n</body>\n</html>",
+			"file": "login.html",
+			"file_size": 1840,
+			"file_write_time": 131604734900000000,
+			"settings":
+			{
+				"buffer_size": 3851,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "new_car_for_category.html",
+			"settings":
+			{
+				"buffer_size": 4261,
+				"encoding": "UTF-8",
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "new_car_for_garage.html",
+			"settings":
+			{
+				"buffer_size": 4058,
+				"encoding": "UTF-8",
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "car_in_garage_owner.html",
+			"settings":
+			{
+				"buffer_size": 1417,
+				"encoding": "UTF-8",
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "public_car_in_garage.html",
+			"settings":
+			{
+				"buffer_size": 1278,
+				"encoding": "UTF-8",
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "/Users/alanbarretto/Documents/udacity/FSND-Virtual-Machine/vagrant/catalog_project/catalog.py",
+			"settings":
+			{
+				"buffer_size": 25431,
+				"encoding": "UTF-8",
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "car_in_garage_not_owner.html",
+			"settings":
+			{
+				"buffer_size": 1230,
+				"encoding": "UTF-8",
+				"line_ending": "Unix"
+			}
+		}
+	],
+	"build_system": "",
+	"build_system_choices":
+	[
+	],
+	"build_varint": "",
+	"command_palette":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"console":
+	{
+		"height": 147.0,
+		"history":
+		[
+			"import urllib.request,os,hashlib; h = '6f4c264a24d933ce70df5dedcf1dcaee' + 'ebe013ee18cced0ef93d5f746d80ef60'; pf = 'Package Control.sublime-package'; ipp = sublime.installed_packages_path(); urllib.request.install_opener( urllib.request.build_opener( urllib.request.ProxyHandler()) ); by = urllib.request.urlopen( 'http://packagecontrol.io/' + pf.replace(' ', '%20')).read(); dh = hashlib.sha256(by).hexdigest(); print('Error validating download (got %s instead of %s), please try manual install' % (dh, h)) if dh != h else open(os.path.join( ipp, pf), 'wb' ).write(by)"
+		]
+	},
+	"distraction_free":
+	{
+		"menu_visible": true,
+		"show_minimap": false,
+		"show_open_files": false,
+		"show_tabs": false,
+		"side_bar_visible": false,
+		"status_bar_visible": false
+	},
+	"file_history":
+	[
+		"/Users/alanbarretto/Documents/udacity/FSND-Virtual-Machine/vagrant/catalog_project/templates/car_in_category.html",
+		"/Users/alanbarretto/Documents/udacity/FSND-Virtual-Machine/vagrant/catalog_project/templates/car_in_garage.html",
+		"/Users/alanbarretto/Documents/udacity/FSND-Virtual-Machine/vagrant/catalog_project/templates/specific_car.html",
+		"/Users/alanbarretto/Documents/udacity/FSND-Virtual-Machine/vagrant/catalog_project/templates/purchase.html",
+		"/Users/alanbarretto/Documents/udacity/FSND-Virtual-Machine/vagrant/catalog_project/templates/purchase_confirm.html",
+		"/Users/alanbarretto/Documents/udacity/FSND-Virtual-Machine/vagrant/catalog_project/templates/garage.html",
+		"/Users/alanbarretto/Documents/udacity/FSND-Virtual-Machine/vagrant/catalog_project/templates/newCar.html",
+		"/Users/alanbarretto/Documents/udacity/FSND-Virtual-Machine/vagrant/catalog_project/templates/editCar.html",
+		"/Users/alanbarretto/Documents/udacity/FSND-Virtual-Machine/vagrant/catalog_project/templates/edit_category.html",
+		"/Users/alanbarretto/Documents/udacity/FSND-Virtual-Machine/vagrant/catalog_project/templates/deleteCar.html",
+		"/Users/alanbarretto/Documents/udacity/FSND-Virtual-Machine/vagrant/catalog_project/templates/delete_category.html",
+		"/Users/alanbarretto/Documents/udacity/FSND-Virtual-Machine/vagrant/catalog_project/templates/catalog_items.html",
+		"/Users/alanbarretto/Documents/udacity/FSND-Virtual-Machine/vagrant/catalog_project/templates/specific_car_garage.html",
+		"/Users/alanbarretto/Documents/udacity/FSND-Virtual-Machine/vagrant/catalog_project/templates/newCarCategory.html",
+		"/Users/alanbarretto/Documents/udacity/FSND-Virtual-Machine/vagrant/catalog_project/templates/deleteCarGarage.html",
+		"/Users/alanbarretto/Documents/udacity/FSND-Virtual-Machine/vagrant/catalog_project/templates/editCarGarage.html",
+		"/Users/alanbarretto/Documents/udacity/FSND-Virtual-Machine/vagrant/catalog_project/templates/newCarGarage.html",
+		"/Users/alanbarretto/Documents/udacity/FSND-Virtual-Machine/vagrant/catalog_project/templates/editCarCategory.html",
+		"/Users/alanbarretto/Documents/udacity/FSND-Virtual-Machine/vagrant/catalog_project/templates/deleteCarCategory.html",
+		"/Users/alanbarretto/Documents/udacity/FSND-Virtual-Machine/vagrant/catalog_project/templates/specific_car_category.html",
+		"/Users/alanbarretto/Documents/udacity/FSND-Virtual-Machine/vagrant/catalog_project/templates/category_specific_car_not_logged_in.html",
+		"/Users/alanbarretto/Documents/udacity/FSND-Virtual-Machine/vagrant/catalog_project/templates/homepage.html",
+		"/Users/alanbarretto/Documents/udacity/FSND-Virtual-Machine/vagrant/catalog_project/templates/deleteGarageConfirm.html",
+		"/Users/alanbarretto/Documents/udacity/FSND-Virtual-Machine/vagrant/project3/practiceProject/finalProject.py",
+		"/Users/alanbarretto/Documents/udacity/FSND-Virtual-Machine/vagrant/project3/practiceTemplates/restaurants.html",
+		"/Users/alanbarretto/Documents/udacity/FSND-Virtual-Machine/vagrant/catalog_project/catalog.py",
+		"/Users/alanbarretto/Documents/udacity/FSND-Virtual-Machine/vagrant/catalog_project/new_category.html",
+		"/Users/alanbarretto/Documents/udacity/FSND-Virtual-Machine/vagrant/catalog_project/edit_category.html",
+		"/Users/alanbarretto/Documents/udacity/FSND-Virtual-Machine/vagrant/catalog_project/delete_category.html",
+		"/Users/alanbarretto/Documents/udacity/FSND-Virtual-Machine/vagrant/project3/practiceTemplates/deleteRestaurant.html",
+		"/Users/alanbarretto/Documents/udacity/FSND-Virtual-Machine/vagrant/project3/practiceTemplates/editRestaurant.html",
+		"/Users/alanbarretto/Documents/udacity/FSND-Virtual-Machine/vagrant/project3/practiceTemplates/newRestaurant.html",
+		"/Users/alanbarretto/Documents/udacity/FSND-Virtual-Machine/vagrant/project3/practiceTemplates/deleteMenuItem.html",
+		"/Users/alanbarretto/Documents/udacity/FSND-Virtual-Machine/vagrant/catalog_project/editCar.html",
+		"/Users/alanbarretto/Documents/udacity/FSND-Virtual-Machine/vagrant/catalog_project/car_catalog.db",
+		"/Users/alanbarretto/Documents/udacity/FSND-Virtual-Machine/vagrant/project3/practiceTemplates/newMenuItem.html",
+		"/Users/alanbarretto/Documents/udacity/FSND-Virtual-Machine/vagrant/project3/practiceTemplates/editMenuItem.html",
+		"/Users/alanbarretto/Documents/udacity/FSND-Virtual-Machine/vagrant/catalog_project/templates/main.html",
+		"/Users/alanbarretto/Documents/udacity/FSND-Virtual-Machine/vagrant/catalog_project/static/styles.css",
+		"/Users/alanbarretto/Documents/udacity/FSND-Virtual-Machine/vagrant/catalog_project/database_setup.py",
+		"/Users/alanbarretto/Documents/udacity/FSND-Virtual-Machine/vagrant/catalog_project/catalog_items.html",
+		"/Users/alanbarretto/Documents/udacity/FSND-Virtual-Machine/vagrant/catalog_project/templates/header.html",
+		"/Users/alanbarretto/Documents/udacity/FSND-Virtual-Machine/vagrant/project.py",
+		"/Users/alanbarretto/Documents/udacity/FSND-Virtual-Machine/vagrant/project3/Catalog.py",
+		"/Users/alanbarretto/sample/file4.txt",
+		"/Users/alanbarretto/example.txt",
+		"/Users/alanbarretto/git-prompt.sh",
+		"/Users/alanbarretto/git-completion.bash",
+		"/Users/alanbarretto/Documents/udacity/FSND-Virtual-Machine/vagrant/project3/templates/editRestaurant.html",
+		"/Users/alanbarretto/Documents/udacity/FSND-Virtual-Machine/vagrant/project3/templates/deleteRestaurant.html",
+		"/Users/alanbarretto/Documents/udacity/FSND-Virtual-Machine/vagrant/project3/fb_client_secrets.json",
+		"/Users/alanbarretto/Documents/udacity/FSND-Virtual-Machine/vagrant/project3/templates/login.html",
+		"/Users/alanbarretto/Documents/udacity/FSND-Virtual-Machine/vagrant/project3/publicmenu.html",
+		"/Users/alanbarretto/Documents/jquery lessons/base/index.html",
+		"/Users/alanbarretto/Documents/jquery lessons/base/js/script.js",
+		"/Users/alanbarretto/Documents/udacity/FSND-Virtual-Machine/vagrant/project3/lotsofmenus.py",
+		"/Users/alanbarretto/Documents/udacity/FSND-Virtual-Machine/vagrant/project3/database_setup.py",
+		"/Users/alanbarretto/Documents/udacity/FSND-Virtual-Machine/vagrant/project3/finalProject.py",
+		"/Users/alanbarretto/Documents/udacity/FSND-Virtual-Machine/vagrant/project 3/templates/login.html",
+		"/Users/alanbarretto/Documents/udacity/FSND-Virtual-Machine/vagrant/templates/login.html",
+		"/Users/alanbarretto/Documents/udacity/FSND-Virtual-Machine/vagrant/finalProjectwithcomments.py",
+		"/Users/alanbarretto/Documents/udacity/FSND-Virtual-Machine/vagrant/finalProject.py",
+		"/Users/alanbarretto/Documents/udacity/FSND-Virtual-Machine/vagrant/restaurantlists.db",
+		"/Users/alanbarretto/Documents/udacity/FSND-Virtual-Machine/vagrant/lotsofmenus.py",
+		"/Volumes/Alan's Litt/udacity/FSND-Virtual-Machine/vagrant/crud/database_setup.py",
+		"/Users/alanbarretto/Documents/udacity/FSND-Virtual-Machine/vagrant/old templates/editRestaurant.html",
+		"/Users/alanbarretto/Documents/udacity/FSND-Virtual-Machine/vagrant/old templates/newRestaurant.html",
+		"/Volumes/Alan's Litt/udacity/FSND-Virtual-Machine/vagrant/udacity_project_3/project.py",
+		"/Volumes/Alan's Litt/templates/restaurants.html",
+		"/Users/alanbarretto/Documents/udacity/FSND-Virtual-Machine/vagrant/templates/restaurants.html",
+		"/Users/alanbarretto/.profile"
+	],
+	"find":
+	{
+		"height": 23.0
+	},
+	"find_in_files":
+	{
+		"height": 0.0,
+		"where_history":
+		[
+		]
+	},
+	"find_state":
+	{
+		"case_sensitive": false,
+		"find_history":
+		[
+		],
+		"highlight": true,
+		"in_selection": false,
+		"preserve_case": false,
+		"regex": false,
+		"replace_history":
+		[
+		],
+		"reverse": false,
+		"show_context": true,
+		"use_buffer2": true,
+		"whole_word": false,
+		"wrap": true
+	},
+	"groups":
+	[
+		{
+			"selected": 25,
+			"sheets":
+			[
+				{
+					"buffer": 0,
+					"file": "category_items.html",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 1304,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								1069,
+								1069
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/HTML/HTML.sublime-syntax",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 10,
+					"type": "text"
+				},
+				{
+					"buffer": 1,
+					"file": "category_purchase_confirm.html",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 910,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								23,
+								23
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/HTML/HTML.sublime-syntax",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 26,
+					"type": "text"
+				},
+				{
+					"buffer": 2,
+					"file": "category_purchase.html",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 2368,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								469,
+								469
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/HTML/HTML.sublime-syntax",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 25,
+					"type": "text"
+				},
+				{
+					"buffer": 3,
+					"file": "car_in_category_not_owner.html",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 1220,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/HTML/HTML.sublime-syntax",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 19,
+					"type": "text"
+				},
+				{
+					"buffer": 4,
+					"file": "car_in_category_owner.html",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 1413,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								597,
+								597
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/HTML/HTML.sublime-syntax",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 18,
+					"type": "text"
+				},
+				{
+					"buffer": 5,
+					"file": "create_garage.html",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 1285,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/HTML/HTML.sublime-syntax",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 17,
+					"type": "text"
+				},
+				{
+					"buffer": 6,
+					"file": "delete_car_from_category.html",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 1016,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								719,
+								719
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/HTML/HTML.sublime-syntax",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 16,
+					"type": "text"
+				},
+				{
+					"buffer": 7,
+					"file": "delete_car_from_garage.html",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 931,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								864,
+								864
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/HTML/HTML.sublime-syntax",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 24,
+					"type": "text"
+				},
+				{
+					"buffer": 8,
+					"file": "delete_garage.html",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 963,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								168,
+								168
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/HTML/HTML.sublime-syntax",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 23,
+					"type": "text"
+				},
+				{
+					"buffer": 9,
+					"file": "delete_garage_confirm.html",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 963,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								168,
+								168
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/HTML/HTML.sublime-syntax",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 20,
+					"type": "text"
+				},
+				{
+					"buffer": 10,
+					"file": "edit_car_from_category.html",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 4983,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								4684,
+								4684
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/HTML/HTML.sublime-syntax",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 9,
+					"type": "text"
+				},
+				{
+					"buffer": 11,
+					"file": "edit_car_from_garage.html",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 4844,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								4580,
+								4580
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/HTML/HTML.sublime-syntax",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 22,
+					"type": "text"
+				},
+				{
+					"buffer": 12,
+					"file": "garage_items.html",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 1403,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								448,
+								448
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/HTML/HTML.sublime-syntax",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 72.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 11,
+					"type": "text"
+				},
+				{
+					"buffer": 13,
+					"file": "garage_purchase_confirm.html",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 856,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								176,
+								176
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/HTML/HTML.sublime-syntax",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 13,
+					"type": "text"
+				},
+				{
+					"buffer": 14,
+					"file": "garage_purchase.html",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 2061,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								2011,
+								2011
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/HTML/HTML.sublime-syntax",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 14,
+					"type": "text"
+				},
+				{
+					"buffer": 15,
+					"file": "header.html",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 391,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								391,
+								391
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/HTML/HTML.sublime-syntax",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 3,
+					"type": "text"
+				},
+				{
+					"buffer": 16,
+					"file": "index.html",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 2038,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								2035,
+								2023
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/HTML/HTML.sublime-syntax",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 852.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 4,
+					"type": "text"
+				},
+				{
+					"buffer": 17,
+					"file": "public_garage_items.html",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 1228,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								1032,
+								1032
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/HTML/HTML.sublime-syntax",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 5,
+					"type": "text"
+				},
+				{
+					"buffer": 18,
+					"file": "main.html",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 3968,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								2804,
+								2804
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/HTML/HTML.sublime-syntax",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 811.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 1,
+					"type": "text"
+				},
+				{
+					"buffer": 19,
+					"file": "/Users/alanbarretto/Documents/udacity/FSND-Virtual-Machine/vagrant/catalog_project/owner_messages.html",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 957,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								702,
+								702
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/HTML/HTML.sublime-syntax",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 12,
+					"type": "text"
+				},
+				{
+					"buffer": 20,
+					"file": "login.html",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 3851,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								1936,
+								1936
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/HTML/HTML.sublime-syntax",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 6,
+					"type": "text"
+				},
+				{
+					"buffer": 21,
+					"file": "new_car_for_category.html",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 4261,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								386,
+								386
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/HTML/HTML.sublime-syntax",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 2,
+					"type": "text"
+				},
+				{
+					"buffer": 22,
+					"file": "new_car_for_garage.html",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 4058,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								386,
+								386
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/HTML/HTML.sublime-syntax",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 1165.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 21,
+					"type": "text"
+				},
+				{
+					"buffer": 23,
+					"file": "car_in_garage_owner.html",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 1417,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								571,
+								571
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/HTML/HTML.sublime-syntax",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 15,
+					"type": "text"
+				},
+				{
+					"buffer": 24,
+					"file": "public_car_in_garage.html",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 1278,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								842,
+								842
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/HTML/HTML.sublime-syntax",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 12.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 7,
+					"type": "text"
+				},
+				{
+					"buffer": 25,
+					"file": "/Users/alanbarretto/Documents/udacity/FSND-Virtual-Machine/vagrant/catalog_project/catalog.py",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 25431,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								9802,
+								9802
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Python/Python.sublime-syntax",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 3791.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 0,
+					"type": "text"
+				},
+				{
+					"buffer": 26,
+					"file": "car_in_garage_not_owner.html",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 1230,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								222,
+								222
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/HTML/HTML.sublime-syntax",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 8,
+					"type": "text"
+				}
+			]
+		}
+	],
+	"incremental_find":
+	{
+		"height": 23.0
+	},
+	"input":
+	{
+		"height": 0.0
+	},
+	"layout":
+	{
+		"cells":
+		[
+			[
+				0,
+				0,
+				1,
+				1
+			]
+		],
+		"cols":
+		[
+			0.0,
+			1.0
+		],
+		"rows":
+		[
+			0.0,
+			1.0
+		]
+	},
+	"menu_visible": true,
+	"output.find_results":
+	{
+		"height": 0.0
+	},
+	"pinned_build_system": "",
+	"project": "catalog.sublime-project",
+	"replace":
+	{
+		"height": 42.0
+	},
+	"save_all_on_build": true,
+	"select_file":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"select_project":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"select_symbol":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"selected_group": 0,
+	"settings":
+	{
+	},
+	"show_minimap": true,
+	"show_open_files": true,
+	"show_tabs": true,
+	"side_bar_visible": true,
+	"side_bar_width": 206.0,
+	"status_bar_visible": true,
+	"template_settings":
+	{
+	}
+}
