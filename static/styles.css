@@ -5,13 +5,13 @@ body {
 
 }
 
-#nav-link {
+.login_link {
 	padding-left: 100px;
 	padding-right: 50px;
 }
 
 #text_title {
-	margin-top: 100px !important;
+	margin-top: 100px;
 	width: 300px;
 	color: red;
 }
