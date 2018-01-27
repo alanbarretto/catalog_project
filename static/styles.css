@@ -1,15 +1,29 @@
 body {
-	padding-top: 54px;
+	height: 100%;
+	margin: 0;
+	padding: 0;
 
 }
 
+#nav-link {
+	padding-left: 100px;
+	padding-right: 50px;
+}
+
+#text_title {
+	margin-top: 100px !important;
+	width: 300px;
+	color: red;
+}
 
 @media (min-width: 992px) {
 	
-	body {
-		padding-top: 56px;
+body {
+	height: 100%;
+	margin: 0;
+	padding: 0;
 	}
-}
+
 
 .card {
 	height: 100%;
