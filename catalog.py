@@ -2,7 +2,7 @@ from flask import Flask, render_template, request, redirect, url_for, flash, jso
 app = Flask(__name__)
 
 from sqlalchemy.orm import sessionmaker
-from database_setup import Category, Garage, Car_Item, User, Base
+from database_setup import Category, Garage, Car_Item, User, Base, Owner_Messages
 from sqlalchemy import create_engine, or_, and_
 
 from oauth2client.client import flow_from_clientsecrets
@@ -16,7 +16,7 @@ import os
 
 CLIENT_ID = json.loads(open('client_secrets.json','r').read())['web']['client_id']
 
-engine = create_engine("sqlite:///car_catalog3.db")
+engine = create_engine("sqlite:///car_catalog4.db")
 Base.metadata.bind = engine
 
 DBSession = sessionmaker(bind=engine)
@@ -168,6 +168,7 @@ def gdisconnect():
         del login_session['provider']
         response = make_response(json.dumps("Successfully disconnected."), 200)
         response.headers['Content-Type'] = 'application/json'
+        flash("You have been successfully looged out.")
         return response
     else:
         response = make_response(json.dumps('Failed to revoke token for given user.'), 400)
@@ -248,6 +249,12 @@ def fbdisconnect():
     url = 'https://graph.facebook.com/%s/permissions?access_token=%s' % (facebook_id,access_token)
     h = httplib2.Http()
     result = h.request(url, 'DELETE')[1]
+    del login_session['facebook_id']
+    del login_session['username']
+    del login_session['email']
+    del login_session['picture']
+    del login_session['user_id']
+    del login_session['provider']
     return "you have been logged out"
 
 @app.route('/disconnect')
@@ -255,17 +262,8 @@ def disconnect():
     if 'provider' in login_session:
         if login_session['provider'] == 'google':
             gdisconnect()
-            del login_session['gplus_id']
-            del login_session['credentials']
-        if login_session['provider'] == 'facebook': 
+        elif login_session['provider'] == 'facebook': 
             fbdisconnect()
-            del login_session['facebook_id']
-        del login_session['username']
-        del login_session['email']
-        del login_session['picture']
-        del login_session['user_id']
-        del login_session['provider']
-        flash("You have successfully been logged out.")
         return redirect('/category')
     else:
         flash("You were not logged in to begin with!")
@@ -343,9 +341,7 @@ def category():
 @app.route('/category/<int:category_id>')
 def category_items(category_id):
     category = session.query(Category).filter_by(id=category_id).one()
-	
     cars = session.query(Car_Item).filter_by(category_id=category.id).all()
-
     #creator = getUserInfo(category.user_id)
 
     if 'username' not in login_session:
@@ -373,18 +369,24 @@ def purchase_from_category(category_id, car_id):
     category = session.query(Category).filter_by(id=category_id).one()
     car = session.query(Car_Item).filter_by(id=car_id).one()
     user = session.query(User).filter_by(id=car.user_id).one()
-
-    if request.method == "POST":
-        return render_template('category_purchase_confirm.html', category=category, car=car)
+    
+    if "username" not in login_session:
+        return redirect('/login') 
     else:
-        return render_template('category_purchase.html', category=category, car=car, user=user)
+        if request.method == "POST":
+            message = Owner_Messages(buyer_name=request.form['name'], buyer_email=request.form['email'], buyer_phone=request.form['bid'], buyer_message=request.form['mymessage'], car_id=car.id, user_id=user.id)
+            session.add(message)
+            session.commit()
+            return render_template('purchase_confirm.html', category=category, car=car)
+        else:
+            return render_template('category_purchase.html', category=category, car=car, user=user)
 
 @app.route('/category/<int:category_id>/cars/<int:car_id>/confirm')
 def category_purchase_confirm(category_id, car_id):
     category = session.query(Category).filter_by(id=category_id).one()
     car = session.query(Car_Item).filter_by(id=car_id).one()
 
-    return render_template('category_purchase_confirm.html', category=category)
+    return render_template('purchase_confirm.html', category=category)
 
 # Create a Car within a Category
 
@@ -398,12 +400,14 @@ def create_car_for_category(category_id):
         return redirect('/login')
 
     if request.method == "POST":
-
-        newCar = Car_Item(make=request.form["make"],model=request.form["model"], year=request.form["year"], color=request.form["color"], price=request.form["price"], description=request.form["description"], milage=request.form["milage"], car_item_pic=request.form["car_pic"], user_id=login_session["user_id"])
-        session.add(newCar)
-        session.commit()
-        flash("Congratulations, you have successfully entered a new vehicle to sell!")
-        return redirect(url_for("category_items.html", category=category, cars=cars))
+        if 'username' in login_session:
+            newCar = Car_Item(make=request.form["make"],model=request.form["model"], year=request.form["year"], color=request.form["color"], price=request.form["price"], description=request.form["description"], milage=request.form["milage"], category_id=request.form["category"], user_id=login_session["user_id"])
+            session.add(newCar)
+            session.commit()
+            flash("Congratulations, you have successfully entered a new vehicle to sell!")
+            return redirect(url_for("category_items.html", category=category, cars=cars))
+        else:
+            return redirect('/login')
     else:
         return render_template('create_car_for_category.html', category=category)
 
@@ -482,16 +486,19 @@ def garage_items(garage_id):
     user = session.query(User).filter_by(id=garage.user_id).one()
     creator = getUserInfo(garage.user_id)
 
-    if 'username' not in login_session or creator.id != login_session["user_id"]:
+    if 'username' not in login_session:
         return render_template('public_garage_items.html', garage=garage, cars=cars, user=user)
+    elif 'username' in login_session and creator.id != login_session["user_id"]:
+        return render_template('garage_items_not_owner.html', garage=garage, cars=cars, user=user)
     else:
-        return render_template("garage_items.html", garage=garage, cars=cars, user=user)
+        return render_template("garage_items_owner.html", garage=garage, cars=cars, user=user)
 
 
 @app.route('/garage/<int:garage_id>/cars/<int:car_id>')
 def car_from_garage(garage_id, car_id):
     garage = session.query(Garage).filter_by(id=garage_id).one()
     car = session.query(Car_Item).filter_by(id=car_id).one()
+    user = session.query(User).filter_by(id=car.user_id).one()
     creator = getUserInfo(car.user_id)
 
     if "username" not in login_session:
@@ -499,7 +506,7 @@ def car_from_garage(garage_id, car_id):
     elif "username" in login_session and creator.id != login_session["user_id"]:
         return render_template("car_in_garage_not_owner.html", garage=garage, car=car)
     else: 
-        return render_template("car_in_garage_owner.html", garage=garage, car=car)
+        return render_template("car_in_garage_owner.html", garage=garage, car=car, user=user)
 
 @app.route('/garage/<int:garage_id>/cars/<int:car_id>/purchase', methods=["POST", "GET"])
 def purchase_from_garage(garage_id, car_id):
@@ -507,23 +514,26 @@ def purchase_from_garage(garage_id, car_id):
     car = session.query(Car_Item).filter_by(id=car_id).one()
     user = session.query(User).filter_by(id=car.user_id).one()
 
-    if request.method == "POST":
-        return render_template("garage_purchase_confirm.html", garage=garage)
-    else:	
-        return render_template('garage_purchase.html', garage=garage, car=car, user=user)
+    if 'username' not in login_session:
+        return redirect('/login')
+    else:
+        if request.method == "POST":
+            return render_template("purchase_confirm.html", garage=garage, car=car)
+        else:	
+            return render_template('garage_purchase.html', garage=garage, car=car, user=user)
 
 
 @app.route('/confirm/<int:garage_id>')
 def garage_purchase_confirm(garage_id):
     garage = session.query(Garage).filter_by(id=garage_id).one()
 
-    return render_template('garage_purchase_confirm.html', garage=garage)
+    return render_template('purchase_confirm.html', garage=garage)
 
 
 # Create a Car within a Garage
 
 
-@app.route('/category/<int:garage_id>/create', methods=["POST", "GET"])
+@app.route('/garage/<int:garage_id>/create', methods=["POST", "GET"])
 def create_car_for_garage(garage_id):
 
     garage = session.query(Garage).filter_by(id=garage_id).one()
@@ -532,16 +542,14 @@ def create_car_for_garage(garage_id):
     if 'username' not in login_session:
         return redirect('/login')
 
-    if garage.user_id != login_session['user_id']:
-        return "<script>function myFunction(){alert('You must be the creator of this garage  to enter a vehicle to sell here!')}</script>body onload='myFunction()'>"
+    
 
     if request.method == "POST":
 
-        newCar = Car_Item(make= request.form["make"], model=request.form["model"], year=request.form["year"], color=request.form["color"], price=request.form["price"], description=request.form["description"], milage=request.form["milage"], car_item_pic=request.form["car_pic"], user_id=login_session["user_id"], garage_id=garage.id)
+        newCar = Car_Item(make= request.form["make"], model=request.form["model"], year=request.form["year"], color=request.form["color"], price=request.form["price"], description=request.form["description"], milage=request.form["milage"], category_id= request.form['category'], user_id=garage.user_id, garage_id=garage.id)
         session.add(newCar)
         session.commit()
-        flash("Congratulations, you have successfully entered a new vehicle to sell!")
-        return redirect(url_for("garage_items.html", garage_id=garage.id))
+        return redirect(url_for("garage_items", garage_id=garage.id))
     else:
 
         return render_template('create_car_for_garage.html', garage=garage)
@@ -619,15 +627,15 @@ def create_garage():
 
     if 'username' not in login_session:
         return redirect('/login')
-
-    if request.method == "POST":
-
-        newGarage = Garage(name = request.form["name"], garage_description= request.form["description"], user_id = login_session['user_id'], garage_pic=request.form['garage_pic'])
-        session.add(newGarage)
-        session.commit()
-        return redirect(url_for("category"))
     else:
-        return render_template("create_garage.html")
+        if request.method == "POST":
+
+            newGarage = Garage(name = request.form["name"], garage_description= request.form["description"], user_id = login_session['user_id'])
+            session.add(newGarage)
+            session.commit()
+            return redirect(url_for("category"))
+        else:
+            return render_template("create_garage.html")
 
 @app.route('/garage/<int:garage_id>/delete', methods=["POST", "GET"])
 def delete_garage(garage_id):
@@ -657,14 +665,21 @@ def delete_garage(garage_id):
 
         return render_template('delete_garage.html', garage=garage, car=car, user=user)
 
-@app.route('/owner/<int:user_id>/messages')
-def messages_to_owner(user_id):
-    messages = session.query(Owner_Messages).filter_by(user_id=user_id).all()
+@app.route('/user/<int:user_id>/car/<int:car_id>/messages/')
+def messages_to_owner(user_id, car_id):
+    user = session.query(User).filter_by(id=user_id).one()
+    car = session.query(Car_Item).filter_by(id=car_id).one()
+    bids = session.query(Owner_Messages).filter_by(car_id=car.id).all()
 
     if 'username' not in login_session or user.id != login_session['user_id']:
         return redirect('/login')
     else:
-        return render_template('owner_messages.html', messages=messages)
+        return render_template('owner_messages.html', bids=bids, user=user, car=car)
+
+
+
+
+
 
 
 if __name__ == '__main__':
