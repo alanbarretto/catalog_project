@@ -5,17 +5,32 @@ body {
 
 }
 
-.login_link {
-	padding-left: 100px;
-	padding-right: 50px;
+#nav_li {
+	margin-left: 30px;
+	margin-right: 30px;
 }
 
-#text_title {
-	margin-top: 100px;
+.no_box {
+	height: 20%;
+}
+.text_title {
+	
+	margin: auto;
 	width: 300px;
-	color: red;
 }
 
+.text_title h3 {
+	margin: auto;
+	width: 180px;
+}
+
+.enter_button {
+	margin: auto;
+	width: 200px;
+}
+.blue-box {
+	background-color: blue;
+}
 @media (min-width: 992px) {
 	
 body {
