@@ -6,10 +6,14 @@
     <div class="container">
 
       <!-- Page Heading -->
-      <h1 class="my-4">Joe's Car Lot</h1>
+      <h3 class="my-4">Category:  {{category.category}}</h3>
+        <br>
+        
+      
+      <a href="{{url_for('category_items', category_id=category.id)}}">
+              <h5>Go Back</h5>
+              </a>
       <br>
-        <h3><small>{{category.category}}</small>
-      </h3>
       <div class="row">
         <div class="col-md-7">
           <a href="#">
@@ -17,23 +21,19 @@
           </a>
         </div>
         <div class="col-md-5">
-          <h3><span>{{car.year}}</span><span>{{car.make}}</span><span>{{car.model}}</span></h3>
+          <h3><span> {{car.year}} </span><span> {{car.make}} </span><span> {{car.model}} </span></h3>
           <br>
-          <h3>{{car.price}}</h3>
+          <h6>Price: {{car.price}}</h6>
+          <h6>Milage: {{car.milage}}</h6>
           <br>
-          <h3>{{car.color}}</h3>
+          <p>Notes: {{car.description}}</p>
           <br>
-          <p>{{car.description}}</p>
+          <h5>You have to log in to contact the seller</h5>
           <br>
+          <a href="{{url_for('showLogin')}}"><h6>Log In</h6></a>
           <br>
-          <h3>You have to log in to contact the seller</h3>
-          <br>
-          <a href="{{url_for('showLogin')}}">Log In</a>
-          <br>
-          <br>
-          <a href="{{url_for('category_items', category_id=category.id)}}">
-              <button class="btn btn-default delete">
-              <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>Return</button>
+          <a href="{{url_for('category')}}">
+              <h6>Return to Homepage</h6>
               </a>
         </div>
       </div>

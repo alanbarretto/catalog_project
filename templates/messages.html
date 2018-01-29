@@ -1,0 +1,42 @@
+{%extends "main.html"%}
+{%block content%}
+
+<div class="container">
+
+	<a href="{{url_for('category')}}">Return to Homepage</a>
+
+	{%if not bids%}
+
+		<p>There are no bids for this vehicle</p>
+
+	{%else%}
+
+
+		{% for bid in bids%}
+
+		<div>
+			<p>Owner:  {{user.name}}</p>
+			<br>
+			<p>{{car.year}}  {{car.make}}  {{car.model}}</p>
+			<br>
+			<p>Interested buyer:  {{Owner_Messages.buyer_name}}</p>
+			<br>
+			<p>Buyer's Email:  {{Owner_Messages.buyer_email}}</p>
+			<br>
+			<p>Buyer's Bid:  {{Owner_Messages.buyer_phone}}</p>
+			<br>
+			<p>Buyer's Message:  {{Owner_Messages.buyer_message}}</p>
+
+		</div>
+		<hr>
+
+		{%endfor%}
+
+	{%endif%}
+
+
+
+</div>
+
+
+{%endblock%}

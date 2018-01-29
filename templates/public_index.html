@@ -36,20 +36,26 @@
           </a>
         </div>
         <div class="col-md-5">
-          <div id="text_title"><h3>{{category.category}}</h3></div>
+          <div class="no_box"></div>
+          <div class="text_title"><h3>{{category.category}}</h3></div>
           
           
-          <div id="text_button"><a class="btn btn-primary" href="{{url_for('category_items', category_id=category.id) }}">Search This BodyStyle!</a></div>
+          <div id="text_button" class="enter_button"><a class="btn btn-primary" href="{{url_for('category_items', category_id=category.id) }}">Search This BodyStyle!</a></div>
+          <br>
+          <div><p>{{category.category_description}}</p></div>
+          <div class="no_box"></div>
         </div>
       </div>
       <br>
-      <br>
+      <hr>
           
         {%endfor%}
 
       <div>
         <br>
         <h2>Garages: </h2>
+        <br>
+        <p>Garages are spaces created by sellers who want a more focused area to showcase their vehicles. You can check out each garage to see what they are selling.  In order to create your own garage, you have to be logged in.</p>
         <br>
         <br>
         
@@ -73,20 +79,21 @@
       <div class="row">
         <div class="col-md-7">
           <a href="#">
-            <img class="#" src="http://placehold.it/600x300" alt="">
+            <img class="#" src="{{garage.garage_pic}}" alt="">
           </a>
         </div>
         <div class="col-md-5">
-          <div><h3>{{garage.name}}</h3></div>
+          <div class="no_box"></div>
+          <div class="text_title"><h3>{{garage.name}}</h3></div>
           <br>
-          <div><p>{{garage.description}}</p></div>
+          <div class="text_title"><p>{{garage.garage_description}}</p></div>
           <br>
-          
-          <a class="btn btn-primary" href="{{url_for('garage_items', garage_id=garage.id) }}">Enter Garage!</a>
+          <div class="enter_button"><a class="btn btn-primary" href="{{url_for('garage_items', garage_id=garage.id) }}">Enter Garage!</a></div>
+          <div class="no_box"></div>
         </div>
       </div>
       <br>
-      <br>
+      <hr>
       <!-- /.row -->
 
       

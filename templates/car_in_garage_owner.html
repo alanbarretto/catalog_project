@@ -4,11 +4,13 @@
 
         <!-- Page Content -->
     <div class="container">
-
+      <br>
+      <a href="{{url_for('messages_to_owner',user_id=user.id, car_id=car.id)}}"><p>Bids for this Vehicle</p></a>
       <!-- Page Heading -->
-      <h1 class="my-4">Joe's Car Lot
-        <small>{{garage.name}}</small>
-      </h1>
+      <h4 class="my-4">Garage:  {{garage.name}}</h4>
+
+      <a href="{{url_for('category')}}">Go to Homepage</a>
+      <br>
       <div class="row">
         <div class="col-md-7">
           <a href="#">
@@ -16,23 +18,19 @@
           </a>
         </div>
         <div class="col-md-5">
-          <h3><span> {{car.year}} </span><span> {{car.make}} </span><span> {{car.model}} </span></h3>
+          <h4><span> {{car.year}} </span><span> {{car.make}} </span><span> {{car.model}} </span></h4>
           <br>
-          <h3>Car Id: {{car.id}}</h3>
-          <br>
-          <h3>Price: {{car.price}}</h3>
-          <br>
-          <h3>Color: {{car.color}}</h3>
+          <h6>Price: {{car.price}}</h6>
+          <h6>Milage: {{car.milage}}</h6>
           <br>
           <p>Description: {{car.description}}</p>
           <br>
-          <a class="btn btn-primary" href="{{url_for('edit_car_from_garage', garage_id=garage.id, car_id=car.id)}}">Edit</a>
+          <a  href="{{url_for('edit_car_from_garage', garage_id=garage.id, car_id=car.id)}}"><h6>Edit</h6></a>
           <br>
-          <a class="brn btn-primary" href="{{url_for('delete_car_from_garage', garage_id=garage.id, car_id=car.id)}}">Delete</a>
+          <a href="{{url_for('delete_car_from_garage', garage_id=garage.id, car_id=car.id)}}"><h6>Delete</h6></a>
           <br>
           <a href="{{url_for('garage_items', garage_id=garage.id)}}">
-              <button class="btn btn-default delete">
-              <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>Return</button>
+              <h6>Go to garage</h6>
               </a>
         </div>
       </div>

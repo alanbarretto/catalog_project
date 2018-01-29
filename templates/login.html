@@ -4,11 +4,25 @@
 	<title>Login Page</title>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 	<script src="https://apis.google.com/js/client:platform.js?onload=start" async defer></script>
+	<style>
+		.blue-box {
+			background-color: lightblue;
+			height: 70px;
+			margin-bottom: 10px;
+
+		}
+		.login {
+			display: inline-block;
+		}
+	</style>
 </head>
 <body>
+	<div class="blue-box"><div><h2>Joe's Used Car Lot</h2></div>
+		<div><a href="{{url_for('category')}}">Return to Homepage</a></div>
+	</div>
 	<!-- Google Sign In -->
-
-	<div id="signinButton">
+	<h5>Log in with Google</h5>
+	<div id="signinButton" class="login">
 		<span class = "g-signin"
 			data-scope="openid email"
 			data-clientid="217629227542-iq487tmm3m9uhviklt4onepuvejclacq.apps.googleusercontent.com"
@@ -66,7 +80,7 @@
     cookie     : true,  // enable cookies to allow the server to access 
                         // the session
     xfbml      : true,  // parse social plugins on this page
-    version    : 'v2.2' // use version 2.2
+    version    : 'v2.11' // use version 2.2
   });
   };
   // Load the SDK asynchronously
@@ -109,8 +123,8 @@
   }
 </script>
 
-
-<button>
+<h5>Log in with Facebook</h5>
+<div class="login"><button>
          
 
           <fb:login-button scope="public_profile,email" onlogin="sendTokenToServer();">
@@ -119,7 +133,7 @@
 </fb:login-button>
 
 
-        </button>
+        </button></div>
 <!--END FACEBOOK SIGN IN -->
 
 

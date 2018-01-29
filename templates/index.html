@@ -32,22 +32,24 @@
         {%for category in categories%}
         
       <div class="row">
-          <div class="col-md-7">
-            <a href="#">
-              <img class="#" src="{{category.category_pic}}" alt="">
-            </a>
-          </div>
-          <div class="col-md-5">
-            <h3>{{category.category}}</h3>
-            
-            
-            <a class="btn btn-primary" href="{{url_for('category_items', category_id=category.id) }}">Search This BodyStyle!</a>
-          </div>
+        <div class="col-md-7">
+          <a href="#">
+            <img class="#" src="{{category.category_pic}}" alt="">
+          </a>
+        </div>
+        <div class="col-md-5">
+          <div class="no_box"></div>
+          <div class="text_title"><h3>{{category.category}}</h3></div>
+          
+          
+          <div id="text_button" class="enter_button"><a class="btn btn-primary" href="{{url_for('category_items', category_id=category.id) }}">Search This BodyStyle!</a></div>
+          <br>
+          <div><p>{{category.category_description}}</p></div>
+          <div class="no_box"></div>
+        </div>
       </div>
       <br>
-      <br>
-    
-    <hr>
+      <hr>
           
           
         {%endfor%}
@@ -55,6 +57,8 @@
       <div>
         <br>
         <h2>Garages: </h2>
+        <br>
+        <p>You can create your own space, or "garage" where you can post all your vehicles to sell. Your vehicles will also show up in the general catergories for greater visibility. But this will be your own store where your loyal customers can come back to over and over again.</p>
         <br>
         <br>
         <a href="{{url_for('create_garage')}}">Click Here to Create Your Garage</a>
@@ -64,6 +68,11 @@
         {%if not garages%}
 
         <h3>There are no Garages Created Yet</h3>
+        <br>
+        <p>You can create your own space, or "garage" where you can post all your vehicles to sell. Your vehicles will also show up in the general catergories for greater visibility. But this will be your own store where your loyal customers can come back to over and over again.</p>
+        <br>
+        <br>
+        <a href="{{url_for('create_garage')}}">Click Here to Create Your Garage</a>
         <br>
         <br>
       </div>
@@ -80,20 +89,21 @@
       <div class="row">
         <div class="col-md-7">
           <a href="#">
-            <img class="#" src="{{garage.garage_pic}}" alt="">
+            <img class="#" {%if garage.garage_pic%} src="{{garage.garage_pic}}" {%else%} src="http://via.placeholder.com/600x400" {%endif%} alt="">
           </a>
         </div>
         <div class="col-md-5">
-          <h3>{{garage.name}}</h3>
+          <div class="no_box"></div>
+          <div class="text_title"><h3>{{garage.name}}</h3></div>
           <br>
-          <p>{{garage.description}}</p>
+          <div class="text_title"><p>{{garage.garage_description}}</p></div>
           <br>
-          
-          <a class="btn btn-primary" href="{{url_for('garage_items', garage_id=garage.id) }}">Enter Garage!</a>
+          <div class="enter_button"><a class="btn btn-primary" href="{{url_for('garage_items', garage_id=garage.id) }}">Enter Garage!</a></div>
+          <div class="no_box"></div>
         </div>
       </div>
       <br>
-      <br>
+      <hr>
       <!-- /.row -->
 
       

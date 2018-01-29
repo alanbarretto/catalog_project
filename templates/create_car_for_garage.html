@@ -1,7 +1,7 @@
 {% extends "main.html" %}
 {% block content %}
 
-
+<div class="container">
   <div class="row divider green">
     <div class="col-md-12"></div>
   </div>
@@ -10,9 +10,10 @@
       <h1>Enter a New Car</h1>
     </div>
   </div>
+
   <div class="row">
     <div class="col-md-6 col-md-offset-1 padding-top">
-      <form action="{{url_for('create_car_garage', garage_id=garage.id)}}" method = "post">
+      <form action="{{url_for('create_car_for_garage', garage_id=garage.id)}}" method = "POST">
         <div class="form-group">
           <label for="year">Year: </label>
           <input type ="text" maxlength="50" class="form-control" name="year" placeholder="Year">
@@ -26,83 +27,84 @@
           <label for="year">Color: </label>
           <input type ="text" maxlength="50" class="form-control" name="color" placeholder="Color">
 
-          <label for="description">Description:</label>
+          <label for="year">Milage: </label>
+          <input type ="text" maxlength="50" class="form-control" name="milage" placeholder="Milage">
+
+          <label for="description">Seller's Notes:</label>
           <textarea class="form-control" maxlength="250" rows="3" name="description" placeholder="Description of the Vehicle"></textarea>
 
           <label for="price">Price:</label>
-          <div class="input-group">
-            <div class="input-group-addon">$</div>
-            <input type ="text" class="form-control" maxlength="10" name="price" placeholder="Price in $">
-          </div>
-          
+          <input type ="text" class="form-control" maxlength="10" name="price" placeholder="Price in $">
+
           <label for="course">Bodystyle: </label>
           <div class="radio">
             <label>
-              <input type="radio" name="category" id="style1" value="Sedans">Sedans
+              <input type="radio" name="category" id="style1" value="1">Sedans
             </label>
           </div>
           <div class="radio">
             <label>
-              <input type="radio" name="category" id="style2" value="Coupes">Coupes
+              <input type="radio" name="category" id="style2" value="2">Coupes
             </label>
           </div>
           <div class="radio">
             <label>
-              <input type="radio" name="category" id="style3" value="SUVs">SUVs
+              <input type="radio" name="category" id="style3" value="3">SUVs
             </label>
           </div>
           <div class="radio">
             <label>
-              <input type="radio" name="category" id="style4" value="Wagons/Hatchbacks">Wagons/Hatchbacks
+              <input type="radio" name="category" id="style4" value="4">Crossovers
             </label>
           </div>
           <div class="radio">
             <label>
-              <input type="radio" name="category" id="style5" value="Crossovers">Crossovers
+              <input type="radio" name="category" id="style5" value="5">Wagons/Hatchbacks
             </label>
           </div>
           <div class="radio">
             <label>
-              <input type="radio" name="category" id="style6" value="GreenCars/Hybrids">Green Cars/Hybrids
+              <input type="radio" name="category" id="style6" value="6">Green Cars/Hybrids
             </label>
           </div>
           <div class="radio">
             <label>
-              <input type="radio" name="category" id="style7" value="Convertibles">Convertibles
+              <input type="radio" name="category" id="style7" value="7">Convertibles
             </label>
           </div>
           <div class="radio">
             <label>
-              <input type="radio" name="category" id="style8" value="LuxuryCars">Luxury Cars
+              <input type="radio" name="category" id="style8" value="8">Luxury Cars
             </label>
           </div>
           <div class="radio">
             <label>
-              <input type="radio" name="category" id="style9" value="SportsCars">Sports Cars
+              <input type="radio" name="category" id="style9" value="9">Sports Cars
             </label>
           </div>
           <div class="radio">
             <label>
-              <input type="radio" name="category" id="style10" value="PickupTrucks">Pickup Trucks
+              <input type="radio" name="category" id="style10" value="10">Pickup Trucks
             </label>
           </div>
           <div class="radio">
             <label>
-              <input type="radio" name="category" id="style11" value="Vans/Minivans">Vans/Minivans
+              <input type="radio" name="category" id="style11" value="11">Vans/Minivans
             </label>
           </div>
-          
+          </div>
           <button type="submit" class="btn btn-default" id="submit" type="submit">
-          <span class="glyphicon glyphicon-glass" aria-hidden="true"></span>Create</button>
+          <h5>Create</h5></button>
           <br>
-          <a href = "{{url_for('garage_items', garage_id=garage.id)}}">
-            <button class="btn btn-default delete">
-            <span class="glyphicon glyphicon-remove" aria-hidden="true"></span> Cancel</button>
-          </a>
-        </div>
+          <p>If you want to post a picture of the vehicle, please email it to pictures@sample.com. (The upload feature is not yet available)</p>
+        
       </form>
-    </div>
+      <a href = "{{url_for('garage_items', garage_id=garage.id)}}">
+            <h5> Cancel </h5>
+          </a>
   </div>
+  
+</div>
 {% endblock %}
 
 

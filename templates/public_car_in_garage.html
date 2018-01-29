@@ -6,14 +6,10 @@
     <div class="container">
 
       <!-- Page Heading -->
-      <h1 class="my-4">Joe's Car Lot</h1>
+      <h3 class="my-4">Garage:  {{garage.name}}</h3>
       <br>
-        <h3><small>{{garage.name}}</small>
-      </h3>
+      <a href="{{url_for('garage_items', garage_id=garage.id)}}"><h4>Return to Garage</h4></a>
 
-
-      
-      
 
       <div class="row">
         <div class="col-md-7">
@@ -24,20 +20,17 @@
         <div class="col-md-5">
           <h3><span> {{car.year}} </span><span> {{car.make}} </span><span> {{car.model}} </span></h3>
           <br>
-          <h3>Price: {{car.price}}</h3>
-          <br>
-          <h3>Color: {{car.color}}</h3>
+          <h6>Price: {{car.price}}</h6>
+          <h6>Milage:  {{car.milage}}</h6>
           <br>
           <p>Description: {{car.description}}</p>
           <br>
+          <h5>You have to Log In to contact the Seller</h5>
           <br>
-          <h3>You have to Log In to contact the Seller</h3>
+          <a href="{{url_for('showLogin')}}"><h6>Log In</h6></a>
           <br>
-          <a href="{{url_for('showLogin')}}">Log In</a>
-          <br>
-          <a href="{{url_for('garage_items', garage_id=garage.id)}}">
-              <button class="btn btn-default delete">
-              <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>Return</button>
+          <a href="{{url_for('category')}}">
+              <h6>Return to Homepage</h6>
               </a>
         </div>
       </div>

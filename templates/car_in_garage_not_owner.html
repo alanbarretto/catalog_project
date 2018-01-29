@@ -6,9 +6,10 @@
     <div class="container">
 
       <!-- Page Heading -->
-      <h1 class="my-4">Joe's Car Lot
-        <small>{{garage.name}}</small>
-      </h1>
+        <h3>Garage:  {{garage.name}}</h3>
+        <br>
+        <a href="{{url_for('garage_items', garage_id=garage.id)}}"><h5>Go Back</h5></a>
+
       <div class="row">
         <div class="col-md-7">
           <a href="#">
@@ -18,17 +19,15 @@
         <div class="col-md-5">
           <h3><span> {{car.year}} </span><span> {{car.make}} </span><span> {{car.model}} </span></h3>
           <br>
-          <h3>Price: {{car.price}}</h3>
-          <br>
-          <h3>Color: {{car.color}}</h3>
+          <h6>Price: {{car.price}}</h6>
+          <h6>Milage: {{car.milage}}</h6>
           <br>
           <p>Description: {{car.description}}</p>
           <br>
           <a class="btn btn-primary" href="{{url_for('purchase_from_garage', garage_id=garage.id, car_id=car.id)}}">Contact Seller</a>
           <br>
           <a href="{{url_for('garage_items', garage_id=garage.id)}}">
-              <button class="btn btn-default delete">
-              <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>Return</button>
+              <h5>Return to Homepage</h5>
               </a>
         </div>
       </div>

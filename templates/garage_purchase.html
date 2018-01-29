@@ -6,23 +6,28 @@
     <div class="container">
 
       <!-- Page Heading -->
-      <h1 class="my-4">Joe's Car Lot</h1>
+      <h3 class="my-4">Garage:  {{garage.name}}</h3>
+      <br>
+      <a href="{{url_for('garage_items', garage_id=garage.id)}}"><h5>Return to Garage</h5></a>
+      <a href="{{url_for('category')}}">
+              <h5>Go to Homepage</h5>
+              </a>
+              <br>
     
 
       <div class="row">
         <div class="col-md-7">
           <a href="#">
-            <img class="#" src="{{car.car_item_pic}}}" alt="">
+            <img class="#" src="{{car.car_item_pic}}" alt="">
           </a>
         </div>
         <div class="col-md-5">
-          <h3>Thank you for your interest in purchasing:  <span> {{car.year}} </span><span> {{car.make}} </span><span> {{car.model}} </span></h3>
+          <h5>Thank you for your interest in purchasing:  <span> {{car.year}} </span><span> {{car.make}} </span><span> {{car.model}} </span></h5>
           <br>
-          <h3>Color: {{car.color}}</h3>
+          <h6>Price:  {{car.price}}</h6>
+          <h6>Milage:  {{car.milage}}<h6>
           <br>
-          <h3>Price:  {{car.price}}</h3>
-          <br>
-          <h3>From Seller: {{user.name}}</h3>
+          <h6>From Seller: {{user.name}}</h6>
           <br>
         </div>
       </div>
