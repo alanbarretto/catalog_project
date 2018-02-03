@@ -43,7 +43,7 @@ Don’t forget to log out when you’re done.
 
 ## Limitations:
 
-The feature to upload pictures for the vehicles and garages is not yet available.  The space for pictures will be replaced by a placeholder from placehold.it
+The feature to upload pictures for the vehicles and garages is not yet available.  Pictures will be replaced by a placeholder from placehold.it
 
 ## Known Bugs
 
