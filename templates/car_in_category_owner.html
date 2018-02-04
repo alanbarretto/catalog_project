@@ -6,33 +6,30 @@
     <div class="container">
 
       <!-- Page Heading -->
-      <h1 class="my-4">Joe's Car Lot
-        <small>{{category.category}}</small>
+      <h1 class="my-4"> Category:  {{category.category}}
       </h1>
       <div class="row">
         <div class="col-md-7">
           <a href="#">
-            <img class="#" src="{{car.car_item_pic}}" alt="">
+            <img class="#" {%if car.car_item_pic%} src="{{car.car_item_pic}}" {%else%} src="http://via.placeholder.com/600x400" {%endif%}" alt="">
           </a>
         </div>
         <div class="col-md-5">
           <h3><span>{{car.year}} </span><span> {{car.make}} </span><span> {{car.model}}</span></h3>
           <br>
-          <h3>Car Id: {{car.id}}</h3>
+          <h6>Price:  {{car.price}}</h6>
+          <h6>Milage:  {{car.milage}}</h6>
           <br>
-          <h3>{{car.price}}</h3>
+          <p>Seller's Notes:  {{car.description}}</p>
           <br>
-          <h3>{{car.color}}</h3>
+          <a href="{{url_for('edit_car_from_category', category_id=category.id, car_id=car.id)}}"><button type="button" class="btn btn-dark">Edit</button></a>
           <br>
-          <p>{{car.description}}</p>
           <br>
-          <a class="btn btn-primary" href="{{url_for('edit_car_from_category', category_id=category.id, car_id=car.id)}}">Edit</a>
+          <a href="{{url_for('delete_car_from_category', category_id=category.id, car_id=car.id)}}"><button type="button" class="btn btn-warning">Delete</button></a>
           <br>
-          <a class="brn btn-primary" href="{{url_for('delete_car_from_category', category_id=category.id, car_id=car.id)}}">Delete</a>
           <br>
           <a href="{{url_for('category_items', category_id=category.id)}}">
-              <button class="btn btn-default delete">
-              <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>Return</button>
+              <button type="button" class="btn btn-secondary">Go Back</button>
               </a>
         </div>
       </div>

@@ -20,6 +20,11 @@
 	<div class="blue-box"><div><h2>Joe's Used Car Lot</h2></div>
 		<div><a href="{{url_for('category')}}">Return to Homepage</a></div>
 	</div>
+	<div class="flash">
+		{% with messages = get_flashed_messages() %}
+		<p>{{messages}}</p>
+		{% endwith %}
+	</div>
 	<!-- Google Sign In -->
 	<h5>Log in with Google</h5>
 	<div id="signinButton" class="login">

@@ -6,104 +6,109 @@
 
   <div class="row">
     <div class="col-md-6 col-md-offset-1 padding-top">
-      <form action="{{url_for('edit_car_from_garage', garage_id=garage.id, car_id=car.id)}}" method = "post">
+      <form action="{{url_for('edit_car_from_garage', garage_id=garage.id, car_id=car.id)}}" method = "POST">
         <div class="form-group">
-          <label for="name">Garage Name: {{garage.name}}</label>
-          <input type ="text" maxlength="100" class="form-control" name="name" value="{{car.make}}">
+          <br>
+          <label for="name"><h4>Garage Name: {{garage.name}}</h4></label>
 
-          
+          <h4>Edit: </h4>
+          <br>
+          <h6>{{car.year}} {{car.make}} {{car.model}}</h6>
+          <br>
 
-          <label for="price">Price:</label>
-          <div class="input-group">
-            <div class="input-group-addon">$</div>
-            <input type ="text" maxlength="10" class="form-control" name="price" value="{{car.price}}">
+            <label>Year: </label>
+            <input type ="text" maxlength="100" class="form-control" name="year" value="{{car.year}}">
+            <br>
+            <label>Make: </label>
+            <input type ="text" maxlength="100" class="form-control" name="make" value="{{car.make}}">
+            <br>
+            <lable>Model: </lable>
+            <input type ="text" maxlength="100" class="form-control" name="model" value="{{car.model}}">
+            <br>
+            <lable>Milage: </lable>
+            <input type ="text" maxlength="100" class="form-control" name="milage" value="{{car.milage}}">
+            <br>
+            <lable>Color: </lable>
+            <input type ="text" maxlength="100" class="form-control" name="color" value="{{car.color}}">
+            <br>
+            <lable>Price: </lable>
+            <input type ="text" maxlength="100" class="form-control" name="price" value="{{car.price}}">
+            <br>
+            <label for="description"><h6>Seller's Notes: </h6></label>
+            <div>
+            <textarea class="form-control" maxlength="250" rows="3" name="description">{{car.description}}</textarea></div>
+
           </div>
-          <div class="input-group">
-
-            <p>Year: <input type ="text" maxlength="100" class="form-control" name="year" value="{{car.year}}"></p>
-            <br>
-            <p>Make: <input type ="text" maxlength="100" class="form-control" name="make" value="{{car.make}}"></p>
-            <br>
-            <p>Model: <input type ="text" maxlength="100" class="form-control" name="model" value="{{car.model}}"></p>
-            <br>
-            <p>Milage: <input type ="text" maxlength="100" class="form-control" name="milage" value="{{car.milage}}"></p>
-            <br>
-            <p>Color: <input type ="text" maxlength="100" class="form-control" name="color" value="{{car.color}}"></p>
-            <br>
-            <p>Price: <input type ="text" maxlength="100" class="form-control" name="price" value="{{car.price}}"></p>
-            <br>
-
-            <label for="description">Description:</label>
-          <textarea class="form-control" maxlength="250" rows="3" name="description">{{car.description}}</textarea>
-
-          </div>
+          <br>
           <label for="bodystyle">Bodystyle:</label>
+          <br>
           <div class="radio">
             <label>
-              <input type="radio" name="category" id="style1" value="Sedans" {%if car.category_id == 1%}checked{%endif%}>Sedans
+              <input type="radio" name="category" id="style1" value="1" {%if car.category_id == 1%}checked{%endif%}>Sedans
             </label>
           </div>
           <div class="radio">
             <label>
-              <input type="radio" name="category" id="style2" value="Coupes" {%if car.category_id == 2%}checked{%endif%}>Coupes
+              <input type="radio" name="category" id="style2" value="2" {%if car.category_id == 2%}checked{%endif%}>Coupes
             </label>
           </div>
           <div class="radio">
             <label>
-              <input type="radio" name="category" id="style3" value="SUVs" {%if car.category_id == 3%}checked{%endif%}>SUVs
+              <input type="radio" name="category" id="style3" value="3" {%if car.category_id == 3%}checked{%endif%}>SUVs
             </label>
           </div>
           <div class="radio">
             <label>
-              <input type="radio" name="category" id="style4" value="Wagons/Hatchbacks" {%if car.category_id == 4%}checked{%endif%}>Wagons/Hatchbacks
+              <input type="radio" name="category" id="style4" value="4" {%if car.category_id == 4%}checked{%endif%}>Crossovers
             </label>
           </div>
           <div class="radio">
             <label>
-              <input type="radio" name="category" id="style5" value="Crossovers" {%if car.category_id == 5%}checked{%endif%}>Crossovers
+              <input type="radio" name="category" id="style5" value="5" {%if car.category_id == 5%}checked{%endif%}>Wagons/Hatchbacks
             </label>
           </div>
           <div class="radio">
             <label>
-              <input type="radio" name="category" id="style6" value="GreenCars/Hybrids" {%if car.category_id == 6%}checked{%endif%}>Green Cars/Hybrids
+              <input type="radio" name="category" id="style6" value="6" {%if car.category_id == 6%}checked{%endif%}>Green Cars/Hybrids
             </label>
           </div>
           <div class="radio">
             <label>
-              <input type="radio" name="category" id="style7" value="Convertibles" {%if car.category_id == 7%}checked{%endif%}>Convertibles
+              <input type="radio" name="category" id="style7" value="7" {%if car.category_id == 7%}checked{%endif%}>Convertibles
             </label>
           </div>
           <div class="radio">
             <label>
-              <input type="radio" name="category" id="style8" value="LuxuryCars" {%if car.category_id == 8%}checked{%endif%}>Luxury Cars
+              <input type="radio" name="category" id="style8" value="8" {%if car.category_id == 8%}checked{%endif%}>Luxury Cars
             </label>
           </div>
           <div class="radio">
             <label>
-              <input type="radio" name="category" id="style9" value="SportsCars" {%if car.category_id == 9%}checked{%endif%}>Sports Cars
+              <input type="radio" name="category" id="style9" value="9" {%if car.category_id == 9%}checked{%endif%}>Sports Cars
             </label>
           </div>
           <div class="radio">
             <label>
-              <input type="radio" name="category" id="style10" value="PickupTrucks" {%if car.category_id == 10%}checked{%endif%}>Pickup Trucks
+              <input type="radio" name="category" id="style10" value="10" {%if car.category_id == 10%}checked{%endif%}>Pickup Trucks
             </label>
           </div>
           <div class="radio">
             <label>
-              <input type="radio" name="category" id="style11" value="Vans/Minivans" {%if car.category_id == 11%}checked{%endif%}>Vans/Minivans
+              <input type="radio" name="category" id="style11" value="11" {%if car.category_id == 11%}checked{%endif%}>Vans/Minivans
             </label>
           </div>
+          <br>
           
-          <button type="submit" class="btn btn-default" id="submit" type="submit">
-          <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>Save</button>
+          <button type="submit" class="btn btn-success" id="submit" type="submit">Save</button>
           <br>
           <br>
-        </div>
+        
       </form>
-      <a href = "{{url_for('car_in_garage', garage_id=garage.id, car_id=car.id)}}">
-            <button class="btn btn-default delete">
-            <span class="glyphicon glyphicon-remove" aria-hidden="true"></span> Cancel</button>
+      <a href = "{{url_for('car_from_garage', garage_id=garage.id, car_id=car.id)}}">
+            <button class="btn btn-danger">Cancel</button>
           </a>
+          <br>
+          <br>
     </div>
   </div>
 </div>

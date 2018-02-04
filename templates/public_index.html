@@ -40,7 +40,7 @@
           <div class="text_title"><h3>{{category.category}}</h3></div>
           
           
-          <div id="text_button" class="enter_button"><a class="btn btn-primary" href="{{url_for('category_items', category_id=category.id) }}">Search This BodyStyle!</a></div>
+          <div><div style="width:202px;margin:0 auto;"><a href="{{url_for('category_items', category_id=category.id) }}"><button type="button" class="btn btn-primary">Search This BodyStyle!</button></a></div></div>
           <br>
           <div><p>{{category.category_description}}</p></div>
           <div class="no_box"></div>

@@ -1,42 +1,41 @@
 {%extends "main.html"%}
 {%block content%}
 
+<div class="container">
+  <br>
+
+  <div class="row">
+          <div class="col-md-7">
+            <a href="#">
+              <img class="#" {%if car.car_item_pic%} src="{{car.car_item_pic}}" {%else%} src="http://via.placeholder.com/600x400" {%endif%} alt="">
+            </a>
+          </div>
+
+          <div class="col-md-5">
+           <br>
+           <br>
+          	<h2>Are you sure you want to delete {{car.year}} {{car.make}} {{car.model}} </h2>
+
+            	<form action="{{url_for('delete_car_from_garage', garage_id=garage.id, car_id=car.id)}}" method = "POST">
+                <br>
+                <br>
+          			<button type="submit" class="btn btn-danger" id="submit">
+          			Delete</button>	
+                <br>
+                <br>
+
+  		        </form>
+              <a href="{{url_for('garage_items', garage_id=garage.id)}}">
+                <button class="btn btn-secondary">Cancel</button>
+                </a>
+                <br>
+                <br>
 
 
-<div class="row">
-        <div class="col-md-7">
-          <a href="#">
-            <img class="#" src="{{car.car_item_pic}}" alt="">
-          </a>
-        </div>
-
-        <div class="col-md-5">
-
-        	<h2>Are you sure you want to delete <span>{{garage.name}} </h2>
-
-          	<form action="{{url_for('delete_car_from_garage', garage_id=garage.id, car_id=car.id)}}" method = "post">
-
-        			<button type="submit" class="btn btn-default delete" id="submit">
-        			<span class="glyphicon glyphicon trash" aria-hidden="true"></span>Delete</button>	
-
-		        </form>
-            <a href="{{url_for('car_from_garage', garage_id=garage.id, car_id=car.id)}}">
-              <button class="btn btn-default delete">
-              <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>Cancel</button>
-              </a>
-
-
-        </div>
+          </div>
+  </div>
+  <br>
 </div>
-
-
-
-
-
-
-
-
-
 
 
 {%endblock%}

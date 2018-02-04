@@ -9,8 +9,10 @@
       <h3 class="my-4">Category:  {{category.category}}</h3>
       <br>
       <a href="{{url_for('category_items', category_id=category.id)}}">
-              <h5>Go Back</h5>
+              <button type="button" class="btn btn-info">Go Back</button>
               </a>
+              <br>
+              <br>
       
       <div class="row">
         <div class="col-md-7">
@@ -26,20 +28,17 @@
           <br>
           <p>Seller's Note:  {{car.description}}</p>
           <br>
-          <a class="btn btn-primary" href="{{url_for('purchase_from_category', category_id=category.id, car_id=car.id)}}">Contact Seller</a>
+          <a href="{{url_for('purchase_from_category', category_id=category.id, car_id=car.id)}}"><button type="button" class="btn btn-primary">Contact Seller</button></a>
+          <br>
           <br>
           <a href="{{url_for('category')}}">
-              <h6>Return to Homepage</h6>
+              <button type="button" class="btn btn-secondary">Return to Homepage</button>
               </a>
         </div>
       </div>
       <!-- /.row -->
-
-      <hr>
-      
-      
-
     </div>
+    <br>
     <!-- /.container -->
 
 {%endblock%}

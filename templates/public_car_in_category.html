@@ -11,8 +11,9 @@
         
       
       <a href="{{url_for('category_items', category_id=category.id)}}">
-              <h5>Go Back</h5>
+              <button type="button" class="btn btn-info">Go Back</button>
               </a>
+      <br>
       <br>
       <div class="row">
         <div class="col-md-7">
@@ -30,19 +31,16 @@
           <br>
           <h5>You have to log in to contact the seller</h5>
           <br>
-          <a href="{{url_for('showLogin')}}"><h6>Log In</h6></a>
+          <a href="{{url_for('showLogin')}}"><button type="button" class="btn btn-success">Log In</button></a>
+          <br>
           <br>
           <a href="{{url_for('category')}}">
-              <h6>Return to Homepage</h6>
+              <button type="button" class="btn btn-secondary">Return to Homepage</button>
               </a>
         </div>
       </div>
+      <br>
       <!-- /.row -->
-
-      <hr>
-      
-      
-
     </div>
     <!-- /.container -->
 

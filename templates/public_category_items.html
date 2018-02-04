@@ -11,7 +11,9 @@
         <br>
         
       
-      <a href="{{url_for('category')}}"><h5>Return to Homepage</h5></a>
+      <a href="{{url_for('category')}}"><button type="button" class="btn btn-info">Return to Homepage</button></a>
+      <br>
+      <br>
       
       {%for car in cars%}
 
@@ -29,7 +31,7 @@
           <br>
           <p>Seller's Notes: {{car.description}}</p>
           <br>
-          <a {% if car.garage_id %} href="{{url_for('car_from_garage', garage_id=car.garage_id, car_id=car.id)}}" {%else%} href="{{url_for('car_from_category', category_id=category.id, car_id=car.id)}}" {%endif%}><h5>Get Details<h5></a>
+          <a {% if car.garage_id %} href="{{url_for('car_from_garage', garage_id=car.garage_id, car_id=car.id)}}" {%else%} href="{{url_for('car_from_category', category_id=category.id, car_id=car.id)}}" {%endif%}><button type="button" class="btn btn-primary">Get Details</button></a>
           
         </div>
       </div>

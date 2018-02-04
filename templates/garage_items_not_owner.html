@@ -9,8 +9,11 @@
       <h4>WELCOME TO: {{garage.name}}</h4>
       <br>
       <h4>Garage Owner:  {{user.name}}</h4>
+      <br>
 
-      <a href="{{url_for('category')}}"><h5>Return to Homepage</h5></a>
+      <a href="{{url_for('category')}}"><button type="button" class="btn btn-info">Return to Homepage</button></a>
+      <br>
+      <br>
 
       {%if not cars%}
 

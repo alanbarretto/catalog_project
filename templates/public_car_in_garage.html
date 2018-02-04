@@ -1,16 +1,18 @@
 {%extends "main.html"%}
 {%block content%}
-    
 
-        <!-- Page Content -->
     <div class="container">
-
-      <!-- Page Heading -->
-      <h3 class="my-4">Garage:  {{garage.name}}</h3>
       <br>
-      <a href="{{url_for('garage_items', garage_id=garage.id)}}"><h4>Return to Garage</h4></a>
+      <div class="row">
+        <div class="col-md-12">
+          <!-- Page Heading -->
+          <h3 class="#">Garage:  {{garage.name}}</h3>
+          <br>
+          <a href="{{url_for('garage_items', garage_id=garage.id)}}"><button type="button" class="btn btn-info">Return to Garage</button></a>
 
-
+      </div>
+    </div>
+    <br>
       <div class="row">
         <div class="col-md-7">
           <a href="#">
@@ -27,20 +29,16 @@
           <br>
           <h5>You have to Log In to contact the Seller</h5>
           <br>
-          <a href="{{url_for('showLogin')}}"><h6>Log In</h6></a>
+          <a href="{{url_for('showLogin')}}"><button type="button" class="btn btn-success">Log In</button></a>
+          <br>
           <br>
           <a href="{{url_for('category')}}">
-              <h6>Return to Homepage</h6>
+              <button type="button" class="btn btn-secondary">Return to Homepage</button>
               </a>
         </div>
       </div>
       <!-- /.row -->
-
-      <hr>
-     
-      
-
+      <br>
     </div>
-    <!-- /.container -->
 
 {%endblock%}

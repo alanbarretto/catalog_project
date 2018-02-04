@@ -8,7 +8,9 @@
       <!-- Page Heading -->
         <h3>Garage:  {{garage.name}}</h3>
         <br>
-        <a href="{{url_for('garage_items', garage_id=garage.id)}}"><h5>Go Back</h5></a>
+        <a href="{{url_for('garage_items', garage_id=garage.id)}}"><button type="button" class="btn btn-info">Go Back</button></a>
+        <br>
+        <br>
 
       <div class="row">
         <div class="col-md-7">
@@ -24,20 +26,17 @@
           <br>
           <p>Description: {{car.description}}</p>
           <br>
-          <a class="btn btn-primary" href="{{url_for('purchase_from_garage', garage_id=garage.id, car_id=car.id)}}">Contact Seller</a>
+          <a href="{{url_for('purchase_from_garage', garage_id=garage.id, car_id=car.id)}}"><button type="button" class="btn btn-success">Contact Seller</button></a>
+          <br>
           <br>
           <a href="{{url_for('garage_items', garage_id=garage.id)}}">
-              <h5>Return to Homepage</h5>
+              <button type="button" class="btn btn-secondary">Return to Homepage</button>
               </a>
         </div>
       </div>
       <!-- /.row -->
-
-      <hr>
-     
-      
-
     </div>
+    <br>
     <!-- /.container -->
 
 {%endblock%}

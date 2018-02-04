@@ -372,10 +372,10 @@
 			}
 		},
 		{
-			"file": "/Users/alanbarretto/Documents/udacity/FSND-Virtual-Machine/vagrant/catalog_project/owner_messages.html",
+			"file": "owner_messages.html",
 			"settings":
 			{
-				"buffer_size": 901,
+				"buffer_size": 935,
 				"encoding": "UTF-8",
 				"line_ending": "Unix"
 			}
@@ -477,6 +477,7 @@
 	},
 	"file_history":
 	[
+		"/Users/alanbarretto/Documents/udacity/FSND-Virtual-Machine/vagrant/catalog_project/owner_messages.html",
 		"/Users/alanbarretto/Documents/udacity/FSND-Virtual-Machine/vagrant/catalog_project/templates/garage_items.html",
 		"/Users/alanbarretto/Documents/udacity/FSND-Virtual-Machine/vagrant/catalog_project/templates/purchase.html",
 		"/Users/alanbarretto/Documents/udacity/FSND-Virtual-Machine/vagrant/catalog_project/templates/category_purchase.html",
@@ -669,7 +670,8 @@
 						],
 						"settings":
 						{
-							"syntax": "Packages/HTML/HTML.sublime-syntax"
+							"syntax": "Packages/HTML/HTML.sublime-syntax",
+							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
 						"translation.y": 0.0,
@@ -1274,7 +1276,7 @@
 						"translation.y": 826.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 1,
+					"stack_index": 2,
 					"type": "text"
 				},
 				{
@@ -1303,24 +1305,24 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 2,
+					"stack_index": 1,
 					"type": "text"
 				},
 				{
 					"buffer": 24,
-					"file": "/Users/alanbarretto/Documents/udacity/FSND-Virtual-Machine/vagrant/catalog_project/owner_messages.html",
+					"file": "owner_messages.html",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 901,
+						"buffer_size": 935,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								265,
-								265
+								144,
+								144
 							]
 						],
 						"settings":

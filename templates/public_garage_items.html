@@ -12,8 +12,10 @@
       <h5>Garage Owner:  {{user.name}}</h5>
       <br>
       <a href="{{url_for('category')}}">
-              <h4>Return to Homepage</h4>
+              <button type="button" class="btn btn-info">Return to Homepage</button>
               </a>
+              <br>
+              <br>
 
       {%for car in cars%}
 
@@ -31,7 +33,7 @@
           <br>
           <p>Seller's Notes:  {{car.description}}</p>
           <br>
-          <a class="btn btn-primary" href="{{url_for('car_from_garage', garage_id=garage.id, car_id=car.id)}}"><h5>Details</h5></a>
+          <a href="{{url_for('car_from_garage', garage_id=garage.id, car_id=car.id)}}"><button type="button" class="btn btn-primary">Details</button></a>
         </div>
       </div>
       <!-- /.row -->

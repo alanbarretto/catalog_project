@@ -5,16 +5,18 @@
         <!-- Page Content -->
     <div class="container">
       <br>
-      <a href="{{url_for('messages_to_owner',user_id=user.id, car_id=car.id)}}"><p>Bids for this Vehicle</p></a>
+      <a href="{{url_for('messages_to_owner',user_id=user.id, car_id=car.id)}}"><button type="button" class="btn btn-secondary">Bids for this Vehicle</button></a>
       <!-- Page Heading -->
       <h4 class="my-4">Garage:  {{garage.name}}</h4>
 
-      <a href="{{url_for('category')}}">Go to Homepage</a>
+      <a href="{{url_for('category')}}"><button type="button" class="btn btn-info">Go to Homepage</button></a>
       <br>
+      <br>
+      
       <div class="row">
         <div class="col-md-7">
           <a href="#">
-            <img class="#" src="{{car.car_item_pic}}" alt="">
+            <img class="#" {%if car.car_item_pic%} src="{{car.car_item_pic}}" {%else%} src="http://via.placeholder.com/600x400" {%endif%}" alt="">
           </a>
         </div>
         <div class="col-md-5">
@@ -25,12 +27,14 @@
           <br>
           <p>Description: {{car.description}}</p>
           <br>
-          <a  href="{{url_for('edit_car_from_garage', garage_id=garage.id, car_id=car.id)}}"><h6>Edit</h6></a>
+          <a  href="{{url_for('edit_car_from_garage', garage_id=garage.id, car_id=car.id)}}"><button type="button" class="btn btn-dark">Edit Vehicle</button></a>
           <br>
-          <a href="{{url_for('delete_car_from_garage', garage_id=garage.id, car_id=car.id)}}"><h6>Delete</h6></a>
+          <br>
+          <a href="{{url_for('delete_car_from_garage', garage_id=garage.id, car_id=car.id)}}"><button type="button" class="btn btn-warning">Delete Vehicle</button></a>
+          <br>
           <br>
           <a href="{{url_for('garage_items', garage_id=garage.id)}}">
-              <h6>Go to garage</h6>
+              <button type="button" class="btn btn-secondary">Go Back to Garage</button>
               </a>
         </div>
       </div>

@@ -6,11 +6,20 @@
     <div class="container">
 
       <!-- Page Heading -->
-      <h4>WELCOME TO: {{garage.name}}</h4>
       <br>
-      <h4>Garage Owner:  {{user.name}}</h4>
+      <h4>WELCOME TO: {{garage.name}}</h4>
+      <h6>Garage Owner:  {{user.name}}</h6>
+      <br>
+      <a href="{{url_for('edit_garage', garage_id=garage.id)}}"><button type="button" class="btn btn-secondary">Edit this Garage</button></a>
+      <br>
+      <br>
+      <a href="{{url_for('delete_garage', garage_id=garage.id)}}"><button type="button" class="btn btn-secondary">Delete This Garage</button></a>
+      <br>
+      <br>
 
-      <a href="{{url_for('category')}}"><h5>Return to Homepage</h5></a>
+      <a href="{{url_for('category')}}"><button type="button" class="btn btn-info">Return to Homepage</button></a>
+      <br>
+      <br>
 
       {%if not cars%}
 
@@ -27,14 +36,17 @@
                   <br>
                   <h5>You have no vehicles in your garage yet!</h5>
                   <br>
-                  <a href="{{url_for('create_car_for_garage', garage_id=garage.id)}}"><h5>Enter a Vehicle to Sell</h5></a>
+                  <a href="{{url_for('create_car_for_garage', garage_id=garage.id)}}"><button type="button" class="btn btn-warning">Enter a Vehicle to Sell</button></a>
                   
                 </div>
         </div>
+        <br>
 
       {%else%}
 
-          <a href="{{url_for('create_car_for_garage', garage_id=garage.id)}}"><h5>Enter a Vehicle to Sell</h5></a>
+          <a href="{{url_for('create_car_for_garage', garage_id=garage.id)}}"><button type="button" class="btn btn-warning">Enter a Vehicle to Sell</button></a>
+          <br>
+          <br>
           
           {%for car in cars%}
 
@@ -55,9 +67,10 @@
               <br>
               <p>Description:  {{car.description}}</p>
               <br>
-              <a class="btn btn-primary" href="{{url_for('car_from_garage', garage_id=garage.id, car_id=car.id)}}"><h5>Details</h5></a>
+              <a href="{{url_for('car_from_garage', garage_id=garage.id, car_id=car.id)}}"><button type="button" class="btn btn-primary">Details</button></a>
             </div>
           </div>
+          <br>
           <!-- /.row -->
 
           <hr>

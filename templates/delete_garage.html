@@ -1,32 +1,39 @@
 {%extends "main.html"%}
 {%block content%}
 
-
-
+<div class="container">
+<br>
 <div class="row">
         <div class="col-md-7">
           <a href="#">
-            <img class="#" src="http://placehold.it/600x300" alt="">
+            <img class="#" {%if garage.garage_pic%} src="{{garage.garage_pic}}" {%else%} src="http://via.placeholder.com/600x400" {%endif%} alt="">
           </a>
         </div>
 
         <div class="col-md-5">
-
-        	<h2>Deleteing this Garage will also delete all vehicles associated with it.  Are you sure you want to delete <span>{{garage.name}} </h2>
+          <br>
+          <br>
+        	<h5>Deleteing this Garage will also delete all vehicles associated with it.  Are you sure you want to delete Garage:  {{garage.name}} ? </h5>
 
           	<form action="{{url_for('delete_garage', garage_id=garage.id)}}" method = "POST">
+              <br>
+              <br>
 
-        			<button type="submit" class="btn btn-default delete" id="submit">
-        			<span class="glyphicon glyphicon trash" aria-hidden="true"></span>Delete</button>	
+        			<button type="submit" class="btn btn-dark" id="submit">Delete</button>
+              <br>
+              <br>
 
 		        </form>
             <a href="{{url_for('garage_items', garage_id=garage.id)}}">
-              <button class="btn btn-default delete">
-              <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>Cancel</button>
+              <button class="btn btn-danger">Cancel</button>
               </a>
+              <br>
+              <br>
 
 
         </div>
+</div>
+<br>
 </div>
 
 

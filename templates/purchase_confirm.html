@@ -4,6 +4,7 @@
 
         <!-- Page Content -->
     <div class="container">
+      <br>
 
       <!-- Page Heading -->
       <div class="row">
@@ -15,20 +16,18 @@
         <div class="col-md-5">
           <h3>Thank you</h3>
           <br>
-          <h3>Your message has been sent.  The Seller will contact you soon! </h3>
-
-          <a class="btn btn-primary" href="{{url_for('category')}}"><h5>Return to Home Page</h5></a>
+          <h6>Your message has been sent.  The Seller will contact you soon! </h6>
           <br>
           <br>
-
-          <a class="btn btn-primary" {%if car.garage_id%} href="{{url_for('garage_items', garage_id=car.garage_id)}}" {%else%} href="{{url_for('category_items', category_id=category.id)}}"><h5>Return</h5></a>
-
+          <a class="btn btn-info" href="{{url_for('category')}}">Return to Home Page</a>
+          <br>
+          <br>
         </div>
       </div>
       <!-- /.row -->
 
       
-      
+      <br>
 
     </div>
     <!-- /.container -->

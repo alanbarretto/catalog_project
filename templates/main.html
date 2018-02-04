@@ -48,9 +48,9 @@
     </ul>
     <div id="nav_li">
     {%if 'username' not in session%}
-    <a href="{{url_for('showLogin')}}">Click Here to Log in</a>
+    <a href="{{url_for('showLogin')}}"><button type="button" class="btn btn-success">Click Here to Log in</button></a>
     {%else%}
-    <a href="{{url_for('disconnect')}}">Logout</a>
+    <a href="{{url_for('disconnect')}}"><button type="button" class="btn btn-secondary">Logout</button></a>
     {%endif%}
     
 

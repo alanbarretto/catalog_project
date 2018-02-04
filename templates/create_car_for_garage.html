@@ -2,9 +2,6 @@
 {% block content %}
 
 <div class="container">
-  <div class="row divider green">
-    <div class="col-md-12"></div>
-  </div>
   <div class="row banner menu">
     <div class="col-md-11 col-md-offset-1 padding-none">
       <h1>Enter a New Car</h1>
@@ -31,7 +28,7 @@
           <input type ="text" maxlength="50" class="form-control" name="milage" placeholder="Milage">
 
           <label for="description">Seller's Notes:</label>
-          <textarea class="form-control" maxlength="250" rows="3" name="description" placeholder="Description of the Vehicle"></textarea>
+          <textarea class="form-control" maxlength="250" rows="3" name="description"></textarea>
 
           <label for="price">Price:</label>
           <input type ="text" class="form-control" maxlength="10" name="price" placeholder="Price in $">
@@ -93,16 +90,22 @@
             </label>
           </div>
           </div>
-          <button type="submit" class="btn btn-default" id="submit" type="submit">
-          <h5>Create</h5></button>
+          <button type="submit" class="btn btn-success" id="submit" type="submit">
+          Create</button></div>
           <br>
-          <p>If you want to post a picture of the vehicle, please email it to pictures@sample.com. (The upload feature is not yet available)</p>
+          <br>
+          
         
       </form>
-      <a href = "{{url_for('garage_items', garage_id=garage.id)}}">
-            <h5> Cancel </h5>
-          </a>
+      
+      
   </div>
+  <br>
+  <a href = "{{url_for('garage_items', garage_id=garage.id)}}">
+            <button type="button" class="btn btn-danger">Cancel </button>
+          </a>
+          <br>
+          <br>
   
 </div>
 {% endblock %}
