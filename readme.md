@@ -1,7 +1,8 @@
 # Udacity FSND Project 4: Item Catalog Project
 
 This is the third major project in Udacity's Full Stack Nanodegree Course which features lessons in python, sqlalchemy, and Flask.  The goal is to create an app that allows users to Create, Read, Update, and Delete data.  It also features third party authentication such as OAuth. 
-About the App: Joe’s Used Car Lot
+
+####About the App: Joe’s Used Car Lot
 
 The App “Joe’s Used Car Lot” allows users who are logged in to post their vehicles for sale.  It can be posted in one of the numerous categories, or a user can create an exclusive space called a “garage” where all their vehicles can be posted in one place. 
 However, vehicles posted in garages will also show up in the appropriate categories.  So, if a user creates a garage and posts an SUV there, potential buyers will find that vehicle in that garage as well as in the SUV category.
