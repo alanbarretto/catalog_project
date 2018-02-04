@@ -48,7 +48,6 @@ def getUserID(email):
     except:
         return None
 
-
 @app.route('/gconnect', methods=['POST'])
 def gconnect():
     #Validate state token
@@ -289,31 +288,6 @@ def carsJSON():
 
     return jsonify(Car_Item = [car.serialize for car in allCars])
 
-@app.route("/category/<int:category_id>/car/<int:car_id>/JSON")
-def carFromCategory(category_id, car_id):
-    category = session.query(Category).filter_by(id=category_id).one()
-    car = session.query(Car_Item).filter_by(id=car_id).one()
-
-    return jsonify(Car_Item = car.serialize)
-
-
-@app.route("/garage/<int:garage_id>/car/<int:car_id>/JSON")
-def carFromGarage(garage_id, car_id):
-    garage = session.query(Garage).filter_by(id=garage_id).one()
-    car = session.query(Car_Item).filter_by(id=car_id).one()
-
-    return jsonify(Car_Item=car.serialize)
-
-@app.route("/messages/car/<int:car_id>/user/<int:user_id>JSON")
-def owner_messages(car_id, user_id):
-    user = session.query(User).filter_by(id=user_id).one()
-    car = session.query(Car_Item).filter_by(id=car_id).one()
-    messages = session.query(Owner_Messages).filter_by(user_id=user_id).all()
-
-    return jsonify(Owner_Messages= [message.serialize for message in messages])
-
-
-
 
 @app.route("/login")
 def showLogin():
@@ -323,7 +297,7 @@ def showLogin():
     return render_template("login.html", STATE=state)
 
 
-
+# Category related Functions
 
 @app.route('/')
 @app.route('/category')
@@ -337,7 +311,8 @@ def category():
 
         return render_template("index.html", categories=categories, garages=garages)
 
-# Category related Functions
+# go into a specific category and see all the vehicles posted in it
+
 @app.route('/category/<int:category_id>')
 def category_items(category_id):
     category = session.query(Category).filter_by(id=category_id).one()
@@ -349,6 +324,9 @@ def category_items(category_id):
     else:
 
         return render_template("category_items.html", category=category, cars=cars)
+
+
+# see a specific car in a category
 
 @app.route('/category/<int:category_id>/cars/<int:car_id>')
 def car_from_category(category_id, car_id):
@@ -363,6 +341,7 @@ def car_from_category(category_id, car_id):
     else: 
         return render_template("car_in_category_owner.html", category=category, car=car)
 
+# access form to contact seller for purchase
 
 @app.route('/category/<int:category_id>/cars/<int:car_id>/purchase', methods=["POST", "GET"])
 def purchase_from_category(category_id, car_id):
@@ -371,8 +350,10 @@ def purchase_from_category(category_id, car_id):
     user = session.query(User).filter_by(id=car.user_id).one()
     
     if "username" not in login_session:
+        flash('You have to be logged in to contact the seller!')
         return redirect('/login') 
-    else:
+
+    elif "username" in login_session and user.id != login_session["user_id"]:
         if request.method == "POST":
             message = Owner_Messages(buyer_name=request.form['name'], buyer_email=request.form['email'], buyer_phone=request.form['bid'], buyer_message=request.form['mymessage'], car_id=car.id, user_id=user.id)
             session.add(message)
@@ -381,12 +362,6 @@ def purchase_from_category(category_id, car_id):
         else:
             return render_template('category_purchase.html', category=category, car=car, user=user)
 
-@app.route('/category/<int:category_id>/cars/<int:car_id>/confirm')
-def category_purchase_confirm(category_id, car_id):
-    category = session.query(Category).filter_by(id=category_id).one()
-    car = session.query(Car_Item).filter_by(id=car_id).one()
-
-    return render_template('purchase_confirm.html', category=category)
 
 # Create a Car within a Category
 
@@ -397,19 +372,18 @@ def create_car_for_category(category_id):
     category = session.query(Category).filter_by(id=category_id).one()
 
     if 'username' not in login_session:
+        flash('You have to be logged in to post a vehicle!')
         return redirect('/login')
+    else:
+        if request.method == "POST":
 
-    if request.method == "POST":
-        if 'username' in login_session:
-            newCar = Car_Item(make=request.form["make"],model=request.form["model"], year=request.form["year"], color=request.form["color"], price=request.form["price"], description=request.form["description"], milage=request.form["milage"], category_id=request.form["category"], user_id=login_session["user_id"])
+            newCar = Car_Item(make=request.form["make"], model=request.form["model"], year=request.form["year"], color=request.form["color"], price=request.form["price"], description=request.form["description"], milage=request.form["milage"], category_id=category.id, user_id=login_session['user_id'])
             session.add(newCar)
             session.commit()
             flash("Congratulations, you have successfully entered a new vehicle to sell!")
-            return redirect(url_for("category_items.html", category=category, cars=cars))
+            return redirect(url_for("category_items", category_id=category.id))
         else:
-            return redirect('/login')
-    else:
-        return render_template('create_car_for_category.html', category=category)
+            return render_template('create_car_for_category.html', category=category)
 
 # Edit a Car within a Category
 
@@ -417,40 +391,45 @@ def create_car_for_category(category_id):
 @app.route('/category/<int:category_id>/cars/<int:car_id>/edit', methods=["POST", "GET"])
 def edit_car_from_category(category_id, car_id):
 
-    category = session.query(Category).filter_by(category_id=category_id).one()
+    category = session.query(Category).filter_by(id=category_id).one()
     car = session.query(Car_Item).filter_by(id=car_id).one()
     user = session.query(User).filter_by(id=car.user_id).one()
 
     if 'username' not in login_session:
+        flash('You have to be logged in to edit a vehicle!')
         return redirect('/login')
 
-    if user.id != login_session['user_id']:
-        return "<script>function myFunction(){alert('You are not allowed to edit this vehicle. Please enter your own vehicle to sell first!')}</script>body onload='myFunction()'>"
+    elif 'username' in login_session and user.id != login_session['user_id']:
+        flash('You can only edit a vehicle that you have created')
+        return redirect (url_for('category'))
 
-    if request.method == "POST":
-
-        if request.form['year']:
-            car.year = request.form['year']
-        if request.form['make']:
-            car.year = request.form['make']
-        if request.form['model']:
-            car.year = request.form['model']
-        if request.form['milage']:
-            car.year = request.form['milage']
-        if request.form['color']:
-            car.year = request.form['color']
-        if request.form['price']:
-            car.year = request.form['price']
-        if request.form['description']:
-            car.year = request.form['description']
-        if request.form['category']:
-            car.year = request.form['category']
-        session.add(car)
-        session.commit()
-        return redirect(url_for('car_in_category', category_id=category.id, car_id=car.id))
     else:
+    
+        if request.method == "POST":
 
-        return render_template('edit_car_from_category.html', category=category, car=car, user=user)
+            if request.form['year']:
+                car.year = request.form['year']
+            if request.form['make']:
+                car.make = request.form['make']
+            if request.form['model']:
+                car.model = request.form['model']
+            if request.form['milage']:
+                car.milage = request.form['milage']
+            if request.form['color']:
+                car.color = request.form['color']
+            if request.form['price']:
+                car.price = request.form['price']
+            if request.form['description']:
+                car.description = request.form['description']
+            if request.form['category']:
+                car.category_id = request.form['category']
+            session.add(car)
+            session.commit()
+            flash('Vehicle edited successfully!')
+            return redirect(url_for('car_from_category', category_id=category.id, car_id=car.id))
+        else:
+
+            return render_template('edit_car_from_category.html', category=category, car=car, user=user)
 
 # Delete a Car within a Category
 
@@ -458,26 +437,35 @@ def edit_car_from_category(category_id, car_id):
 @app.route('/category/<int:category_id>/cars/<int:car_id>/delete', methods=["POST", "GET"])
 def delete_car_from_category(category_id, car_id):
 
-    category = session.query(Category).filter_by(category_id=category_id).one()
+    category = session.query(Category).filter_by(id=category_id).one()
     car = session.query(Car_Item).filter_by(id=car_id).one()
     user = session.query(User).filter_by(id=car.user_id).one()
 
     if 'username' not in login_session:
+        flash('You have to be logged in to delete a vehicle!')
         return redirect('/login')
 
-    if user.id != login_session['user_id']:
-        return "<script>function myFunction(){alert('You are not allowed to delete this vehicle. You can only delete vehicles you have entered yourself!')}</script>body onload='myFunction()'>"
+    #if user.id != login_session['user_id']:
+     #   return "<script>function myFunction(){alert('You are not allowed to delete this vehicle. You can only delete vehicles you have entered yourself!')}</script>body onload='myFunction()'>"
 
-    if request.method == "POST":
-        session.delete(car)
-        session.commit()
-        flash('Vehicle successfully Deleted!')
-        return redirect(url_for('category_items', category_id=category.id))
+    elif 'username' in login_session and user.id != login_session['user_id']:
+        flash('You can only delete a vehicle that you have created!')
+        return redirect ('category')
+
     else:
-        return render_template('delete_car_from_category.html', category=category, car=car, user=user)
+
+        if request.method == "POST":
+            session.delete(car)
+            session.commit()
+            flash('Vehicle successfully Deleted!')
+            return redirect(url_for('category_items', category_id=category.id))
+        else:
+            return render_template('delete_car_from_category.html', category=category, car=car, user=user)
 
 
 # Garage related Functions
+
+# enter a garage
 
 @app.route('/garage/<int:garage_id>')
 def garage_items(garage_id):
@@ -493,6 +481,7 @@ def garage_items(garage_id):
     else:
         return render_template("garage_items_owner.html", garage=garage, cars=cars, user=user)
 
+# examine a car from a particular garage
 
 @app.route('/garage/<int:garage_id>/cars/<int:car_id>')
 def car_from_garage(garage_id, car_id):
@@ -508,51 +497,58 @@ def car_from_garage(garage_id, car_id):
     else: 
         return render_template("car_in_garage_owner.html", garage=garage, car=car, user=user)
 
+# access the form to contact the seller
+
 @app.route('/garage/<int:garage_id>/cars/<int:car_id>/purchase', methods=["POST", "GET"])
 def purchase_from_garage(garage_id, car_id):
     garage = session.query(Garage).filter_by(id=garage_id).one()
     car = session.query(Car_Item).filter_by(id=car_id).one()
     user = session.query(User).filter_by(id=car.user_id).one()
 
+
     if 'username' not in login_session:
+        flash('You have to be logged in to contact the seller!')
         return redirect('/login')
     else:
         if request.method == "POST":
+
+            bid = Owner_Messages(buyer_name=request.form['name'], buyer_email=request.form['email'], buyer_phone=request.form['askingprice'], buyer_message=request.form['description'], car_id=car.id, user_id=car.user_id)
+            session.add(bid)
+            session.commit()
+
             return render_template("purchase_confirm.html", garage=garage, car=car)
         else:	
             return render_template('garage_purchase.html', garage=garage, car=car, user=user)
 
 
-@app.route('/confirm/<int:garage_id>')
-def garage_purchase_confirm(garage_id):
-    garage = session.query(Garage).filter_by(id=garage_id).one()
-
-    return render_template('purchase_confirm.html', garage=garage)
-
-
 # Create a Car within a Garage
-
 
 @app.route('/garage/<int:garage_id>/create', methods=["POST", "GET"])
 def create_car_for_garage(garage_id):
 
     garage = session.query(Garage).filter_by(id=garage_id).one()
+    user = session.query(User).filter_by(id=garage.user_id).one()
 
 
     if 'username' not in login_session:
+        flash('You have to be logged in to post a vehicle!')
         return redirect('/login')
 
-    
+    elif 'username' in login_session and user.id != login_session['user_id']:
+        
+        return redirect (url_for('category'))
 
-    if request.method == "POST":
-
-        newCar = Car_Item(make= request.form["make"], model=request.form["model"], year=request.form["year"], color=request.form["color"], price=request.form["price"], description=request.form["description"], milage=request.form["milage"], category_id= request.form['category'], user_id=garage.user_id, garage_id=garage.id)
-        session.add(newCar)
-        session.commit()
-        return redirect(url_for("garage_items", garage_id=garage.id))
     else:
 
-        return render_template('create_car_for_garage.html', garage=garage)
+        if request.method == "POST":
+
+            newCar = Car_Item(make= request.form["make"], model=request.form["model"], year=request.form["year"], color=request.form["color"], price=request.form["price"], description=request.form["description"], milage=request.form["milage"], category_id= request.form['category'], user_id=garage.user_id, garage_id=garage.id)
+            session.add(newCar)
+            session.commit()
+            return redirect(url_for("garage_items", garage_id=garage.id))
+        else:
+
+            return render_template('create_car_for_garage.html', garage=garage)
 
 
 # Edit Car within a Garage
@@ -565,35 +561,39 @@ def edit_car_from_garage(garage_id, car_id):
     user = session.query(User).filter_by(id=car.user_id).one()
 
     if 'username' not in login_session:
+        flash('You cannot edit if you are not logged in!')
         return redirect('/login')
 
-    if user.id != login_session['user_id']:
-        return "<script>function myFunction(){alert('You are not allowed to edit this vehicle. Please enter your own vehicle to sell first!')}</script>body onload='myFunction()'>"
+    elif 'username' in login_session and user.id != login_session['user_id']:
+        #return "<script>function myFunction(){alert('You are not allowed to edit this vehicle. Please enter your own vehicle to sell first!')}</script>body onload='myFunction()'>"
+        flash('You can only edit the vehicles you posted!')
+        return redirect(url_for('category'))
 
-    if request.method == "POST":
-
-        if request.form['year']:
-            car.year = request.form['year']
-        if request.form['make']:
-            car.year = request.form['make']
-        if request.form['model']:
-            car.year = request.form['model']
-        if request.form['milage']:
-            car.year = request.form['milage']
-        if request.form['color']:
-            car.year = request.form['color']
-        if request.form['price']:
-            car.year = request.form['price']
-        if request.form['description']:
-            car.year = request.form['description']
-        if request.form['category']:
-            car.year = request.form['category']
-        session.add(car)
-        session.commit()
-        return redirect(url_for('car_in_garage', garage_id=garage.id, car_id=car.id))
     else:
+        if request.method == "POST":
 
-        return render_template('edit_car_from_garage.html', garage=garage, car=car, user=user)
+            if request.form['year']:
+                car.year = request.form['year']
+            if request.form['make']:
+                car.make = request.form['make']
+            if request.form['model']:
+                car.model = request.form['model']
+            if request.form['milage']:
+                car.milage = request.form['milage']
+            if request.form['color']:
+                car.color = request.form['color']
+            if request.form['price']:
+                car.price = request.form['price']
+            if request.form['description']:
+                car.description = request.form['description']
+            if request.form['category']:
+                car.category_id = request.form['category']
+            session.add(car)
+            session.commit()
+            return redirect(url_for('car_from_garage', garage_id=garage.id, car_id=car.id))
+        else:
+
+            return render_template('edit_car_from_garage.html', garage=garage, car=car, user=user)
 
 
 # Delete a Car within a Garage
@@ -607,26 +607,33 @@ def delete_car_from_garage(garage_id, car_id):
     user = session.query(User).filter_by(id=car.user_id).one()
 
     if 'username' not in login_session:
+        flash('You have to log in first')
         return redirect('/login')
 
-    if user.id != login_session['user_id']:
-        return "<script>function myFunction(){alert('If you are not the owner of this vehicle, you are not allowed to delete it!')}</script>body onload='myFunction()'>"
-
-    if request.method == "POST":
-        session.delete(car)
-        session.commit()
-        flash('Vehicle successfully Deleted!')
-        return redirect(url_for('category_items', category_id=category.id))
+    elif 'username' in login_session and user.id != login_session['user_id']:
+        #return "<script>function myFunction(){alert('If you are not the owner of this vehicle, you are not allowed to delete it!')}</script>body onload='myFunction()'>"
+        flash('You can only delete the vehicle you created!')
+        return redirect(url_for('category'))
     else:
 
-        return render_template('delete_car_from_garage.html', garage=garage, car=car, user=user)
+        if request.method == "POST":
+            session.delete(car)
+            session.commit()
+            flash('Vehicle successfully Deleted!')
+            return redirect(url_for('garage_items', garage_id=garage.id))
+        else:
+
+            return render_template('delete_car_from_garage.html', garage=garage, car=car, user=user)
 
 # Create a Garage
+
 @app.route('/garage/new', methods=["POST", "GET"])
 def create_garage():
 
     if 'username' not in login_session:
+        flash('You have to log in first before you can create')
         return redirect('/login')
+
     else:
         if request.method == "POST":
 
@@ -637,6 +644,35 @@ def create_garage():
         else:
             return render_template("create_garage.html")
 
+# Edit a Garage
+
+@app.route('/garage/<int:garage_id>/edit', methods=['POST', 'GET'])
+def edit_garage(garage_id):
+
+    garage = session.query(Garage).filter_by(id=garage_id).one()
+    user = session.query(User).filter_by(id=garage.user_id).one()
+
+    if 'username' not in login_session:
+        return redirect('/login')
+
+    elif 'username in login_session' and user.id != login_session['user_id']:
+        flash('You can only edit the garage you have created')
+        return redirect('/category')
+    else:
+        if request.method == "POST":
+
+            if request.form['name']:
+                garage.name = request.form['name']
+            if request.form['description']:
+                garage.garage_description = request.form['description']
+            session.add(garage)
+            session.commit()
+            return redirect(url_for('category'))
+        else:
+            return render_template('edit_garage.html', garage=garage)
+
+# Delete a Garage
+
 @app.route('/garage/<int:garage_id>/delete', methods=["POST", "GET"])
 def delete_garage(garage_id):
 
@@ -645,25 +681,31 @@ def delete_garage(garage_id):
     user = session.query(User).filter_by(id=garage.user_id).one()
 
     if 'username' not in login_session:
+        flash('You must log in first before you can delete a garage')
         return redirect('/login')
 
-    if user.id != login_session['user_id']:
-        return "<script>function myFunction(){alert('If you are not the owner of this garage, you are not allowed to delete it!')}</script>body onload='myFunction()'>"
+    elif 'username' in login_session and user.id != login_session['user_id']:
+        #return "<script>function myFunction(){alert('If you are not the owner of this garage, you are not allowed to delete it!')}</script>body onload='myFunction()'>"
+        flash('You can only delete a garage you created.')
+        return redirect('category')
+    else: 
 
-    if request.method == "POST":
+        if request.method == "POST":
 
-        for car in cars:
-            session.delete(car)
+            for car in cars:
+                session.delete(car)
+                session.commit()
+
+            session.delete(garage)
             session.commit()
+            flash('Garage successfully Deleted!')
+            return redirect(url_for('category'))
 
-        session.delete(garage)
-        session.commit()
-        flash('Garage successfully Deleted!')
-        return redirect(url_for('category'))
+        else:
 
-    else:
+            return render_template('delete_garage.html', garage=garage)
 
-        return render_template('delete_garage.html', garage=garage, car=car, user=user)
+# Check messages and bids other users have placed on your posted vehicles
 
 @app.route('/user/<int:user_id>/car/<int:car_id>/messages/')
 def messages_to_owner(user_id, car_id):
@@ -675,11 +717,6 @@ def messages_to_owner(user_id, car_id):
         return redirect('/login')
     else:
         return render_template('owner_messages.html', bids=bids, user=user, car=car)
-
-
-
-
-
 
 
 if __name__ == '__main__':
