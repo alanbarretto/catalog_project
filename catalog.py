@@ -433,7 +433,6 @@ def edit_car_from_category(category_id, car_id):
 
 # Delete a Car within a Category
 
-
 @app.route('/category/<int:category_id>/cars/<int:car_id>/delete', methods=["POST", "GET"])
 def delete_car_from_category(category_id, car_id):
 
@@ -535,7 +534,7 @@ def create_car_for_garage(garage_id):
         return redirect('/login')
 
     elif 'username' in login_session and user.id != login_session['user_id']:
-        
+        flash('You can only post cars to sell in your own garage!')
         return redirect (url_for('category'))
 
     else:
@@ -545,6 +544,7 @@ def create_car_for_garage(garage_id):
             newCar = Car_Item(make= request.form["make"], model=request.form["model"], year=request.form["year"], color=request.form["color"], price=request.form["price"], description=request.form["description"], milage=request.form["milage"], category_id= request.form['category'], user_id=garage.user_id, garage_id=garage.id)
             session.add(newCar)
             session.commit()
+            flash("Car successfully Created")
             return redirect(url_for("garage_items", garage_id=garage.id))
         else:
 
@@ -640,6 +640,7 @@ def create_garage():
             newGarage = Garage(name = request.form["name"], garage_description= request.form["description"], user_id = login_session['user_id'])
             session.add(newGarage)
             session.commit()
+            flash('Garage successfully Created!')
             return redirect(url_for("category"))
         else:
             return render_template("create_garage.html")
@@ -667,6 +668,7 @@ def edit_garage(garage_id):
                 garage.garage_description = request.form['description']
             session.add(garage)
             session.commit()
+            flash('Garage successfully edited!')
             return redirect(url_for('category'))
         else:
             return render_template('edit_garage.html', garage=garage)
