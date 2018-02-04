@@ -22,8 +22,20 @@
 	</div>
 	<div class="flash">
 		{% with messages = get_flashed_messages() %}
-		<p>{{messages}}</p>
-		{% endwith %}
+
+          {% if messages %}
+
+          <ul> 
+            {% for messages in messages %}
+
+            <li><strong>{{messages}} </strong></li>
+
+            {% endfor %}
+
+          </ul>
+
+          {% endif %}
+          {% endwith %}
 	</div>
 	<!-- Google Sign In -->
 	<h5>Log in with Google</h5>
