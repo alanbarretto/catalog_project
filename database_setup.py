@@ -104,6 +104,18 @@ class Owner_Messages(Base):
     user_id = Column(Integer, ForeignKey('user.id'))
     user = relationship(User)
 
+    @property
+    def serialize(self):
+
+        return {
+            "id": self.id,
+            "buyer_name": self.buyer_name,
+            "buyer_email": self.buyer_email,
+            "buyer_phone": self.buyer_phone,
+            "buyer_message": self.buyer_message,
+            "car_id": self.car_id
+        }
+
 
 engine = create_engine('sqlite:///car_catalog13.db')
 Base.metadata.create_all(engine)
